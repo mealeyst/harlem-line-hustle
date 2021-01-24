@@ -5,13 +5,15 @@ import { animation } from './animation'
 import background from './background'
 import { border } from './border'
 import * as Sizing from './sizing'
+import * as Spacing from './spacing'
 
 const theme = {
   accessibility,
   animation,
   background,
   border,
-  ...Sizing
+  ...Sizing,
+  ...Spacing
 }
 
 export default theme
