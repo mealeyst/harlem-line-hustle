@@ -1,21 +1,13 @@
-import colors from './colors'
+import getColor, { ColorKeys, ShadeKeys} from './colors'
 import { sizes } from './sizing'
 
 const borderSizeKeys = [0, 0.1, 0.5]
 
 export const border = {
-  color: (()=> {
-    const output = {}
-    Object.keys(colors).forEach((name) => {
-      const color = colors[name]
-      output[name] = {}
-      Object.keys(color).forEach((shade) => {
-        output[name][shade] = `border-color: ${colors[name][shade]};`
-      })
-    })
-    return output
-  })(),
-  width: ((key: typeof borderSizeKeys) => {
+  color: (colorName: ColorKeys, shade?:  ShadeKeys) => {
+    return  `border-color: ${getColor(colorName, shade)};`
+  },
+  width: ((key: typeof borderSizeKeys): string => {
     return `border-width: ${sizes[`${key}`]};`
   })
 }

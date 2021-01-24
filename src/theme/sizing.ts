@@ -68,10 +68,14 @@ export const sizes  = {
   full: computePercent(1)
 }
 
-export type SizeKey = keyof typeof sizes
+type SizeKey = keyof typeof sizes
+
+export const SizeKeys = Object.keys(sizes)
+
+export const getSize = (key: SizeKey): string => sizes[key]
 
 const sizing = (type: string) => (width: SizeKey) => {
-  return `${type}: ${sizes[width]};`
+  return `${type}: ${getSize(width)};`
 }
 
 export const width = sizing('width')
