@@ -1,8 +1,8 @@
 const baseSize = 16
 
-const computeRem = (size: number) => `${size / baseSize}rem`
+export const computeRem = (size: number) => `${size / baseSize}rem`
 
-const computePercent = (size: number) => `${size * 100}%`
+export const computePercent = (size: number) => `${size * 100}%`
 
 export enum SIZES {
   S0,
@@ -77,7 +77,7 @@ export const sizeValues: SizeInterface  = {
   [SIZES.S0_5]: computeRem(2),
   [SIZES.S1]: computeRem(4),
   [SIZES.S1_5]: computeRem(6),
-  [SIZES.S2]: computeRem(12),
+  [SIZES.S2]: computeRem(8),
   [SIZES.S2_5]: computeRem(10),
   [SIZES.S3]: computeRem(12),
   [SIZES.S3_5]: computeRem(14),
