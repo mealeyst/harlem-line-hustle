@@ -1,6 +1,6 @@
 const baseSize = 16
 
-const computeRem = (size: number) => `${size / baseSize}rem`
+const computeRem = (pxValue: number) => `${pxValue / baseSize}rem`
 
 const computePercent = (size: number) => `${size * 100}%`
 
@@ -39,6 +39,11 @@ export enum SIZES {
   S72,
   S80,
   S96,
+  C_SM,
+  C_MD,
+  C_LG,
+  C_XL,
+  C_2XL,
   HALF,
   THIRD,
   TWO_THIRDS,
@@ -72,40 +77,45 @@ type SizeInterface = {
   [size in SIZES]: string
 }
 export const sizeValues: SizeInterface  = {
-  [SIZES.S0]: computeRem(0),
-  [SIZES.S0_1]: computeRem(1),
-  [SIZES.S0_5]: computeRem(2),
-  [SIZES.S1]: computeRem(4),
-  [SIZES.S1_5]: computeRem(6),
-  [SIZES.S2]: computeRem(12),
-  [SIZES.S2_5]: computeRem(10),
-  [SIZES.S3]: computeRem(12),
-  [SIZES.S3_5]: computeRem(14),
-  [SIZES.S4]: computeRem(16),
-  [SIZES.S5]: computeRem(20),
-  [SIZES.S6]: computeRem(24),
-  [SIZES.S7]: computeRem(28),
-  [SIZES.S8]: computeRem(32),
-  [SIZES.S9]: computeRem(36),
-  [SIZES.S10]: computeRem(40),
-  [SIZES.S11]: computeRem(44),
-  [SIZES.S12]: computeRem(48),
-  [SIZES.S14]: computeRem(56),
-  [SIZES.S16]: computeRem(64),
-  [SIZES.S24]: computeRem(96),
-  [SIZES.S28]: computeRem(112),
-  [SIZES.S32]: computeRem(128),
-  [SIZES.S36]: computeRem(144),
-  [SIZES.S40]: computeRem(160),
-  [SIZES.S44]: computeRem(176),
-  [SIZES.S48]: computeRem(192),
-  [SIZES.S52]: computeRem(208),
-  [SIZES.S56]: computeRem(224),
-  [SIZES.S60]: computeRem(240),
-  [SIZES.S64]: computeRem(256),
-  [SIZES.S72]: computeRem(288),
-  [SIZES.S80]: computeRem(320),
-  [SIZES.S96]: computeRem(384),
+  [SIZES.S0]: computeRem(0), // 0rem
+  [SIZES.S0_1]: computeRem(1), //0.0625rem
+  [SIZES.S0_5]: computeRem(2), //0.125rem
+  [SIZES.S1]: computeRem(4), //0.25rem
+  [SIZES.S1_5]: computeRem(6), //0.375rem
+  [SIZES.S2]: computeRem(8), //0.5rem
+  [SIZES.S2_5]: computeRem(10), //0.625rem
+  [SIZES.S3]: computeRem(12), //0.75rem
+  [SIZES.S3_5]: computeRem(14), //0.875rem
+  [SIZES.S4]: computeRem(16), //1rem
+  [SIZES.S5]: computeRem(20), //1.25rem
+  [SIZES.S6]: computeRem(24), //1.5rem
+  [SIZES.S7]: computeRem(28), //1.75rem
+  [SIZES.S8]: computeRem(32), //2rem
+  [SIZES.S9]: computeRem(36), //2.25rem
+  [SIZES.S10]: computeRem(40), //2.5rem
+  [SIZES.S11]: computeRem(44), //2.75rem
+  [SIZES.S12]: computeRem(48), //3rem
+  [SIZES.S14]: computeRem(56), //3.5rem
+  [SIZES.S16]: computeRem(64), //4rem
+  [SIZES.S24]: computeRem(96), //6rem
+  [SIZES.S28]: computeRem(112), //7rem
+  [SIZES.S32]: computeRem(128), //8rem
+  [SIZES.S36]: computeRem(144), //9rem
+  [SIZES.S40]: computeRem(160), //10rem
+  [SIZES.S44]: computeRem(176), //11rem
+  [SIZES.S48]: computeRem(192), //12rem
+  [SIZES.S52]: computeRem(208), //13rem
+  [SIZES.S56]: computeRem(224), //14rem
+  [SIZES.S60]: computeRem(240), //15rem
+  [SIZES.S64]: computeRem(256), //16rem
+  [SIZES.S72]: computeRem(288), //18rem
+  [SIZES.S80]: computeRem(320), //20rem
+  [SIZES.S96]: computeRem(384), //24rem
+  [SIZES.C_SM]: computeRem(640), //40rem (Used for container sizing)
+  [SIZES.C_MD]: computeRem(768), //48rem (Used for container sizing)
+  [SIZES.C_LG]: computeRem(1024), //64rem (Used for container sizing)
+  [SIZES.C_XL]: computeRem(1280), //80rem (Used for container sizing)
+  [SIZES.C_2XL]: computeRem(1536), //96rem (Used for container szing)
   [SIZES.HALF]: computePercent(1/2),
   [SIZES.THIRD]: computePercent(1/3),
   [SIZES.TWO_THIRDS]: computePercent(2/3),
@@ -138,7 +148,7 @@ export const sizeValues: SizeInterface  = {
 
 export const getSize = (key: SIZES): string => sizeValues[key]
 
-const sizing = (type: string) => (width: SIZES) => {
+const sizing = (type: string) => (width: SIZES): string => {
   return `${type}: ${getSize(width)};`
 }
 

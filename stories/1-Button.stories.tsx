@@ -5,7 +5,6 @@ import styled from 'styled-components'
 import theme from '../src/theme'
 import { COLOR_NAMES, COLOR_GRAY_SHADES } from '../src/theme/colors'
 import { SIZES } from '../src/theme/sizing'
-import { animation } from '../src/theme/animation'
 
 export default {
   title: 'Button',
