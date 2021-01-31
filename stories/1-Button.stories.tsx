@@ -16,7 +16,9 @@ const StyledButton = styled((props) => {
       color: backgroundColor
     },
     Border: {
+      BORDER_RADIUS,
       color: borderColor,
+      radius,
       width: borderWidth
     },
     Color: {
@@ -40,6 +42,7 @@ const StyledButton = styled((props) => {
     ${height(SIZES.S12)}
     ${backgroundColor(COLOR_NAMES.GRAYS, COLOR_GRAY_SHADES.GRAY_6)}
     ${borderColor(COLOR_NAMES.BLUE)}
+    ${radius(BORDER_RADIUS.ROUNDED)}
     ${borderWidth(SIZES.S0_1)}
     ${display(LAYOUT_DISPLAY.FLEX)}
   `

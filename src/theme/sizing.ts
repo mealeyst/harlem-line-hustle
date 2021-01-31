@@ -1,6 +1,6 @@
 const baseSize = 16
 
-const computeRem = (pxValue: number) => `${pxValue / baseSize}rem`
+export const computeRem = (pxValue: number) => `${pxValue / baseSize}rem`
 
 const computePercent = (size: number) => `${size * 100}%`
 
