@@ -1,19 +1,23 @@
 import { ThemeProvider } from 'styled-components';  
 import { ImportFonts } from './typography'
-import { accessibility } from './accessibility'
+import * as Accessibility from './accessibility'
 import { animation } from './animation'
-import background from './background'
-import { border } from './border'
+import * as Color from './colors'
+import * as Background from './background'
+import * as Border from './border'
+import * as Layout from './layout'
 import * as Sizing from './sizing'
 import * as Spacing from './spacing'
 
 const theme = {
-  accessibility,
+  Accessibility,
   animation,
-  background,
-  border,
-  ...Sizing,
-  ...Spacing
+  Background,
+  Border,
+  Color,
+  Layout,
+  Sizing,
+  Spacing
 }
 
 export default theme

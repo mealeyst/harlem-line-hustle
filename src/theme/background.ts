@@ -106,26 +106,10 @@ const background: Background = {
   }
 }
 
-export default {
-  attachment: (key: BACKGROUND_ATTACHMENT): string => {
-    return `background-attachment: ${background.attachment[key]};`
-  },
-  clip: (key: BACKGROUND_CLIP): string => {
-    return `background-clip: ${background.clip[key]};`
-  },
-  color: (colorName: COLOR_NAMES, shade?:  COLOR_SHADES | COLOR_GRAY_SHADES) => {
-    return `background-color: ${getColor(colorName, shade)};`
-  },
-  image: (url: string): string => {
-    return `background-image: url(${url});`
-  },
-  position: (key: BACKGROUND_POSITION): string => {
-    return `background-position: ${background.position[key]};`
-  },
-  repeat: (key: BACKGROUND_REPEAT): string => {
-    return `background-repeat: ${background.repeat[key]};`
-  },
-  size: (key: BACKGROUND_SIZE) => {
-    return `background-size: ${background.size[key]};`
-  }
-}
+export const attachment = (key: BACKGROUND_ATTACHMENT): string => `background-attachment: ${background.attachment[key]};`
+export const clip = (key: BACKGROUND_CLIP): string => `background-clip: ${background.clip[key]};`
+export const color = (colorName: COLOR_NAMES, shade?:  COLOR_SHADES | COLOR_GRAY_SHADES) => `background-color: ${getColor(colorName, shade)};`
+export const image = (url: string): string => `background-image: url(${url});`
+export const position = (key: BACKGROUND_POSITION): string => `background-position: ${background.position[key]};`
+export const repeat = (key: BACKGROUND_REPEAT): string => `background-repeat: ${background.repeat[key]};`
+export const size = (key: BACKGROUND_SIZE): string =>  `background-size: ${background.size[key]};`

@@ -3,9 +3,6 @@ import { action } from '@storybook/addon-actions';
 import { Button } from '@storybook/react/demo';
 import styled from 'styled-components'
 import theme from '../src/theme'
-import { COLOR_NAMES, COLOR_GRAY_SHADES } from '../src/theme/colors'
-import { SIZES } from '../src/theme/sizing'
-
 export default {
   title: 'Button',
   component: Button,
@@ -14,12 +11,37 @@ export default {
 const StyledButton = styled((props) => {
   return (<button {...props} />)
 })(() => {
+  const {
+    Background: {
+      color: backgroundColor
+    },
+    Border: {
+      color: borderColor,
+      width: borderWidth
+    },
+    Color: {
+      COLOR_GRAY_SHADES,
+      COLOR_NAMES,
+    },
+    Layout: {
+      display,
+      LAYOUT_DISPLAY
+    },
+    Sizing: {
+      SIZES,
+      height
+    },
+    Spacing: {
+      padding
+    }
+  } = theme
   return `
-    ${theme.padding(SIZES.S0, SIZES.S6)}
-    ${theme.height(SIZES.S12)}
-    ${theme.background.color(COLOR_NAMES.GRAYS, COLOR_GRAY_SHADES.GRAY_6)}
-    ${theme.border.color(COLOR_NAMES.BLUE)}
-    ${theme.border.width(SIZES.S0_5, SIZES.S0_1, SIZES.S0_1, SIZES.S0_5)}
+    ${padding(SIZES.S0, SIZES.S6)}
+    ${height(SIZES.S12)}
+    ${backgroundColor(COLOR_NAMES.GRAYS, COLOR_GRAY_SHADES.GRAY_6)}
+    ${borderColor(COLOR_NAMES.BLUE)}
+    ${borderWidth(SIZES.S0_1)}
+    ${display(LAYOUT_DISPLAY.FLEX)}
   `
 })
 

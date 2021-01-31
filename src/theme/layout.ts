@@ -24,24 +24,24 @@ type BoxSizing = {
 
 export enum LAYOUT_DISPLAY {
     BLOCK,
-    INLINE_BLOCK,
-    INLINE,
+    CONTENTS,
     FLEX,
+    FLOW_ROOT,
+    GRID,
+    HIDDEN,
+    INLINE_BLOCK,
     INLINE_FLEX,
-    TABLE,
+    INLINE_GRID,
+    INLINE,
     TABLE_CAPTION,
     TABLE_CELL,
-    TABLE_COLUMN,
     TABLE_COLUMN_GROUP,
+    TABLE_COLUMN,
     TABLE_FOOTER_GROUP,
     TABLE_HEADER_GROUP,
     TABLE_ROW_GROUP,
     TABLE_ROW,
-    FLOW_ROOT,
-    GRID,
-    INLINE_GRID,
-    CONTENTS,
-    HIDDEN
+    TABLE
 }
 
 type Dispay = {
@@ -58,11 +58,23 @@ type Float = {
     [key in LAYOUT_FLOAT]: string
 }
 
+export enum LAYOUT_CLEAR {
+    BOTH,
+    LEFT,
+    NONE,
+    RIGHT
+}
+
+type Clear = {
+    [key in LAYOUT_CLEAR]: string
+}
+
 interface Layout {
     container: Container,
     boxSizing: BoxSizing,
     display: Dispay,
-    float: Float
+    float: Float,
+    clear: Clear   
 }
 
 const layout: Layout = {
@@ -80,29 +92,35 @@ const layout: Layout = {
     },
     display: {
         [LAYOUT_DISPLAY.BLOCK]: 'block',
-        [LAYOUT_DISPLAY.INLINE_BLOCK]: 'inline-block',
-        [LAYOUT_DISPLAY.INLINE]: 'inline',
+        [LAYOUT_DISPLAY.CONTENTS]: 'contents',
         [LAYOUT_DISPLAY.FLEX]: 'flex',
+        [LAYOUT_DISPLAY.FLOW_ROOT]: 'flow-root',
+        [LAYOUT_DISPLAY.GRID]: 'grid',
+        [LAYOUT_DISPLAY.HIDDEN]: 'hidden',
+        [LAYOUT_DISPLAY.INLINE_BLOCK]: 'inline-block',
         [LAYOUT_DISPLAY.INLINE_FLEX]: 'inline-flex',
-        [LAYOUT_DISPLAY.TABLE]: 'table',
+        [LAYOUT_DISPLAY.INLINE_GRID]: 'inline-grid',
+        [LAYOUT_DISPLAY.INLINE]: 'inline',
         [LAYOUT_DISPLAY.TABLE_CAPTION]: 'table-caption',
         [LAYOUT_DISPLAY.TABLE_CELL]: 'table-cell',
-        [LAYOUT_DISPLAY.TABLE_COLUMN]: 'table-column',
         [LAYOUT_DISPLAY.TABLE_COLUMN_GROUP]: 'table-column-group',
+        [LAYOUT_DISPLAY.TABLE_COLUMN]: 'table-column',
         [LAYOUT_DISPLAY.TABLE_FOOTER_GROUP]: 'table-footer-group',
         [LAYOUT_DISPLAY.TABLE_HEADER_GROUP]: 'table-header-group',
         [LAYOUT_DISPLAY.TABLE_ROW_GROUP]: 'table-row-group',
         [LAYOUT_DISPLAY.TABLE_ROW]: 'table-row',
-        [LAYOUT_DISPLAY.FLOW_ROOT]: 'flow-root',
-        [LAYOUT_DISPLAY.GRID]: 'grid',
-        [LAYOUT_DISPLAY.INLINE_GRID]: 'inline-grid',
-        [LAYOUT_DISPLAY.CONTENTS]: 'contents',
-        [LAYOUT_DISPLAY.HIDDEN]: 'hidden'
+        [LAYOUT_DISPLAY.TABLE]: 'table'
     },
     float: {
         [LAYOUT_FLOAT.LEFT]: 'left',
         [LAYOUT_FLOAT.RIGHT]: 'right',
         [LAYOUT_FLOAT.NONE]: 'none'
+    },
+    clear: {
+        [LAYOUT_CLEAR.BOTH]: 'both',
+        [LAYOUT_CLEAR.LEFT]: 'left',
+        [LAYOUT_CLEAR.NONE]: 'none',
+        [LAYOUT_CLEAR.RIGHT]: 'right'
     }
 }
 
@@ -119,3 +137,5 @@ export const boxSizing = (sizingType: LAYOUT_BOX_SIZING): string => `box-sizing:
 export const display = (displayType: LAYOUT_DISPLAY): string => `display: ${layout.display[displayType]};`
 
 export const float = (floatType: LAYOUT_FLOAT): string => `float: ${layout.float[floatType]};`
+
+export const clear = (clearType: LAYOUT_CLEAR): string => `clear: ${layout.clear[clearType]};`
