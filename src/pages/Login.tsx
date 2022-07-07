@@ -19,9 +19,9 @@ const animateLogo = keyframes`
 
 export const Login = styled(({className}) => (
   <Trinity className={className}>
-    <ScrollCode>{fakeCode[0]}</ScrollCode>
-    <ScrollCode>{fakeCode[1]}</ScrollCode>
-    <ScrollCode>{fakeCode[2]}</ScrollCode>
+    <ScrollCode>{fakeCode[Math.floor(Math.random()*(fakeCode.length))]}</ScrollCode>
+    <ScrollCode>{fakeCode[Math.floor(Math.random()*(fakeCode.length))]}</ScrollCode>
+    <ScrollCode>{fakeCode[Math.floor(Math.random()*(fakeCode.length))]}</ScrollCode>
     <Logo />
   </Trinity>
   ))`
@@ -29,13 +29,19 @@ export const Login = styled(({className}) => (
     display: none;
     ${query('md')}{
       display: block;
-      height: 100%;
-      grid-area: left;
+      &:nth-of-type(1), &:nth-of-type(2),  &:nth-of-type(3) {
+        grid-area: left;
+      }
+      &:nth-of-type(1) {
+        grid-row-end: 1;
+      }
       &:nth-of-type(2) {
         grid-row-start: 2;
+        grid-row-end: 3;
       }
       &:nth-of-type(3) {
         grid-row-start: 3;
+        grid-row-end: 4;
       }
     }
   }

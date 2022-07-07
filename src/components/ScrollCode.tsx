@@ -45,7 +45,6 @@ export const ScrollCode = styled(({className, children}) => {
    </code>)
 })`
   height: 100%;
-  max-height: 30%;
   width: 100%;
   border: 1px solid #74c69d;
   background-color: hsla(155, 43%, 18%, 0.1);
