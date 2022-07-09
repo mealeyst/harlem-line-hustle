@@ -5,6 +5,7 @@ import { Trinity } from "../layouts/Trinity";
 import { query } from "../theme/mediaQueries";
 
 import fakeCode from "../constants/fakeCode";
+import { RandomizedLineChart } from "../components/RanomizedLineChart";
 
 const animateLogo = keyframes`
   from {
@@ -23,6 +24,7 @@ export const Login = styled(({className}) => (
     <ScrollCode>{fakeCode[Math.floor(Math.random()*(fakeCode.length))]}</ScrollCode>
     <ScrollCode>{fakeCode[Math.floor(Math.random()*(fakeCode.length))]}</ScrollCode>
     <Logo />
+    <RandomizedLineChart />
   </Trinity>
   ))`
   ${ScrollCode} {
@@ -50,5 +52,14 @@ export const Login = styled(({className}) => (
     height: 100%;
     grid-area: logo;
     animation: ${animateLogo} 1.5s ease-in-out forwards;
+  }
+  ${RandomizedLineChart} {
+    display: block;
+    &:nth-of-type(1), &:nth-of-type(2),  &:nth-of-type(3) {
+      grid-area: right;
+    }
+    &:nth-of-type(1) {
+      grid-row-end: 1;
+    }
   }
   `

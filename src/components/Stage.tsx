@@ -23,7 +23,7 @@ export const Stage = styled(({className}) => {
         canvas.width = stageWidth;
         canvas.height = stageHeight;
         const ctx = canvas.getContext('2d');
-        console.log('resized to: ', window.innerWidth, 'x', window.innerHeight);
+
 
         if (ctx) {
           ctx.fillStyle = "#081219";

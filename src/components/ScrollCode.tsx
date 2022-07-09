@@ -40,7 +40,7 @@ export const ScrollCode = styled(({className, children}) => {
       setInterval(createChar, 50);
     }
   }, [])
-  return (<code className={className} ref={scrollRef}>
+  return (<code aria-hidden="true" className={className} ref={scrollRef}>
     {children}
    </code>)
 })`
