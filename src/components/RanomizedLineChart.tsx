@@ -4,6 +4,7 @@ import styled, { ThemeContext } from "styled-components";
 export const RandomizedLineChart = styled(({className}) => {
   const themeContext = useContext(ThemeContext)
   const canvas = useRef<HTMLCanvasElement>(null);
+  let increment = 0.1;
   useEffect(() => {
     if (canvas.current) {
       const chartHeight = canvas.current.offsetHeight;
@@ -13,12 +14,11 @@ export const RandomizedLineChart = styled(({className}) => {
       const ctx = canvas.current.getContext("2d");
       const wave = {
         y: chartHeight / 2,
-        length: 0.01,
+        length: 0.02,
         amplitude: 50,
-        frequency: 0.01
+        frequency: 0.03
       }
       if(ctx) {
-        let increment = 0.1;
         const animate = () => {
           requestAnimationFrame(animate)
           ctx.clearRect(0,0, chartWidth, chartHeight);
@@ -32,7 +32,7 @@ export const RandomizedLineChart = styled(({className}) => {
           }
           ctx.strokeStyle = themeContext.colors.primary["200"];
           ctx.stroke();
-          increment += wave.length;
+          increment = increment === 1 ? 0 : increment + wave.frequency;
         }
         animate()
       }
