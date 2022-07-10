@@ -16,7 +16,7 @@ export const RandomizedLineChart = styled(({className}) => {
         y: chartHeight / 2,
         length: 0.02,
         amplitude: 50,
-        frequency: 0.03
+        frequency: 0.02
       }
       if(ctx) {
         const animate = () => {

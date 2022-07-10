@@ -54,12 +54,15 @@ export const Login = styled(({className}) => (
     animation: ${animateLogo} 1.5s ease-in-out forwards;
   }
   ${RandomizedLineChart} {
-    display: block;
-    &:nth-of-type(1), &:nth-of-type(2),  &:nth-of-type(3) {
-      grid-area: right;
-    }
-    &:nth-of-type(1) {
-      grid-row-end: 1;
+    display: none;
+    ${query('md')}{
+      display: block;
+      &:nth-of-type(1), &:nth-of-type(2),  &:nth-of-type(3) {
+        grid-area: right;
+      }
+      &:nth-of-type(1) {
+        grid-row-end: 1;
+      }
     }
   }
   `
