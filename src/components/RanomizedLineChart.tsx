@@ -1,6 +1,7 @@
 import { forEach } from "lodash";
 import React, { useContext, useEffect, useRef } from "react";
 import styled, { ThemeContext } from "styled-components";
+import { spacing } from "../theme/spacing";
 
 interface Wave {
   y: number;
@@ -58,10 +59,39 @@ export const RandomizedLineChart = styled(({className}) => {
     }
   })
   return (
-    <canvas className={className} ref={canvas} />
+    <div className={className}>
+      <span className="y-axis-label">Amplitude</span>
+      <canvas  ref={canvas} />
+      <span className="x-axis-label">Frequency</span>
+    </div>
   )
 })`
   height: 100%;
   width: 100%;
-  border: 1px solid #74c69d;
+  position: relative;
+  display: flex;
+  padding: ${spacing(6)};
+  flex-direction: column;
+  .y-axis-label, .x-axis-label{
+    text-transform: uppercase;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    letter-spacing: .5rem;
+  }
+  .y-axis-label {
+    transform: rotate(270deg);
+    transform-origin: 0 0;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+  }
+  .x-axis-label {
+    margin-top: 4px;
+  }
+  canvas {
+    border: 1px solid #74c69d;
+    height: 90%;
+    width: 90%;
+  }
 `
