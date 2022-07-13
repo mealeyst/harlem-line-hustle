@@ -14,7 +14,6 @@ export const RandomizedLineChart = styled(({className}) => {
   const themeContext = useContext(ThemeContext)
   const canvas = useRef<HTMLCanvasElement>(null);
   const yAxisLabel = useRef<HTMLSpanElement>(null);
-  let increment = 0.1;
   useEffect(() => {
     if (canvas.current && yAxisLabel.current) {
       const chartHeight = canvas.current.offsetHeight;
@@ -23,12 +22,6 @@ export const RandomizedLineChart = styled(({className}) => {
       canvas.current.width = chartWidth;
       yAxisLabel.current.style.width = `${chartHeight}px`;
       const ctx = canvas.current.getContext("2d");
-      const wave = {
-        y: chartHeight / 2,
-        length: Math.random() * 0.5,
-        amplitude: Math.floor(Math.random() * 50),
-        frequency: Math.random() * 0.2
-      }
       const createWaves = (count: number) => {
         return Array.from({length: count}, () => ({
             y: chartHeight / 2,
