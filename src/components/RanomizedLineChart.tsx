@@ -60,6 +60,7 @@ export const RandomizedLineChart = styled(({className}) => {
   })
   return (
     <div className={className}>
+      <span  className="chart-title">Sever Signal</span>
       <span className="y-axis-label">Amplitude</span>
       <canvas  ref={canvas} />
       <span className="x-axis-label">Frequency</span>
@@ -71,20 +72,24 @@ export const RandomizedLineChart = styled(({className}) => {
   position: relative;
   display: flex;
   padding: ${spacing(6)};
-  flex-direction: column;
-  .y-axis-label, .x-axis-label{
+  flex-wrap: wrap;
+  .chart-title, .y-axis-label, .x-axis-label{
     text-transform: uppercase;
     width: 100%;
     display: flex;
     justify-content: center;
     letter-spacing: .5rem;
+    flex-basis: 100%;
+  }
+  .chart-title {
+    margin-bottom: 4px;
   }
   .y-axis-label {
     transform: rotate(270deg);
     transform-origin: 0 0;
     position: absolute;
     left: 0;
-    bottom: 0;
+    bottom: 4px;
   }
   .x-axis-label {
     margin-top: 4px;
