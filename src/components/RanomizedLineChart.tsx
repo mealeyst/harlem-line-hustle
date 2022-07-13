@@ -13,13 +13,15 @@ interface Wave {
 export const RandomizedLineChart = styled(({className}) => {
   const themeContext = useContext(ThemeContext)
   const canvas = useRef<HTMLCanvasElement>(null);
+  const yAxisLabel = useRef<HTMLSpanElement>(null);
   let increment = 0.1;
   useEffect(() => {
-    if (canvas.current) {
+    if (canvas.current && yAxisLabel.current) {
       const chartHeight = canvas.current.offsetHeight;
       const chartWidth = canvas.current.offsetWidth;
       canvas.current.height = chartHeight;
       canvas.current.width = chartWidth;
+      yAxisLabel.current.style.width = `${chartHeight}px`;
       const ctx = canvas.current.getContext("2d");
       const wave = {
         y: chartHeight / 2,
@@ -61,7 +63,7 @@ export const RandomizedLineChart = styled(({className}) => {
   return (
     <div className={className}>
       <span  className="chart-title">Sever Signal</span>
-      <span className="y-axis-label">Amplitude</span>
+      <span className="y-axis-label" ref={yAxisLabel}>Amplitude</span>
       <canvas  ref={canvas} />
       <span className="x-axis-label">Frequency</span>
     </div>
@@ -89,7 +91,7 @@ export const RandomizedLineChart = styled(({className}) => {
     transform-origin: 0 0;
     position: absolute;
     left: 0;
-    bottom: 4px;
+    bottom: 19px;
   }
   .x-axis-label {
     margin-top: 4px;

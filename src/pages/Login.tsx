@@ -20,9 +20,6 @@ const animateLogo = keyframes`
 
 export const Login = styled(({className}) => (
   <Trinity className={className}>
-    <ScrollCode>{fakeCode[Math.floor(Math.random()*(fakeCode.length))]}</ScrollCode>
-    <ScrollCode>{fakeCode[Math.floor(Math.random()*(fakeCode.length))]}</ScrollCode>
-    <ScrollCode>{fakeCode[Math.floor(Math.random()*(fakeCode.length))]}</ScrollCode>
     <Logo />
     <RandomizedLineChart />
   </Trinity>
