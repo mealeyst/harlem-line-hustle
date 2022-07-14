@@ -21,7 +21,6 @@ const animateLogo = keyframes`
 export const Login = styled(({className}) => (
   <Trinity className={className}>
     <Logo />
-    <RandomizedLineChart />
   </Trinity>
   ))`
   ${ScrollCode} {

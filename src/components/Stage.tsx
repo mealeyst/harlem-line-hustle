@@ -14,8 +14,22 @@ export const Stage = styled(({className}) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
-    if (canvasRef.current) {
-      const canvas = canvasRef.current;
+    const canvas = canvasRef.current
+    if (canvas) {
+      let posX = 100;
+      let posY = 100;
+
+      const mouse = (event: MouseEvent) => {
+        posX = event.clientX;
+        posY = event.clientY;
+      }
+      document.body.addEventListener('mousemove', mouse);
+      // define the gradient
+      const cirRadius = 1000;
+
+      const RGB = [255,255,255] ; // black any values from 0 to 255
+      // const alphas = [0,0,0.2,0.5,0.9,0.95]; // zero is transparent one is not
+      const alphas = [0.95, 0.9, 0.5, 0.2, 0, 0]
 
       const draw = () => {
         const stageHeight = Math.floor(window.innerHeight * 0.95);
@@ -58,19 +72,36 @@ export const Stage = styled(({className}) => {
             }
           }
 
+          ctx.globalCompositeOperation = 'overlay';
+            // create gradient
+          var grad = ctx.createRadialGradient(posX,posY,0,posX,posY,cirRadius);
+          // add colour stops
+          var len = alphas.length-1;
+          alphas.forEach((a,i) => {
+              grad.addColorStop(i/len,`rgba(${RGB[0]},${RGB[1]},${RGB[2]},${a})`);
+          });
+          // set fill style to gradient
+          ctx.fillStyle = grad;
+          // render that gradient
+          ctx.fillRect(0,0,canvas.width,canvas.height);
+
           var gradient = ctx.createLinearGradient(0, 0, 0, stageHeight); // Add three color stops
 
           gradient.addColorStop(0, "rgba(0,0,0, 0)");
-          gradient.addColorStop(0.5, "rgba(8, 18, 25, 0.99)");
+          gradient.addColorStop(0.5, "rgba(8, 18, 25, 0.80)");
           gradient.addColorStop(1, "rgba(0,0,0, 0)"); // Set the fill style and draw a rectangle
-
           ctx.fillStyle = gradient;
+          ctx.globalCompositeOperation = 'multiply';
           ctx.fillRect(0, 0, stageWidth, stageHeight);
+          requestAnimationFrame(draw)
         }
       };
 
-      draw();
+      requestAnimationFrame(draw)
       window.addEventListener('resize', debounce(() => { draw() }, 100));
+      return () => {
+        canvas.removeEventListener("mousemove", mouse)
+      }
     }
   });
 
