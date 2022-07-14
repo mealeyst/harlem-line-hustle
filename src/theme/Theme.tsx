@@ -116,7 +116,7 @@ export const GlobalStyles = createGlobalStyle`
     color: #74c69d;
     font-family: "Inter", sans-serif;
     text-shadow: 0 0 2px #74c69d;
-  }
+    cursor: url("${process.env.PUBLIC_URL}/cursor.svg"), url("${process.env.PUBLIC_URL}/cursor.png"), default;
   }
   hr {
     width: 100%;

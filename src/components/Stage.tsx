@@ -1,6 +1,6 @@
 import debounce from "lodash/debounce";
-import { useEffect, useRef } from "react";
-import styled from "styled-components";
+import { useContext, useEffect, useRef } from "react";
+import styled, { ThemeContext } from "styled-components";
 import { fixedScreen } from "../theme/fixedScreen";
 
 export interface Points {
@@ -12,6 +12,7 @@ export interface Points {
 
 export const Stage = styled(({className}) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const theme = useContext(ThemeContext)
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -48,8 +49,10 @@ export const Stage = styled(({className}) => {
             ctx.moveTo(points.x1, points.y1);
             ctx.lineTo(points.x2, points.y2);
             ctx.closePath();
-            ctx.strokeStyle = "#1B4332";
+            ctx.strokeStyle = theme.colors.primary["500"];
             ctx.lineWidth = 1;
+            ctx.shadowBlur = 4;
+            ctx.shadowColor = theme.colors.primary["600"];
             ctx.stroke();
           };
 
