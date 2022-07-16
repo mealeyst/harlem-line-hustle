@@ -1,10 +1,27 @@
-import styled from 'styled-components';
+import { FormEvent } from 'react';
+import styled, { keyframes } from 'styled-components';
 import { spacing } from '../theme/spacing';
 import { color } from "../theme/color";
 
+const shake = keyframes`
+  0%, 100% {
+    transform: translateX(0px);
+  }
+  25%, 75% {
+    transform: translateX(-30px);
+  }
+  50% {
+    transform: translateX(30px);
+  }
+`
+
 export const LoginForm = styled(({className}) => {
+  const handleLogin = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    console.log(event)
+  }
   return(
-    <form className={className}>
+    <form className={className} onSubmit={handleLogin}>
       <h1>Login</h1>
       <label>
         <span>Username:</span>
@@ -36,7 +53,7 @@ export const LoginForm = styled(({className}) => {
   label {
     display: flex;
     justify-content: center;
-    margin: ${spacing(4)};
+    margin: ${spacing(2)};
     flex-basis: 100%;
     flex-direction: column;
     span {
@@ -76,4 +93,8 @@ export const LoginForm = styled(({className}) => {
       box-shadow: inset 0 0 2px ${color('primary.50')}, 0 0 3px ${color('primary.100')}, 0 0 6px ${color('primary.200')};
     }
   }
+  &.shake {
+    animation: ${shake} 0.5s ease-in-out forwards !important;
+  }
 `
+
