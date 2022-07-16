@@ -1,3 +1,4 @@
+import throttle from "lodash/throttle";
 import debounce from "lodash/debounce";
 import { useContext, useEffect, useRef } from "react";
 import styled, { ThemeContext } from "styled-components";

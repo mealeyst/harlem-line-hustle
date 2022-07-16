@@ -113,9 +113,9 @@ export const GlobalStyles = createGlobalStyle`
     position: relative;
     height: 100%;
     box-sizing: border-box;
-    color: #74c69d;
+    color: ${color('primary.200')};
     font-family: "Inter", sans-serif;
-    text-shadow: 0 0 2px #74c69d;
+    text-shadow: 0 0 2px ${color('primary.200')};
     cursor: url("${process.env.PUBLIC_URL}/cursor.svg"), url("${process.env.PUBLIC_URL}/cursor.png"), default;
   }
   hr {

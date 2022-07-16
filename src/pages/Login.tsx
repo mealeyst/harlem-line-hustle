@@ -6,6 +6,7 @@ import { query } from "../theme/mediaQueries";
 
 import fakeCode from "../constants/fakeCode";
 import { RandomizedLineChart } from "../components/RanomizedLineChart";
+import { LoginForm } from "../components/LoginForm";
 
 const animateLogo = keyframes`
   from {
@@ -18,9 +19,22 @@ const animateLogo = keyframes`
   }
 `
 
+const animateForm = keyframes`
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+`
+
 export const Login = styled(({className}) => (
   <Trinity className={className}>
     <Logo />
+    <LoginForm />
   </Trinity>
   ))`
   ${ScrollCode} {
@@ -48,6 +62,12 @@ export const Login = styled(({className}) => (
     height: 100%;
     grid-area: logo;
     animation: ${animateLogo} 1.5s ease-in-out forwards;
+  }
+  ${LoginForm} {
+    width: 100%;
+    height: 100%;
+    grid-area: inputs;
+    animation: ${animateForm} 3s ease-in-out forwards;
   }
   ${RandomizedLineChart} {
     display: none;
