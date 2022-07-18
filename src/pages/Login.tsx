@@ -7,6 +7,7 @@ import { query } from "../theme/mediaQueries";
 import fakeCode from "../constants/fakeCode";
 import { RandomizedLineChart } from "../components/RanomizedLineChart";
 import { LoginForm } from "../components/LoginForm";
+import FakeCode from "../constants/fakeCode";
 
 const animateLogo = keyframes`
   from {
@@ -15,18 +16,6 @@ const animateLogo = keyframes`
   }
   to {
     transform: translate(0%, 0%);
-    opacity: 1;
-  }
-`
-
-const animateForm = keyframes`
-  0% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 0;
-  }
-  100% {
     opacity: 1;
   }
 `
@@ -67,7 +56,6 @@ export const Login = styled(({className}) => (
     width: 100%;
     height: 100%;
     grid-area: inputs;
-    animation: ${animateForm} 3s ease-in-out forwards;
   }
   ${RandomizedLineChart} {
     display: none;
