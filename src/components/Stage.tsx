@@ -13,11 +13,13 @@ export interface Points {
 
 export const Stage = styled(({className}) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const patternRef = useRef<HTMLCanvasElement>(null)
   const theme = useContext(ThemeContext)
 
   useEffect(() => {
     const canvas = canvasRef.current
-    if (canvas) {
+    const pattern = patternRef.current
+    if (canvas && pattern) {
       let posX = 100;
       let posY = 100;
 
@@ -25,7 +27,9 @@ export const Stage = styled(({className}) => {
         posX = event.clientX;
         posY = event.clientY;
       }
-      document.body.addEventListener('mousemove', mouse);
+      if(window.matchMedia("(pointer: fine)").matches) {
+        document.body.addEventListener('mousemove', mouse);
+      }
       // define the gradient
       const cirRadius = 1000;
 
@@ -39,56 +43,45 @@ export const Stage = styled(({className}) => {
         canvas.width = stageWidth;
         canvas.height = stageHeight;
         const ctx = canvas.getContext('2d');
+        const gridSize = stageWidth > stageHeight ? stageWidth * 0.05 : stageHeight * 0.05;
+        pattern.height = gridSize;
+        pattern.width = gridSize;
+        const patternCtx = pattern.getContext("2d");
+        if (patternCtx) {
+          patternCtx.fillStyle = theme.colors.primary[900];;
+          patternCtx.fillRect(0, 0, gridSize, gridSize);
+          patternCtx.moveTo(gridSize / 2, 0);
+          patternCtx.lineTo(0, gridSize / 2);
+          patternCtx.lineTo(gridSize / 2, gridSize);
+          patternCtx.lineTo(gridSize, gridSize / 2);
+          patternCtx.lineTo(gridSize / 2, 0);
+          patternCtx.strokeStyle = theme.colors.primary["500"];
+          patternCtx.lineWidth = 1;
+          patternCtx.shadowBlur = 4;
+          patternCtx.shadowColor = theme.colors.primary["600"];
+          patternCtx.stroke();
+        }
 
 
         if (ctx) {
-          ctx.fillStyle = "#081219";
+          const texture = ctx.createPattern(pattern, "repeat") as CanvasPattern;
+          ctx.fillStyle = texture;
           ctx.fillRect(0, 0, stageWidth, stageHeight);
 
-          const drawLine = (points: Points) => {
-            ctx.beginPath();
-            ctx.moveTo(points.x1, points.y1);
-            ctx.lineTo(points.x2, points.y2);
-            ctx.closePath();
-            ctx.strokeStyle = theme.colors.primary["500"];
-            ctx.lineWidth = 1;
-            ctx.shadowBlur = 4;
-            ctx.shadowColor = theme.colors.primary["600"];
-            ctx.stroke();
-          };
-
-          const gridSize = stageWidth > stageHeight ? stageWidth * 0.03 : stageHeight * 0.03;
-
-          for (let x = 0 - gridSize; x < stageWidth; x = x + gridSize) {
-            for (let y = 0; y < stageHeight; y = y + gridSize) {
-              drawLine({
-                x1: x,
-                y1: y,
-                x2: x + gridSize,
-                y2: y + gridSize
-              });
-              drawLine({
-                x1: x + gridSize * 2,
-                y1: y,
-                x2: x + gridSize,
-                y2: y + gridSize
-              });
-            }
+          if(window.matchMedia("(pointer: fine)").matches) {
+              ctx.globalCompositeOperation = 'overlay';
+              // create gradient
+            var grad = ctx.createRadialGradient(posX,posY,0,posX,posY,cirRadius);
+            // add colour stops
+            var len = alphas.length-1;
+            alphas.forEach((a,i) => {
+                grad.addColorStop(i/len,`rgba(${RGB[0]},${RGB[1]},${RGB[2]},${a})`);
+            });
+            // set fill style to gradient
+            ctx.fillStyle = grad;
+            // render that gradient
+            ctx.fillRect(0,0,canvas.width,canvas.height);
           }
-
-          ctx.globalCompositeOperation = 'overlay';
-            // create gradient
-          var grad = ctx.createRadialGradient(posX,posY,0,posX,posY,cirRadius);
-          // add colour stops
-          var len = alphas.length-1;
-          alphas.forEach((a,i) => {
-              grad.addColorStop(i/len,`rgba(${RGB[0]},${RGB[1]},${RGB[2]},${a})`);
-          });
-          // set fill style to gradient
-          ctx.fillStyle = grad;
-          // render that gradient
-          ctx.fillRect(0,0,canvas.width,canvas.height);
-
           var gradient = ctx.createLinearGradient(0, 0, 0, stageHeight); // Add three color stops
 
           gradient.addColorStop(0, "rgba(0,0,0, 0)");
@@ -110,7 +103,10 @@ export const Stage = styled(({className}) => {
   });
 
   return (
-    <canvas className={className} ref={canvasRef} />
+    <>
+      <canvas className={className}  ref={canvasRef}/>
+      <canvas className='pattern' ref={patternRef} />
+    </>
   )
 })`
 border-top: 3px solid;
@@ -122,4 +118,7 @@ border-right-style: solid;
 border-image: linear-gradient(to bottom, #74c69d, rgba(0, 0, 0, 0), #74c69d) 1 0.5;
 -webkit-border-image: linear-gradient(to bottom, #74c69d, rgba(0, 0, 0, 0), #74c69d) 1 0.5;
   ${fixedScreen}
+& + .pattern {
+  display: none;
+}
 `
