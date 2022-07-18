@@ -52,7 +52,7 @@ export const LoginForm = styled(({className}) => {
         setTimeout(() => {
           form.classList.remove('shake');
           form.classList.remove('fadeIn');
-        }, 500)
+        }, 300)
       }
     }
     return false; // prevent reload
@@ -147,7 +147,7 @@ export const LoginForm = styled(({className}) => {
     animation: ${fadeIn} 3s ease-in-out forwards;
   }
   &.shake {
-    animation: ${shake} 0.5s ease-in-out forwards !important;
+    animation: ${shake} 0.3s ease-in-out forwards !important;
   }
 `
 
