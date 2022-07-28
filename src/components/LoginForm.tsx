@@ -81,6 +81,8 @@ export const LoginForm = styled(({className}) => {
   border-radius: ${spacing(3)};
   backdrop-filter: blur(5px);
   border: 3px solid ${color('primary.600')};
+  max-width: ${spacing(100)};
+  margin: auto;
   h1 {
     text-transform: uppercase;
   }

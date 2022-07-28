@@ -116,7 +116,7 @@ border-left-style: solid;
 border-right-width: 4px;
 border-right-style: solid;
 border-image: linear-gradient(to bottom, #74c69d, rgba(0, 0, 0, 0), #74c69d) 1 0.5;
--webkit-border-image: linear-gradient(to bottom, #74c69d, rgba(0, 0, 0, 0), #74c69d) 1 0.5;
+border-image-slice: 1;
   ${fixedScreen}
 & + .pattern {
   display: none;
