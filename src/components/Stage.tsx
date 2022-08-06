@@ -37,26 +37,7 @@ export const Stage = styled(({className}) => {
       const RGB = [255,255,255] ; // black any values from 0 to 255
       // const alphas = [0,0,0.2,0.5,0.9,0.95]; // zero is transparent one is not
       const alphas = [0.95, 0.9, 0.5, 0.2, 0, 0]
-      let cycleLength = 1;
-      let cyclePct = 0;
-      let lastTs = Date.now();
-      let reverse = false
       const draw = () => {
-        const now = Date.now();
-        const dt = (now - lastTs)/500; //seconds
-        if (!reverse) {
-          cyclePct += dt/cycleLength;
-        }
-        if (reverse) {
-          cyclePct -= dt/cycleLength;
-        }
-        if (cyclePct >= 1 && !reverse) {
-          reverse = true
-        }
-        if (cyclePct <= 0 && reverse) {
-          reverse = false
-        }
-        lastTs = now;
         const stageHeight = Math.floor(window.innerHeight * 0.95);
         const stageWidth = Math.floor(window.innerWidth * 0.95);
         canvas.width = stageWidth;
