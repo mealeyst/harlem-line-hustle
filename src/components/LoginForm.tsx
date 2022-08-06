@@ -1,7 +1,8 @@
-import { FormEvent, useRef } from 'react';
+import { FormEvent, useRef, useContext } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { spacing } from '../theme/spacing';
 import { color } from "../theme/color";
+import ErrorContext from '../contexts/ErrorContext';
 
 const shake = keyframes`
   0%, 100% {
@@ -29,6 +30,7 @@ const fadeIn = keyframes`
 
 export const LoginForm = styled(({className}) => {
   const formRef = useRef<HTMLFormElement>(null);
+  const { setError } = useContext(ErrorContext);
   const form = formRef.current
   if (form) {
     setTimeout(() => {
@@ -38,7 +40,7 @@ export const LoginForm = styled(({className}) => {
   const handleLogin = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = formRef.current;
-    if (form) {
+    if (form && setError) {
       const formData = new FormData(form);
 
       const data = {
@@ -49,10 +51,14 @@ export const LoginForm = styled(({className}) => {
         console.log('Success');
       } else {
         form.classList.add('shake');
+        form.classList.add('error');
+        setError(new Error("Incorrect Usernam and Password!"))
         setTimeout(() => {
           form.classList.remove('shake');
+          form.classList.remove('error');
           form.classList.remove('fadeIn');
-        }, 300)
+          setError(null)
+        }, 500)
       }
     }
     return false; // prevent reload
@@ -83,8 +89,24 @@ export const LoginForm = styled(({className}) => {
   border: 3px solid ${color('primary.600')};
   max-width: ${spacing(100)};
   margin: auto;
+  &.error{
+    border: 3px solid ${color('red.600')};
+    color: ${color('red.200')};
+    input {
+      caret-color: ${color('red.100')};
+      color: ${color('red.200')};
+      background-color: ${color('red.800', 0.5)};
+      border: 1px solid ${color('red.400')};
+      text-shadow: 0 0 2px ${color('red.200')};
+      &:focus {
+        outline: none;
+        box-shadow: inset 0 0 2px ${color('red.50')}, 0 0 3px ${color('red.100')};
+      }
+    }
+  }
   h1 {
     text-transform: uppercase;
+    transition: color 0.25s ease-in-out;
   }
   input, button {
     box-sizing: border-box;
@@ -95,6 +117,7 @@ export const LoginForm = styled(({className}) => {
     margin: ${spacing(2)};
     flex-basis: 100%;
     flex-direction: column;
+    transition: color 0.25s ease-in-out;
     span {
       margin: ${spacing(2)}
     }
@@ -107,7 +130,7 @@ export const LoginForm = styled(({className}) => {
       border: 1px solid ${color('primary.400')};
       border-radius: ${spacing(1)};
       box-shadow: 0 0 0 transparent;
-      transition: box-shadow 0.25s ease-in-out;
+      transition: all 0.25s ease-in-out;
       padding: 0 ${spacing(2)};
       text-shadow: 0 0 2px ${color('primary.200')};
       &:focus {

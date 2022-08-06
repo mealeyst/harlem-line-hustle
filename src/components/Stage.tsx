@@ -1,8 +1,17 @@
-import throttle from "lodash/throttle";
 import debounce from "lodash/debounce";
 import { useContext, useEffect, useRef } from "react";
 import styled, { ThemeContext } from "styled-components";
 import { fixedScreen } from "../theme/fixedScreen";
+import { color } from "../theme/color"
+import { parseInt } from "lodash";
+import ErrorContext from "../contexts/ErrorContext";
+
+function getColorStr(h1: number, s1: number, l1: number, h2: number, s2: number, l2: number, pct: number) {
+  var hn = Math.round((1-pct) * h1 + pct * h2),
+      sn = Math.round((1-pct) * s1 + pct * s2),
+      ln = Math.round((1-pct) * l1 + pct * l2);
+  return `hsl(${hn},${sn}%,${ln}%)`
+}
 
 export interface Points {
   x1: number
@@ -15,7 +24,7 @@ export const Stage = styled(({className}) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const patternRef = useRef<HTMLCanvasElement>(null)
   const theme = useContext(ThemeContext)
-
+  const { error } = useContext(ErrorContext)
   useEffect(() => {
     const canvas = canvasRef.current
     const pattern = patternRef.current
@@ -32,12 +41,43 @@ export const Stage = styled(({className}) => {
       }
       // define the gradient
       const cirRadius = 1000;
-
+      const getHslValues = (color: string) => /hsl\((\d+),\s*([\d.]+)%,\s*([\d.]+)%\)/g.exec(color)
+      let hslValues = [
+        getHslValues(theme.colors.primary["500"]),
+        getHslValues(theme.colors.red["500"]),
+      ] as RegExpExecArray[]
       const RGB = [255,255,255] ; // black any values from 0 to 255
       // const alphas = [0,0,0.2,0.5,0.9,0.95]; // zero is transparent one is not
       const alphas = [0.95, 0.9, 0.5, 0.2, 0, 0]
-
+      let cycleLength = 1;
+      let cyclePct = 0;
+      let lastTs = Date.now();
+      let reverse = false
       const draw = () => {
+        const now = Date.now();
+        const dt = (now - lastTs)/500; //seconds
+        if (!reverse) {
+          cyclePct += dt/cycleLength;
+        }
+        if (reverse) {
+          cyclePct -= dt/cycleLength;
+        }
+        if (cyclePct >= 1 && !reverse) {
+          reverse = true
+        }
+        if (cyclePct <= 0 && reverse) {
+          reverse = false
+        }
+        lastTs = now;
+        const color = getColorStr(
+          parseInt(hslValues[0][1]),
+          parseInt(hslValues[0][2]),
+          parseInt(hslValues[0][3]),
+          parseInt(hslValues[1][1]),
+          parseInt(hslValues[1][2]),
+          parseInt(hslValues[1][3]),
+          cyclePct
+        )
         const stageHeight = Math.floor(window.innerHeight * 0.95);
         const stageWidth = Math.floor(window.innerWidth * 0.95);
         canvas.width = stageWidth;
@@ -47,6 +87,7 @@ export const Stage = styled(({className}) => {
         pattern.height = gridSize;
         pattern.width = gridSize;
         const patternCtx = pattern.getContext("2d");
+
         if (patternCtx) {
           patternCtx.fillStyle = theme.colors.primary[900];;
           patternCtx.fillRect(0, 0, gridSize, gridSize);
@@ -55,7 +96,7 @@ export const Stage = styled(({className}) => {
           patternCtx.lineTo(gridSize / 2, gridSize);
           patternCtx.lineTo(gridSize, gridSize / 2);
           patternCtx.lineTo(gridSize / 2, 0);
-          patternCtx.strokeStyle = theme.colors.primary["500"];
+          patternCtx.strokeStyle = (error) ? color : theme.colors.primary["500"];
           patternCtx.lineWidth = 1;
           patternCtx.shadowBlur = 4;
           patternCtx.shadowColor = theme.colors.primary["600"];
@@ -115,7 +156,7 @@ border-left-width: 4px;
 border-left-style: solid;
 border-right-width: 4px;
 border-right-style: solid;
-border-image: linear-gradient(to bottom, #74c69d, rgba(0, 0, 0, 0), #74c69d) 1 0.5;
+border-image: linear-gradient(to bottom, ${color('primary.300')}, rgba(0, 0, 0, 0), ${color('primary.300')}) 1 0.5;
 border-image-slice: 1;
   ${fixedScreen}
 & + .pattern {
