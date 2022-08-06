@@ -103,6 +103,14 @@ export const LoginForm = styled(({className}) => {
         box-shadow: inset 0 0 2px ${color('red.50')}, 0 0 3px ${color('red.100')};
       }
     }
+    button {
+      background-color: ${color('red.400', 0.7)};
+      color: ${color('red.900')};
+      &:focus {
+        background-color: ${color('red.100', 0.7)};
+        box-shadow: inset 0 0 2px ${color('red.50')}, 0 0 3px ${color('red.100')}, 0 0 6px ${color('red.200')};
+      }
+    }
   }
   h1 {
     text-transform: uppercase;
@@ -161,7 +169,7 @@ export const LoginForm = styled(({className}) => {
     text-transform: uppercase;
     font-weight: bold;
     margin: ${spacing(2)};
-    transition: background-color 0.25s ease-in-out;
+    transition: all 0.25s ease-in-out;
     &:focus {
       outline: none;
       background-color: ${color('primary.100', 0.7)};

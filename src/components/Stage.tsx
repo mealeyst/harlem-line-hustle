@@ -3,15 +3,7 @@ import { useContext, useEffect, useRef } from "react";
 import styled, { ThemeContext } from "styled-components";
 import { fixedScreen } from "../theme/fixedScreen";
 import { color } from "../theme/color"
-import { parseInt } from "lodash";
 import ErrorContext from "../contexts/ErrorContext";
-
-function getColorStr(h1: number, s1: number, l1: number, h2: number, s2: number, l2: number, pct: number) {
-  var hn = Math.round((1-pct) * h1 + pct * h2),
-      sn = Math.round((1-pct) * s1 + pct * s2),
-      ln = Math.round((1-pct) * l1 + pct * l2);
-  return `hsl(${hn},${sn}%,${ln}%)`
-}
 
 export interface Points {
   x1: number
@@ -25,6 +17,7 @@ export const Stage = styled(({className}) => {
   const patternRef = useRef<HTMLCanvasElement>(null)
   const theme = useContext(ThemeContext)
   const { error } = useContext(ErrorContext)
+  const errorClass = error ? 'error' : '';
   useEffect(() => {
     const canvas = canvasRef.current
     const pattern = patternRef.current
@@ -41,11 +34,6 @@ export const Stage = styled(({className}) => {
       }
       // define the gradient
       const cirRadius = 1000;
-      const getHslValues = (color: string) => /hsl\((\d+),\s*([\d.]+)%,\s*([\d.]+)%\)/g.exec(color)
-      let hslValues = [
-        getHslValues(theme.colors.primary["500"]),
-        getHslValues(theme.colors.red["500"]),
-      ] as RegExpExecArray[]
       const RGB = [255,255,255] ; // black any values from 0 to 255
       // const alphas = [0,0,0.2,0.5,0.9,0.95]; // zero is transparent one is not
       const alphas = [0.95, 0.9, 0.5, 0.2, 0, 0]
@@ -69,15 +57,6 @@ export const Stage = styled(({className}) => {
           reverse = false
         }
         lastTs = now;
-        const color = getColorStr(
-          parseInt(hslValues[0][1]),
-          parseInt(hslValues[0][2]),
-          parseInt(hslValues[0][3]),
-          parseInt(hslValues[1][1]),
-          parseInt(hslValues[1][2]),
-          parseInt(hslValues[1][3]),
-          cyclePct
-        )
         const stageHeight = Math.floor(window.innerHeight * 0.95);
         const stageWidth = Math.floor(window.innerWidth * 0.95);
         canvas.width = stageWidth;
@@ -96,7 +75,7 @@ export const Stage = styled(({className}) => {
           patternCtx.lineTo(gridSize / 2, gridSize);
           patternCtx.lineTo(gridSize, gridSize / 2);
           patternCtx.lineTo(gridSize / 2, 0);
-          patternCtx.strokeStyle = (error) ? color : theme.colors.primary["500"];
+          patternCtx.strokeStyle = theme.colors.primary["500"];
           patternCtx.lineWidth = 1;
           patternCtx.shadowBlur = 4;
           patternCtx.shadowColor = theme.colors.primary["600"];
@@ -145,7 +124,7 @@ export const Stage = styled(({className}) => {
 
   return (
     <>
-      <canvas className={className}  ref={canvasRef}/>
+      <canvas className={`${className} ${errorClass}`}  ref={canvasRef}/>
       <canvas className='pattern' ref={patternRef} />
     </>
   )
@@ -158,8 +137,12 @@ border-right-width: 4px;
 border-right-style: solid;
 border-image: linear-gradient(to bottom, ${color('primary.300')}, rgba(0, 0, 0, 0), ${color('primary.300')}) 1 0.5;
 border-image-slice: 1;
+transition: border 0.25s ease-in-out;
   ${fixedScreen}
 & + .pattern {
   display: none;
+}
+&.error {
+  border-image: linear-gradient(to bottom, ${color('red.300')}, rgba(0, 0, 0, 0), ${color('red.300')}) 1 0.5;
 }
 `
