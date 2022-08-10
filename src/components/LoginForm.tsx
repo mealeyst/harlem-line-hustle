@@ -52,7 +52,7 @@ export const LoginForm = styled(({className}) => {
       } else {
         form.classList.add('shake');
         form.classList.add('error');
-        setError(new Error("Incorrect Usernam and Password!"))
+        setError(new Error("Incorrect Username and Password!"))
         setTimeout(() => {
           form.classList.remove('shake');
           form.classList.remove('error');
@@ -74,7 +74,7 @@ export const LoginForm = styled(({className}) => {
         <span>Password:</span>
         <input type="password" name="password" id="password"/>
       </label>
-      <button>Submit</button>
+      <button id="submit">Submit</button>
     </form>
   )
 })`

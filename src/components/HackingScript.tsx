@@ -36,24 +36,29 @@ export const HackingScript = styled(({className, children}) => {
       const FPS = 40
 
       const strText = `
-        // Initialize login script...\n
-        function loginScript = () {\n
-          let credentials = [\n
-            {u_name: \'shawn.mealey@harlemlinehustle.com\', p_word: \'ILikeProgramming11!\'},\n
-            {u_name: \'mealey.shawn@harlemlinehustle.com\', p_word: \'IHeartHacking11!\'},\n
-            {u_name: \'admin@harlemlinehustle.com\', p_word: \'password\'}\n
-          ];\n
-          for (const credential in credentials) {\n
-            const { u_name, p_word } = credential;\n
-            const u_name_input = document.getElementById('#user_name');\n
-            const p_word_input = document.getElementById('#password');\n
-            const login_form = document.getElementById('#login_form');\n
-            u_name_input.value = u_name;\n
-            p_word_input.value = p_word;\n
-            login_form.submit();\n
-          }\n
-        }\n
-        loginScript();`
+        
+      // Initialize login script...
+      function loginScript () {
+        let credentials = [
+          {u_name: 'shawn.mealey@harlem-line-hustle.com', p_word: 'ILikeProgramming11!'},
+          {u_name: 'mealey.shawn@harlem-line-hustle.com', p_word: 'IHeartHacking11!'},
+          {u_name: 'admin@harlem-line-hustle.com', p_word: 'password'}
+        ];
+        credentials.forEach((credential, index) => {
+          const { u_name, p_word } = credential;
+          const u_name_input = document.getElementById('user_name');
+          const p_word_input = document.getElementById('password');
+          const submit_button = document.getElementById('submit');\n
+          setTimeout(() => {
+            u_name_input.value = u_name;
+
+             p_word_input.value = p_word;
+
+             submit_button.click();
+          }, 3000 * index);
+      });
+    }\n
+    loginScript();`
       let charIndex = 0;
       const createChar = () => {
         if (code) {
@@ -86,6 +91,7 @@ export const HackingScript = styled(({className, children}) => {
   word-wrap: break-word;
   white-space:pre-wrap;
   animation: ${fadeIn} 0.25s ease-in-out forwards;
+  backdrop-filter: blur(5px);
   .cursor {
     animation: ${cursorFade} 1s ease-in-out infinite;
   }
