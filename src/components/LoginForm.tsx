@@ -64,7 +64,7 @@ export const LoginForm = styled(({className}) => {
     return false; // prevent reload
   }
   return(
-    <form className={`${className} fadeIn`} onSubmit={handleLogin} ref={formRef}>
+    <form className={`${className} fadeIn`} id="login_form" onSubmit={handleLogin} ref={formRef}>
       <h1>Login</h1>
       <label>
         <span>Username:</span>
@@ -87,6 +87,7 @@ export const LoginForm = styled(({className}) => {
   border-radius: ${spacing(3)};
   backdrop-filter: blur(5px);
   border: 3px solid ${color('primary.600')};
+  transition: border 0.3s ease-in-out;
   max-width: ${spacing(100)};
   margin: auto;
   &.error{
@@ -114,7 +115,7 @@ export const LoginForm = styled(({className}) => {
   }
   h1 {
     text-transform: uppercase;
-    transition: color 0.25s ease-in-out;
+    transition: color 0.3s ease-in-out;
   }
   input, button {
     box-sizing: border-box;
@@ -125,7 +126,7 @@ export const LoginForm = styled(({className}) => {
     margin: ${spacing(2)};
     flex-basis: 100%;
     flex-direction: column;
-    transition: color 0.25s ease-in-out;
+    transition: color 0.3s ease-in-out;
     span {
       margin: ${spacing(2)}
     }
@@ -138,7 +139,7 @@ export const LoginForm = styled(({className}) => {
       border: 1px solid ${color('primary.400')};
       border-radius: ${spacing(1)};
       box-shadow: 0 0 0 transparent;
-      transition: all 0.25s ease-in-out;
+      transition: all 0.3s ease-in-out;
       padding: 0 ${spacing(2)};
       text-shadow: 0 0 2px ${color('primary.200')};
       &:focus {
@@ -169,7 +170,7 @@ export const LoginForm = styled(({className}) => {
     text-transform: uppercase;
     font-weight: bold;
     margin: ${spacing(2)};
-    transition: all 0.25s ease-in-out;
+    transition: all 0.3s ease-in-out;
     &:focus {
       outline: none;
       background-color: ${color('primary.100', 0.7)};

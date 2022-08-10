@@ -52,7 +52,6 @@ export const ScrollCode = styled(({className, children}) => {
   overflow-y: hidden;
   word-wrap: break-word;
   > span {
-    animation: ${fadeTextIn} 0.25s ease-in-out forwards; 
-
+    animation: ${fadeTextIn} 0.25s ease-in-out forwards;
   }
 `

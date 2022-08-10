@@ -118,7 +118,7 @@ border-right-width: 4px;
 border-right-style: solid;
 border-image: linear-gradient(to bottom, ${color('primary.300')}, rgba(0, 0, 0, 0), ${color('primary.300')}) 1 0.5;
 border-image-slice: 1;
-transition: border 0.25s ease-in-out;
+transition: border 0.3s ease-in-out;
   ${fixedScreen}
 & + .pattern {
   display: none;
