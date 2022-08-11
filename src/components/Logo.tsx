@@ -1,10 +1,10 @@
 import React, { useContext, useRef } from "react";
 import styled from "styled-components";
-import ErrorContext from "../contexts/ErrorContext";
+import LoginContext from "../contexts/LoginContext";
 import { color } from "../theme/color";
 
 export const Logo = styled(({className}) => {
-  const { error } = useContext(ErrorContext)
+  const { error } = useContext(LoginContext)
   const svgRef = useRef<SVGSVGElement>(null)
   const svg = svgRef.current
   if(svg && error) {
@@ -17,7 +17,7 @@ export const Logo = styled(({className}) => {
     <svg className={`${className}`} xmlns="http://www.w3.org/2000/svg" width="698" height="675.19" viewBox="0 0 698 675.19" ref={svgRef} >
       <defs>
         <filter id="glow">
-          <feGaussianBlur stdDeviation="3" result="coloredBlur" />
+          <feGaussianBlur stdDeviation="8" result="coloredBlur" />
           <feMerge>
             <feMergeNode in="coloredBlur" />
             <feMergeNode in="SourceGraphic" />

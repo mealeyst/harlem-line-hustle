@@ -20,3 +20,13 @@ export const throttle = (fn: Function, wait: number = 300) => {
     }
   };
 };
+
+export const checkCookieName = (name: string) => {
+  var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+  if (match) {
+    return match
+  }
+  else{
+    return null;
+  }
+}

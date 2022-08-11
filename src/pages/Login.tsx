@@ -10,8 +10,6 @@ import { LoginForm } from "../components/LoginForm";
 import FakeCode from "../constants/fakeCode";
 import { Gsap } from "../components/GreenSock";
 import { Stage } from "../components/Stage";
-import ErrorContext from "../contexts/ErrorContext";
-import { useState } from "react";
 import { HackingScript } from "../components/HackingScript";
 
 const animateLogo = keyframes`
@@ -26,15 +24,11 @@ const animateLogo = keyframes`
 `
 
 export const Login = styled(({className}) => {
-  const [error, setError] = useState<Error | null>(null);
-  const value = { error, setError};
   return (
     <Trinity className={className}>
-      <ErrorContext.Provider value={value}>
        <HackingScript />
         <Logo />
         <LoginForm />
-      </ErrorContext.Provider>
     </Trinity>
   )}
 )`

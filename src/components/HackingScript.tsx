@@ -36,10 +36,9 @@ export const HackingScript = styled(({className, children}) => {
       const FPS = 40
 
       const strText = `
-        
       // Initialize login script...
       function loginScript () {
-        let credentials = [
+        const credentials = [
           {u_name: 'shawn.mealey@harlem-line-hustle.com', p_word: 'ILikeProgramming11!'},
           {u_name: 'mealey.shawn@harlem-line-hustle.com', p_word: 'IHeartHacking11!'},
           {u_name: 'admin@harlem-line-hustle.com', p_word: 'password'}
@@ -55,7 +54,7 @@ export const HackingScript = styled(({className, children}) => {
              p_word_input.value = p_word;
 
              submit_button.click();
-          }, 3000 * index);
+          }, 1000 * index);
       });
     }\n
     loginScript();`
@@ -82,9 +81,10 @@ export const HackingScript = styled(({className, children}) => {
 })`
   height: 100%;
   width: 100%;
-  border: 1px solid #74c69d;
+  border: 2px solid ${color('primary.600')};
   opacity: 0;
   background-color: ${color('primary.900', .5)};
+  border-radius: ${spacing(3)};
   font-size: 8px;
   padding: ${spacing(3)};
   overflow-y: hidden;
