@@ -3,7 +3,9 @@ import { Stage } from "./components/Stage";
 import { Login } from "./pages/Login";
 import { GlowTheme } from "./theme/Theme";
 import LoginContext from "./contexts/LoginContext";
+import { Provider } from 'react-redux'
 import { checkCookieName } from "./util";
+import store from "./redux";
 
 function App() {
   const [error, setError] = useState<Error | null>(null);
@@ -13,9 +15,11 @@ function App() {
   return (
     <GlowTheme>
       <LoginContext.Provider value={value}>
-        <Stage /> 
-        <Login /> 
-        </LoginContext.Provider>
+        <Provider store={store}>
+          <Stage /> 
+          <Login /> 
+        </Provider>
+      </LoginContext.Provider>
     </GlowTheme>
   );
 }

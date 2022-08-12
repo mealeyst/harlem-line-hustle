@@ -3,6 +3,10 @@ import styled, { keyframes } from 'styled-components';
 import { spacing } from '../theme/spacing';
 import { color } from "../theme/color";
 import LoginContext from '../contexts/LoginContext';
+import { useAppDispatch, useAppSelector } from '../hooks/state';
+import { actions } from '../redux/homepage';
+import { ANIMATION_STAGE } from '../redux/homepage/slice';
+import { selectAnimationStage } from '../redux/homepage/selectors';
 
 const shake = keyframes`
   0%, 100% {
@@ -29,18 +33,24 @@ const fadeIn = keyframes`
 `
 
 export const LoginForm = styled(({className}) => {
+  const dispatch = useAppDispatch()
+  const animationStage = useAppSelector(selectAnimationStage)
   const formRef = useRef<HTMLFormElement>(null);
   const uNameRef  = useRef<HTMLInputElement>(null)
   const pWordRef = useRef<HTMLInputElement>(null)
   const submitRef = useRef<HTMLButtonElement>(null)
   const { setError } = useContext(LoginContext);
+  const shouldFireLoginScript = (animationStage === ANIMATION_STAGE.LOGGING_IN)
   useEffect(() => {
     const form = formRef.current
     if (form) {
       setTimeout(() => {
         form.classList.remove('fadeIn');
+        if(animationStage === ANIMATION_STAGE.INITIALIZING) {
+          dispatch(actions.setAnimationStage(ANIMATION_STAGE.SCRIPT_RUNNING))
+        }
       }, 3000)
-      setTimeout(() => {
+      if (shouldFireLoginScript) {
         const username = uNameRef.current
         const password = pWordRef.current
         const submit = submitRef.current
@@ -60,10 +70,12 @@ export const LoginForm = styled(({className}) => {
               submit.click();
             }, 1000 * index);
           })
+          dispatch(actions.setAnimationStage(ANIMATION_STAGE.COMPLETE))
+          dispatch(actions.logIn())
         }
-      }, 27000)
+      }
     }
-    }, [])
+    }, [dispatch, shouldFireLoginScript])
   const handleLogin = (event: FormEvent<HTMLFormElement>) => {
     const form = formRef.current
     event.preventDefault();

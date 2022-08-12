@@ -3,6 +3,10 @@ import { useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 import { spacing } from "../theme/spacing";
 import { color } from "../theme/color";
+import { useAppDispatch, useAppSelector } from "../hooks/state";
+import { actions } from "../redux/homepage";
+import { ANIMATION_STAGE } from "../redux/homepage/slice";
+import { selectAnimationStage } from "../redux/homepage/selectors";
 
 const fadeIn = keyframes`
   from {
@@ -25,11 +29,10 @@ const cursorFade = keyframes`
 `
 
 export const HackingScript = styled(({className, children}) => {
+  const dispatch = useAppDispatch()
+  const animationStage = useAppSelector(selectAnimationStage)
   const codeRef = useRef<HTMLDivElement>(null);
-  const [ shouldRender, setShouldRender] = useState(false);
-  useEffect(() => {
-    const timer = setTimeout(() => setShouldRender(true), 3500);
-  }, []);
+  const shouldRender = (animationStage >= ANIMATION_STAGE.SCRIPT_RUNNING)
   useEffect(() => {
     if(shouldRender) {
       const code = codeRef.current
@@ -66,12 +69,14 @@ export const HackingScript = styled(({className, children}) => {
             if( charIndex < strText.length) {
               charIndex++;
               setTimeout(createChar, 1000 / (FPS))
+            } else {
+              dispatch(actions.setAnimationStage(ANIMATION_STAGE.LOGGING_IN))
             }
         }
       }
       createChar();
     }
-  }, [shouldRender])
+  }, [dispatch, shouldRender])
   if(shouldRender) {
     return (
       <code aria-hidden="true" className={className} ref={codeRef} />
