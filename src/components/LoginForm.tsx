@@ -160,12 +160,25 @@ export const LoginForm = styled(({className}) => {
     }
     // button {
     //   background-color: ${color('red.400', 0.7)};
-    //   color: ${color('red.900')};
+    //   
     //   &:focus {
     //     background-color: ${color('red.100', 0.7)};
     //     box-shadow: inset 0 0 2px ${color('red.50')}, 0 0 3px ${color('red.100')}, 0 0 6px ${color('red.200')};
     //   }
     // }
+    ${Button} {
+      button {
+        color: ${color('red.900')};
+      }
+      svg {
+        .background {
+          fill: ${color('red.400')};
+        }
+        .corner {
+          stroke: ${color('red.200')};
+        }
+      }
+    }
   }
   .body-region {
     display: flex;

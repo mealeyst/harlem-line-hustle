@@ -84,6 +84,7 @@ export const Button  = styled(BaseButton)<React.HTMLAttributes<HTMLButtonElement
     .corner {
       stroke-width: 2;
       fill: none;
+      transition: stroke 0.25s ease-in-out;
       stroke: ${color('primary.200')};
     }
   }
