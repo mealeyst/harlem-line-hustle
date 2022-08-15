@@ -88,7 +88,7 @@ export const Button  = styled(BaseButton)<React.HTMLAttributes<HTMLButtonElement
       stroke: ${color('primary.200')};
     }
   }
-  button:hover ~ svg{
+  button:hover ~ svg, button:focus ~ svg{
     .background {
       fill: ${color('primary.500')}
     }
@@ -105,5 +105,4 @@ export const Button  = styled(BaseButton)<React.HTMLAttributes<HTMLButtonElement
       animation: ${bottomRightHover} 1s infinite;
     }
   }
-  button:focus
 `
