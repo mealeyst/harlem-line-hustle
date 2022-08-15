@@ -1,12 +1,12 @@
 {
   "files": {
-    "main.js": "/harlem-line-hustle/static/js/main.bbf3e02b.js",
+    "main.js": "/harlem-line-hustle/static/js/main.a84de603.js",
     "static/js/787.a1109498.chunk.js": "/harlem-line-hustle/static/js/787.a1109498.chunk.js",
     "index.html": "/harlem-line-hustle/index.html",
-    "main.bbf3e02b.js.map": "/harlem-line-hustle/static/js/main.bbf3e02b.js.map",
+    "main.a84de603.js.map": "/harlem-line-hustle/static/js/main.a84de603.js.map",
     "787.a1109498.chunk.js.map": "/harlem-line-hustle/static/js/787.a1109498.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/main.bbf3e02b.js"
+    "static/js/main.a84de603.js"
   ]
 }
