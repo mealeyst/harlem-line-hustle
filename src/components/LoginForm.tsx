@@ -121,7 +121,7 @@ export const LoginForm = styled(({className}) => {
             <span>Password:</span>
             <input type="password" name="password" id="password" ref={pWordRef} />
           </label>
-          <Button id="submit" ref={submitRef}>Sample</Button>
+          <Button id="submit" ref={submitRef}>Submit</Button>
         </div>
         <div className="spacer spacer-right"/>
       </div>
