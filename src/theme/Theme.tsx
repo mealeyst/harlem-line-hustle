@@ -130,6 +130,9 @@ export const GlobalStyles = createGlobalStyle`
     text-shadow: 0 0 2px ${color('primary.200')};
     cursor: url("${process.env.PUBLIC_URL}/cursor.svg"), url("${process.env.PUBLIC_URL}/cursor.png"), default;
   }
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: normal;
+  }
   hr {
     width: 100%;
     background-color: ${color('primary.500')};

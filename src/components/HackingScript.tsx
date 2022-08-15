@@ -36,7 +36,7 @@ export const HackingScript = styled(({className, children}) => {
   useEffect(() => {
     if(shouldRender) {
       const code = codeRef.current
-      const FPS = 40
+      const FPS = 60
 
       const strText = `
       // Initialize login script...
@@ -89,7 +89,12 @@ export const HackingScript = styled(({className, children}) => {
   border: 2px solid ${color('primary.600')};
   opacity: 0;
   background-color: ${color('primary.900', .5)};
-  border-radius: ${spacing(3)};
+  border-color: ${color('primary.400', 0.7)};
+  border-top-width: 8px;
+  border-bottom-width: 1px;
+  border-left-width: 1px;
+  border-right-width: 1px;
+  border-style: solid;
   font-size: 8px;
   padding: ${spacing(3)};
   overflow-y: hidden;

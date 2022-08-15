@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from '../hooks/state';
 import { actions } from '../redux/homepage';
 import { ANIMATION_STAGE } from '../redux/homepage/slice';
 import { selectAnimationStage } from '../redux/homepage/selectors';
+import { Button } from './form/Button';
 
 const shake = keyframes`
   0%, 100% {
@@ -43,6 +44,7 @@ export const LoginForm = styled(({className}) => {
   const shouldFireLoginScript = (animationStage === ANIMATION_STAGE.LOGGING_IN)
   useEffect(() => {
     const form = formRef.current
+    
     if (form) {
       setTimeout(() => {
         form.classList.remove('fadeIn');
@@ -105,16 +107,25 @@ export const LoginForm = styled(({className}) => {
   }
   return(
     <form className={`${className} fadeIn`} id="login_form" onSubmit={handleLogin} ref={formRef}>
-      <h1>Login</h1>
-      <label>
-        <span>Username:</span>
-        <input type="text" name="user_name" id="user_name" ref={uNameRef} />
-      </label>
-      <label>
-        <span>Password:</span>
-        <input type="password" name="password" id="password" ref={pWordRef} />
-      </label>
-      <button id="submit" ref={submitRef}>Submit</button>
+      <div className="spacer spacer-top">
+        <h1>Login</h1>
+      </div>
+      <div className="body-region">
+        <div className="spacer spacer-left"/>
+        <div className="body-content">
+          <label>
+            <span>Username:</span>
+            <input type="text" name="user_name" id="user_name" ref={uNameRef} />
+          </label>
+          <label>
+            <span>Password:</span>
+            <input type="password" name="password" id="password" ref={pWordRef} />
+          </label>
+          <Button id="submit" ref={submitRef}>Sample</Button>
+        </div>
+        <div className="spacer spacer-right"/>
+      </div>
+      <div className="spacer spacer-bottom" />
     </form>
   )
 })`
@@ -122,20 +133,23 @@ export const LoginForm = styled(({className}) => {
   flex-wrap: wrap;
   justify-content: center;
   align-content: flex-end;
-  padding: ${spacing(4)};
-  background-color: ${color('primary.900', 0.1)};
-  border-radius: ${spacing(3)};
   backdrop-filter: blur(5px);
-  border: 3px solid ${color('primary.600')};
-  transition: border 0.3s ease-in-out;
+  border-color: ${color('primary.400', 0.7)};
+  border-top-width: 8px;
+  border-bottom-width: 1px;
+  border-left-width: 1px;
+  border-right-width: 1px;
+  border-style: solid;
+  transition: border-color 0.3s ease-in-out;
   max-width: ${spacing(100)};
   margin: auto;
   &.error{
-    border: 3px solid ${color('red.600')};
-    color: ${color('red.200')};
+    border-color: ${color('red.600')};
+    color: ${color('red.100')};
+    background-color: ${color('red.900', 0.4)};
     input {
       caret-color: ${color('red.100')};
-      color: ${color('red.200')};
+      color: ${color('red.100')};
       background-color: ${color('red.800', 0.5)};
       border: 1px solid ${color('red.400')};
       text-shadow: 0 0 2px ${color('red.200')};
@@ -144,13 +158,43 @@ export const LoginForm = styled(({className}) => {
         box-shadow: inset 0 0 2px ${color('red.50')}, 0 0 3px ${color('red.100')};
       }
     }
-    button {
-      background-color: ${color('red.400', 0.7)};
-      color: ${color('red.900')};
-      &:focus {
-        background-color: ${color('red.100', 0.7)};
-        box-shadow: inset 0 0 2px ${color('red.50')}, 0 0 3px ${color('red.100')}, 0 0 6px ${color('red.200')};
-      }
+    // button {
+    //   background-color: ${color('red.400', 0.7)};
+    //   color: ${color('red.900')};
+    //   &:focus {
+    //     background-color: ${color('red.100', 0.7)};
+    //     box-shadow: inset 0 0 2px ${color('red.50')}, 0 0 3px ${color('red.100')}, 0 0 6px ${color('red.200')};
+    //   }
+    // }
+  }
+  .body-region {
+    display: flex;
+    width: 100%;
+  }
+  .body-content {
+    background-color: ${color('primary.900', 0.5)};
+    width: 100%;
+    padding: ${spacing(4)};
+  }
+  .spacer {
+    background-color: ${color('primary.700', 0.4)};
+    display: flex;
+    &.spacer-top {
+      height: 80px;
+      width: 100%;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+    &.spacer-left, &.spacer-right {
+      width: 20px;
+      height: 100%;
+    }
+    &.spacer-bottom {
+      height: 20px;
+      width: 100%;
+      padding-top: ${spacing(6)};
+      padding-left: calc(20px + ${spacing(4)});
+      padding-right: calc(20px + ${spacing(4)});
     }
   }
   h1 {
@@ -163,16 +207,18 @@ export const LoginForm = styled(({className}) => {
   label {
     display: flex;
     justify-content: center;
-    margin: ${spacing(2)};
+    margin-top: ${spacing(2)};
+    margin-bottom: ${spacing(2)};
     flex-basis: 100%;
     flex-direction: column;
     transition: color 0.3s ease-in-out;
     span {
-      margin: ${spacing(2)}
+      margin-top: ${spacing(2)};
+      margin-bottom: ${spacing(2)};
     }
     input {
       caret-color: ${color('primary.100')};
-      color: ${color('primary.200')};
+      color: ${color('primary.50')};
       min-height: ${spacing(8)};
       flex-basis: 100%;
       background-color: ${color('primary.800', 0.5)};
@@ -200,23 +246,24 @@ export const LoginForm = styled(({className}) => {
       -webkit-box-shadow: 0 0 0px 1000px ${color('primary.900')} inset;
     }
   }
-  button {
-    background-color: ${color('primary.400', 0.7)};
-    color: ${color('primary.900')};
-    border: none;
-    height: ${spacing(8)};
-    width: ${spacing(30)};
-    border-radius: ${spacing(1)};
-    text-transform: uppercase;
-    font-weight: bold;
-    margin: ${spacing(2)};
-    transition: all 0.3s ease-in-out;
-    &:focus {
-      outline: none;
-      background-color: ${color('primary.100', 0.7)};
-      box-shadow: inset 0 0 2px ${color('primary.50')}, 0 0 3px ${color('primary.100')}, 0 0 6px ${color('primary.200')};
-    }
-  }
+  // button {
+  //   background-color: ${color('primary.400', 0.7)};
+  //   color: ${color('primary.900')};
+  //   border: none;
+  //   height: ${spacing(8)};
+  //   width: ${spacing(30)};
+  //   border-radius: ${spacing(1)};
+  //   text-transform: uppercase;
+  //   font-weight: bold;
+  //   margin-top: ${spacing(4 )};
+  //   margin-bottom: ${spacing(2)};
+  //   transition: all 0.3s ease-in-out;
+  //   &:focus {
+  //     outline: none;
+  //     background-color: ${color('primary.100', 0.7)};
+  //     box-shadow: inset 0 0 2px ${color('primary.50')}, 0 0 3px ${color('primary.100')}, 0 0 6px ${color('primary.200')};
+  //   }
+  // }
   &.fadeIn {
     animation: ${fadeIn} 3s ease-in-out forwards;
   }
