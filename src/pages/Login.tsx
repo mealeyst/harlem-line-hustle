@@ -69,9 +69,9 @@ export const Login = styled(({className}) => {
     <Trinity className={className}>
       <button className="play-button" onClick={() => setPlaying(true)}>Play Music</button>
       <button className="stop-button" onClick={() => setPlaying(false)}>Stop Music</button>
-       <HackingScript />
-        <Logo />
-        <LoginForm />
+      <HackingScript />
+      <Logo />
+      <LoginForm />
     </Trinity>
   )}
 )`

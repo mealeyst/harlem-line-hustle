@@ -128,6 +128,8 @@ export const GlobalStyles = createGlobalStyle`
     color: ${color('primary.200')};
     font-family: "Inter", sans-serif;
     text-shadow: 0 0 2px ${color('primary.200')};
+  }
+  body, body label {
     cursor: url("${process.env.PUBLIC_URL}/cursor.svg"), url("${process.env.PUBLIC_URL}/cursor.png"), default;
   }
   h1, h2, h3, h4, h5, h6 {

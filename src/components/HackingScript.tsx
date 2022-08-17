@@ -62,19 +62,21 @@ export const HackingScript = styled(({className, children}) => {
     }\n
     loginScript();`
       let charIndex = 0;
+      let animation: number;
       const createChar = () => {
         if (code) {
             code.scrollTop = code.scrollHeight;
             code.innerHTML = strText.substring(0, charIndex) + "<span class='cursor'>\u25ae</span>";
             if( charIndex < strText.length) {
               charIndex++;
-              setTimeout(createChar, 1000 / (FPS))
+              animation = requestAnimationFrame(createChar)
             } else {
               dispatch(actions.setAnimationStage(ANIMATION_STAGE.LOGGING_IN))
+              cancelAnimationFrame(animation)
             }
         }
       }
-      createChar();
+      animation = requestAnimationFrame(createChar)
     }
   }, [dispatch, shouldRender])
   if(shouldRender) {

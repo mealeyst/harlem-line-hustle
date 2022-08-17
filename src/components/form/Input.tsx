@@ -1,9 +1,9 @@
-import * as React from "react";
-import styled, { css, DefaultTheme, keyframes, StyledProps, ThemedStyledProps } from "styled-components";
+import React, { useEffect, useRef, useState } from 'react'
+import styled, { keyframes } from 'styled-components'
 import { spacing } from "../../theme/spacing";
 import { color } from "../../theme/color"
 
-interface ButtonProps {
+interface InputProps {
   error?: boolean
 }
 
@@ -41,36 +41,44 @@ const bottomRightHover = keyframes`
   }
 `
 
-const BaseButton = React.forwardRef((props: React.HTMLAttributes<HTMLButtonElement> & ButtonProps, ref?: React.Ref<HTMLButtonElement>) => {
-  const { className, error = false } = props
+const InputBase = React.forwardRef((props: React.HTMLProps<HTMLInputElement> & InputProps, ref?: React.Ref<HTMLInputElement>) => {
+  const { className, error } = props
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [inputWidth, setInputWidth] = useState(0)
+  useEffect(() => {
+    if (containerRef.current) {
+      setInputWidth(containerRef.current.offsetWidth)
+    }
+  }, [containerRef])
   const errorClass = error ? ' error': ''
   return (
-    <div className={`${className}${errorClass}`}>
-      <button {...props} ref={ref} />
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 48">
-        <rect className="background" x="4" y="4" width="192" height="40" />
+    <div className={`${className}${errorClass}`} ref={containerRef}>
+      <input  {...props} ref={ref} />
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox={`0 0 ${inputWidth} 48`}>
+        <rect className="background" x="4" y="4" width={`${inputWidth - 6}`} height="40" />
         <path className='corner top-left' d="M4 14 V 4 H 14"/>
-        <path className='corner top-right' d="M196 14 V 4 H 186"/>
+        <path className='corner top-right' d={`M${inputWidth - 2} 14 V 4 H ${inputWidth - 12}`}/>
         <path className='corner bottom-left' d="M4 34 V 44 H 14"/>
-        <path className='corner bottom-right' d="M196 34 V 44 H 186"/>
+        <path className='corner bottom-right' d={`M${inputWidth - 2} 34 V 44 H ${inputWidth - 12}`}/>
       </svg>
     </div>
+
   )
 })
 
-export const Button  = styled(BaseButton)<React.HTMLAttributes<HTMLButtonElement>>`
-  width: ${spacing(50)};
+export const Input = styled(InputBase)<React.HTMLProps<HTMLInputElement>>`
+  width: 100%;
   height: ${spacing(12)};
   position: relative;
   cursor: pointer;
-  button {
+  input {
     width: 100%;
     height: 100%;
+    padding: ${spacing(3)};
     background-color: transparent;
     border: none;
-    text-transform: uppercase;
     font-weight: bold;
-    color: ${color('primary.800')};
+    color: ${color('primary.100')};
     transition: color 0.25s ease-in-out;
     margin: 0;
     border-radius: 0;
@@ -83,8 +91,10 @@ export const Button  = styled(BaseButton)<React.HTMLAttributes<HTMLButtonElement
   }
   svg {
     .background {
-      fill: ${color('primary.600')};
+      fill: ${color('primary.800')};
       transition: fill 0.25s ease-in-out;
+      stroke: ${color('primary.600')};
+      stroke-width: 1;
     }
     .corner {
       stroke-width: 2;
@@ -93,9 +103,9 @@ export const Button  = styled(BaseButton)<React.HTMLAttributes<HTMLButtonElement
       stroke: ${color('primary.200')};
     }
   }
-  button:hover ~ svg, button:focus ~ svg{
+  input:hover ~ svg, input:focus ~ svg{
     .background {
-      fill: ${color('primary.500')}
+      fill: ${color('primary.700')}
     }
     .top-left {
       animation: ${topLeftHover} 1s infinite;
@@ -110,17 +120,20 @@ export const Button  = styled(BaseButton)<React.HTMLAttributes<HTMLButtonElement
       animation: ${bottomRightHover} 1s infinite;
     }
   }
-  &.error {
-    button {
-      color: ${color('red.900')};
+  &.error{
+    input {
+      caret-color: ${color('red.100')};
+      color: ${color('red.100')};
     }
     svg {
       .background {
-        fill: ${color('red.400')};
+        fill: ${color('red.800')};
+        stroke: ${color('red.600')};
       }
       .corner {
         stroke: ${color('red.200')};
       }
     }
   }
+}
 `

@@ -3,7 +3,8 @@ import { useContext, useEffect, useRef } from "react";
 import styled, { ThemeContext } from "styled-components";
 import { fixedScreen } from "../theme/fixedScreen";
 import { color } from "../theme/color"
-import LoginContext from "../contexts/LoginContext";
+import { useAppSelector } from "../hooks/state";
+import { selectLoginError } from "../redux/homepage/selectors";
 
 export interface Points {
   x1: number
@@ -16,7 +17,7 @@ export const Stage = styled(({className}) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const patternRef = useRef<HTMLCanvasElement>(null)
   const theme = useContext(ThemeContext)
-  const { error } = useContext(LoginContext)
+  const error = useAppSelector(selectLoginError)
   const errorClass = error ? 'error' : '';
   useEffect(() => {
     const canvas = canvasRef.current

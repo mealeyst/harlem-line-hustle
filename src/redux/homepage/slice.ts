@@ -8,14 +8,21 @@ export enum ANIMATION_STAGE {
   COMPLETE
 }
 
+export enum LOG_IN_STATE {
+  INITIAL,
+  LOGGING_IN,
+  LOGGED_IN,
+  ERROR
+}
+
 interface HomePageState {
   animation: ANIMATION_STAGE,
-  loggedIn: boolean
+  loggedIn: LOG_IN_STATE
 }
 
 export const INITIAL_STATE: HomePageState = {
   animation: ANIMATION_STAGE.INITIALIZING,
-  loggedIn: false
+  loggedIn: LOG_IN_STATE.INITIAL
 }
 
 export const SLICE = createSlice({
@@ -23,6 +30,6 @@ export const SLICE = createSlice({
   initialState: INITIAL_STATE,
   reducers: {
     setAnimationStage: (state, action: PayloadAction<ANIMATION_STAGE>) => { state.animation = action.payload },
-    logIn: (state) => { state.loggedIn = true }
+    logIn: (state, action: PayloadAction<LOG_IN_STATE> ) => { state.loggedIn = action.payload }
   }
 })
