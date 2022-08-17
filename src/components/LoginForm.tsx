@@ -36,7 +36,7 @@ const fadeIn = keyframes`
 export const LoginForm = styled(({className}) => {
   const dispatch = useAppDispatch()
   const animationStage = useAppSelector(selectAnimationStage)
-  const loginError = useAppSelector(selectLoginError)
+  const error = useAppSelector(selectLoginError)
   const formRef = useRef<HTMLFormElement>(null);
   const [formFade, setFormFade] = useState<boolean>(true)
   const uNameRef  = useRef<HTMLInputElement>(null)
@@ -102,7 +102,7 @@ export const LoginForm = styled(({className}) => {
     }
     return false; // prevent reload
   }
-  const errorClasses = loginError ? ' shake error' : ''
+  const errorClasses = error ? ' shake error' : ''
   const fadeClass = formFade ? ' fadeIn' : ''
   return(
     <form className={`${className}${errorClasses}${fadeClass}`} id="login_form" onSubmit={handleLogin} ref={formRef}>
@@ -117,7 +117,8 @@ export const LoginForm = styled(({className}) => {
             <Input
               type="text" 
               name="user_name" 
-              id="user_name" 
+              id="user_name"
+              error={error}
               ref={uNameRef}
             />
           </label>
@@ -126,11 +127,12 @@ export const LoginForm = styled(({className}) => {
             <Input
               type="password" 
               name="password" 
-              id="password" 
+              id="password"
+              error={error}
               ref={pWordRef}
             />
           </label>
-          <Button id="submit" ref={submitRef} error={loginError}>Submit</Button>
+          <Button id="submit" ref={submitRef} error={error}>Submit</Button>
         </div>
         <div className="spacer spacer-right"/>
       </div>
