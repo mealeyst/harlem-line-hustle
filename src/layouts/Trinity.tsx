@@ -5,13 +5,7 @@ import { fixedScreen } from '../theme/fixedScreen';
 import { spacing } from '../theme/spacing'
 import { query } from '../theme/mediaQueries'
 
-export const Trinity = styled(({className, children}) => {
-  return (
-  <main className={className}>
-    {children}
-  </main>
-  );
-})`
+export const Trinity = styled.main`
   display: grid;
   gap: ${spacing(4)};
   padding: ${spacing(4)};
