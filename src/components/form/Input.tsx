@@ -54,7 +54,7 @@ const InputBase = React.forwardRef((props: React.HTMLProps<HTMLInputElement> & I
   return (
     <div className={`${className}${errorClass}`} ref={containerRef}>
       <input  {...props} ref={ref} />
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox={`0 0 ${inputWidth} 48`}>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox={`0 0 ${inputWidth + 2} 48`}>
         <rect className="background" x="4" y="4" width={`${inputWidth - 6}`} height="40" />
         <path className='corner top-left' d="M4 14 V 4 H 14"/>
         <path className='corner top-right' d={`M${inputWidth - 2} 14 V 4 H ${inputWidth - 12}`}/>

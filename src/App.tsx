@@ -10,7 +10,8 @@ function App() {
     <GlowTheme>
         <Provider store={store}>
           <Stage /> 
-          <Homepage />
+          <Login />
+          {/* <Homepage /> */}
         </Provider>
     </GlowTheme>
   );

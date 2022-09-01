@@ -121,6 +121,7 @@ export const GlobalStyles = createGlobalStyle`
     height: 100vh;
   }
   body {
+    overscroll-behavior-y: none;
     background-color: #081219;
     position: relative;
     height: 100%;
