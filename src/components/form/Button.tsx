@@ -47,7 +47,7 @@ const BaseButton = React.forwardRef((props: React.HTMLAttributes<HTMLButtonEleme
   return (
     <div className={`${className}${errorClass}`}>
       <button {...props} ref={ref} />
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 48">
+      <svg aria-hidden xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 48">
         <rect className="background" x="4" y="4" width="192" height="40" />
         <path className='corner top-left' d="M4 14 V 4 H 14"/>
         <path className='corner top-right' d="M196 14 V 4 H 186"/>

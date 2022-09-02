@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 
 import { fixedScreen } from '../theme/fixedScreen';
@@ -17,11 +16,11 @@ export const Trinity = styled.main`
   "footer";
   ${query('md')}{
     grid-template-columns: 1fr 2fr 1fr;
-    grid-template-rows: 2fr 1fr 1fr;
+    grid-template-rows: 30vh 1fr 1fr;
     grid-template-areas: 
     "left logo right"
     "left inputs right"
-    "left footer right";
+    ". footer .";
   }
 }
   ${fixedScreen}

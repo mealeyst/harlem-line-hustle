@@ -66,7 +66,7 @@ export const Login = styled(({className}) => {
     }
   }, [playing])
   return (
-    <Trinity className={className}>
+    <Trinity className={className} aria-live="polite">
       <button className="play-button" onClick={() => setPlaying(true)}>Play Music</button>
       <button className="stop-button" onClick={() => setPlaying(false)}>Stop Music</button>
       <HackingScript />
@@ -75,30 +75,14 @@ export const Login = styled(({className}) => {
     </Trinity>
   )}
 )`
-  ${ScrollCode} {
-    display: none;
-    ${query('md')}{
-      display: block;
-      &:nth-of-type(1), &:nth-of-type(2),  &:nth-of-type(3) {
-        grid-area: left;
-      }
-      &:nth-of-type(1) {
-        grid-row-end: 1;
-      }
-      &:nth-of-type(2) {
-        grid-row-start: 2;
-        grid-row-end: 3;
-      }
-      &:nth-of-type(3) {
-        grid-row-start: 3;
-        grid-row-end: 4;
-      }
-    }
+  ${HackingScript} {
+    grid-area: left;
   }
   ${Logo} {
-    width: 100%;
+    // width: 100%;
     height: 100%;
     grid-area: logo;
+    margin: 0 auto;
     animation: ${animateLogo} 1.5s ease-in-out forwards;
   }
   ${LoginForm} {

@@ -3,20 +3,20 @@ import { Logo } from "../components/Logo"
 import { Dossier } from "../layouts/Dossier"
 import { color } from "../theme/color"
 import { spacing } from "../theme/spacing"
+import { Window } from "../components/Window"
 
 export const Homepage = styled(({className}) => {
   return (
     <Dossier className={className}>
       <div className="dossier-img"><img src="https://www.fillmurray.com/g/200/325" /></div>
-      <div className="mission-details">
-        <h2>Mission Details:</h2>
+      <Window className="mission-details" header={<h2>Mission Details:</h2>}> 
         <p>
           Our objective is to find developers who have an uncanny ability to 
           create exceptional and unique expereiences one the web. We have 
           identified a candidate that we feel posesses the skills needed to 
           build the projects that we require.
         </p>
-      </div>
+      </Window>
       <div className="file-explore">
         <ul>
           <li>Github:</li>
@@ -94,7 +94,7 @@ export const Homepage = styled(({className}) => {
   }
  }
  .mission-details {
-    background-color: ${color('primary.400')};
+    // background-color: ${color('primary.400')};
     grid-area: mission;
  }
  .dossier-status {

@@ -81,7 +81,7 @@ export const HackingScript = styled(({className, children}) => {
   }, [dispatch, shouldRender])
   if(shouldRender) {
     return (
-      <code aria-hidden="true" className={className} ref={codeRef} />
+      <code aria-hidden className={className} ref={codeRef} />
    )
   }
   return null 

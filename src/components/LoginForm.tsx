@@ -208,54 +208,7 @@ export const LoginForm = styled(({className}) => {
       margin-top: ${spacing(2)};
       margin-bottom: ${spacing(2)};
     }
-    // input {
-    //   caret-color: ${color('primary.100')};
-    //   color: ${color('primary.50')};
-    //   min-height: ${spacing(8)};
-    //   flex-basis: 100%;
-    //   background-color: ${color('primary.800', 0.5)};
-    //   border: 1px solid ${color('primary.400')};
-    //   border-radius: ${spacing(1)};
-    //   box-shadow: 0 0 0 transparent;
-    //   transition: all 0.3s ease-in-out;
-    //   padding: 0 ${spacing(2)};
-    //   text-shadow: 0 0 2px ${color('primary.200')};
-    //   &:focus {
-    //     outline: none;
-    //     box-shadow: inset 0 0 2px ${color('primary.50')}, 0 0 3px ${color('primary.100')};
-    //   }
-    // }
-    // input:-webkit-autofill,
-    // input:-webkit-autofill:hover, 
-    // input:-webkit-autofill:focus,
-    // textarea:-webkit-autofill,
-    // textarea:-webkit-autofill:hover,
-    // textarea:-webkit-autofill:focus,
-    // select:-webkit-autofill,
-    // select:-webkit-autofill:hover,
-    // select:-webkit-autofill:focus {
-    //   -webkit-text-fill-color: ${color('primary.200')};
-    //   -webkit-box-shadow: 0 0 0px 1000px ${color('primary.900')} inset;
-    // }
   }
-  // button {
-  //   background-color: ${color('primary.400', 0.7)};
-  //   color: ${color('primary.900')};
-  //   border: none;
-  //   height: ${spacing(8)};
-  //   width: ${spacing(30)};
-  //   border-radius: ${spacing(1)};
-  //   text-transform: uppercase;
-  //   font-weight: bold;
-  //   margin-top: ${spacing(4 )};
-  //   margin-bottom: ${spacing(2)};
-  //   transition: all 0.3s ease-in-out;
-  //   &:focus {
-  //     outline: none;
-  //     background-color: ${color('primary.100', 0.7)};
-  //     box-shadow: inset 0 0 2px ${color('primary.50')}, 0 0 3px ${color('primary.100')}, 0 0 6px ${color('primary.200')};
-  //   }
-  // }
   &.fadeIn {
     animation: ${fadeIn} 3s ease-in-out forwards;
   }
