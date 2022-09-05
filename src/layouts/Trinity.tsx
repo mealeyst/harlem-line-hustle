@@ -9,7 +9,7 @@ export const Trinity = styled.main`
   gap: ${spacing(4)};
   padding: ${spacing(4)};
   grid-template-columns: 1fr;
-  grid-template-rows: 2fr 1fr 1fr;
+  grid-template-rows: 20vh 1fr 1fr;
   grid-template-areas: 
   "logo"
   "inputs"

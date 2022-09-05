@@ -17,26 +17,26 @@ export const Homepage = styled(({className}) => {
           build the projects that we require.
         </p>
       </Window>
-      <div className="file-explore">
+      <Window className="file-explore">
         <ul>
           <li>Github:</li>
           <li>Previous Employment:</li>
           <li>Education:</li>
         </ul>
-      </div>
+      </Window>
       <div className="skill">Frontend:</div>
       <div className="skill">Backend:</div>
       <div className="skill">DevOps:</div>
-      <div className="dossier-status">
+      <Window className="dossier-status">
         <h2>Dossier Status: <span>Classified</span></h2>
-      </div>
-      <div className="dossier-target">
+      </Window>
+      <Window className="dossier-target">
         <h2>Target Name: Shawn Mealey</h2>
         <h3>Codename: Mealeyst</h3>
         <h3>Location: Pawling, NY</h3>
         <h3>Occupation: Web Developer</h3>
-      </div>
-      <div className="dossier-skills">
+      </Window>
+      <Window className="dossier-skills">
         <p>Target Skills:</p>
         <ul>
           <li>HTML</li>
@@ -49,11 +49,11 @@ export const Homepage = styled(({className}) => {
           <li>Node.js</li>
           <li>Git</li>
         </ul>
-      </div>
-      <div className="dossier-history">
+      </Window>
+      <Window className="dossier-history">
         <h2>Target History:</h2>
         <p>Shawn has had years of web development expeirience with a number of clients. </p>
-      </div>
+      </Window>
       <div className="logo--wrapper"><Logo /></div>
     </Dossier>
   )
@@ -73,8 +73,7 @@ export const Homepage = styled(({className}) => {
   }
  }
  .file-explore {
-  background-color: ${color('primary.400')};
-  grid-area: fileExplorer
+    grid-area: fileExplorer
  }
  .skill {
   &:nth-of-type(3n-2) {
@@ -94,23 +93,18 @@ export const Homepage = styled(({className}) => {
   }
  }
  .mission-details {
-    // background-color: ${color('primary.400')};
     grid-area: mission;
  }
  .dossier-status {
-    background-color: ${color('primary.400')};
     grid-area: status;
  }
  .dossier-target {
-    background-color: ${color('primary.400')};
     grid-area: target;
  }
  .dossier-history {
-  background-color: ${color('primary.400')};
   grid-area: history;
 }
 .dossier-skills {
-  background-color: ${color('primary.400')};
   grid-area: skillList;
 }
 .logo--wrapper {

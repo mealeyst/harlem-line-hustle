@@ -69,14 +69,16 @@ export const Login = styled(({className}) => {
     <Trinity className={className} aria-live="polite">
       <button className="play-button" onClick={() => setPlaying(true)}>Play Music</button>
       <button className="stop-button" onClick={() => setPlaying(false)}>Stop Music</button>
-      <HackingScript />
       <Logo />
       <LoginForm />
+      <HackingScript />
     </Trinity>
   )}
 )`
   ${HackingScript} {
-    grid-area: left;
+    ${query('md')}{
+      grid-area: left;
+    }
   }
   ${Logo} {
     // width: 100%;

@@ -90,6 +90,7 @@ export const Input = styled(InputBase)<React.HTMLProps<HTMLInputElement>>`
     }
   }
   svg {
+    height: 100%;
     .background {
       fill: ${color('primary.800')};
       transition: fill 0.25s ease-in-out;
