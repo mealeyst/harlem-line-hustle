@@ -73,7 +73,7 @@ export const LoginForm = styled(({className}) => {
               submit.click();
             }, 1000 * index);
           })
-          dispatch(actions.setAnimationStage(ANIMATION_STAGE.COMPLETE))
+
         }
       }
     }
@@ -90,6 +90,7 @@ export const LoginForm = styled(({className}) => {
       }
       if(data.username === 'admin@harlem-line-hustle.com' && data.password === 'password') {
         console.log('Success');
+        dispatch(actions.setAnimationStage(ANIMATION_STAGE.ACCESS_GRANTED))
         dispatch(actions.logIn(LOG_IN_STATE.LOGGED_IN))
         document.cookie = "loggedin=true;";
       } else {

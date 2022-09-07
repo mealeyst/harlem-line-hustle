@@ -3,6 +3,7 @@ import { Logo } from "../components/Logo";
 import { ScrollCode } from "../components/ScrollCode";
 import { Trinity } from "../layouts/Trinity";
 import { query } from "../theme/mediaQueries";
+import { spacing } from '../theme/spacing';
 
 import fakeCode from "../constants/fakeCode";
 import { RandomizedLineChart } from "../components/RanomizedLineChart";
@@ -13,6 +14,7 @@ import { Stage } from "../components/Stage";
 import { HackingScript } from "../components/HackingScript";
 import { useEffect, useState } from "react";
 import * as Tone from 'tone'
+import { AccessGranted } from "../components/AccessGranted";
 
 const animateLogo = keyframes`
   from {
@@ -72,12 +74,14 @@ export const Login = styled(({className}) => {
       <Logo />
       <LoginForm />
       <HackingScript />
+      <AccessGranted />
     </Trinity>
   )}
 )`
   ${HackingScript} {
     ${query('md')}{
       grid-area: left;
+      max-height: ${spacing(100)};
     }
   }
   ${Logo} {
@@ -90,6 +94,9 @@ export const Login = styled(({className}) => {
   ${LoginForm} {
     width: 100%;
     height: 100%;
+    grid-area: inputs;
+  }
+  ${AccessGranted} {
     grid-area: inputs;
   }
   ${RandomizedLineChart} {
