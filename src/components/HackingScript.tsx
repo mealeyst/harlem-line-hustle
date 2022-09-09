@@ -1,5 +1,4 @@
-import React, { useRef, useState } from "react";
-import { useEffect } from "react";
+import  { useEffect, useRef } from "react";
 import styled, { keyframes } from "styled-components";
 import { spacing } from "../theme/spacing";
 import { color } from "../theme/color";
@@ -14,6 +13,17 @@ const fadeIn = keyframes`
     transform: translateY(-10%);
   }
   to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`
+
+const fadeOut = keyframes`
+  to {
+    opacity: 0;
+    transform: translateY(-10%);
+  }
+  from {
     opacity: 1;
     transform: translateY(0);
   }
@@ -36,7 +46,6 @@ export const HackingScript = styled(({className, children}) => {
   useEffect(() => {
     if(shouldRender) {
       const code = codeRef.current
-      const FPS = 60
 
       const strText = `
       // Initialize login script...
@@ -79,9 +88,10 @@ export const HackingScript = styled(({className, children}) => {
       animation = requestAnimationFrame(createChar)
     }
   }, [dispatch, shouldRender])
+  const fadeOutClass = animationStage >= ANIMATION_STAGE.ACCESS_GRANTED ? 'fadeOut' : ''
   if(shouldRender) {
     return (
-      <code aria-hidden className={className} ref={codeRef} />
+      <code aria-hidden className={`${className} ${fadeOutClass}`} ref={codeRef} />
    )
   }
   return null 
@@ -106,5 +116,8 @@ export const HackingScript = styled(({className, children}) => {
   backdrop-filter: blur(5px);
   .cursor {
     animation: ${cursorFade} 1s ease-in-out infinite;
+  }
+  &.fadeOut {
+    animation: ${fadeOut} 0.5s ease-in-out forwards;
   }
 `

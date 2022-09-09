@@ -3,7 +3,7 @@ import { spacing } from "../theme/spacing";
 import { fixedScreen } from '../theme/fixedScreen';
 import { query } from '../theme/mediaQueries'
 
-export const Dossier = styled.main`
+export const Oracle = styled.main`
   display: grid;
   gap: ${spacing(4)};
   padding: ${spacing(4)};

@@ -19,7 +19,7 @@ export const SmallAlert = styled(({ className, children }) => {
         width: container.offsetWidth
       })
     }
-  })
+  }, [])
   return (
     <div className={className} ref={containerRef}>
       {c &&

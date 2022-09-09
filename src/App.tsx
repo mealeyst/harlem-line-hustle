@@ -1,5 +1,4 @@
 import { Stage } from "./components/Stage";
-import { Login } from "./pages/Login";
 import { GlowTheme } from "./theme/Theme";
 import { Provider } from 'react-redux'
 import store from "./redux";
@@ -10,8 +9,7 @@ function App() {
     <GlowTheme>
         <Provider store={store}>
           <Stage /> 
-          <Login />
-          {/* <Homepage /> */}
+          <Homepage />
         </Provider>
     </GlowTheme>
   );

@@ -33,10 +33,22 @@ const fadeIn = keyframes`
   }
 `
 
+const fadeOut = keyframes`
+  to {
+    opacity: 0;
+    transform: translateY(-10%);
+  }
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`
+
 export const LoginForm = styled(({className}) => {
   const dispatch = useAppDispatch()
   const animationStage = useAppSelector(selectAnimationStage)
   const error = useAppSelector(selectLoginError)
+  const accessGranted = animationStage === ANIMATION_STAGE.ACCESS_GRANTED
   const formRef = useRef<HTMLFormElement>(null);
   const [formFade, setFormFade] = useState<boolean>(true)
   const uNameRef  = useRef<HTMLInputElement>(null)
@@ -77,7 +89,7 @@ export const LoginForm = styled(({className}) => {
         }
       }
     }
-    }, [animationStage, dispatch, shouldFireLoginScript])
+  }, [animationStage, dispatch, shouldFireLoginScript])
   const handleLogin = (event: FormEvent<HTMLFormElement>) => {
     const form = formRef.current
     event.preventDefault();
@@ -89,9 +101,10 @@ export const LoginForm = styled(({className}) => {
         password: formData.get('password') as string,
       }
       if(data.username === 'admin@harlem-line-hustle.com' && data.password === 'password') {
-        console.log('Success');
         dispatch(actions.setAnimationStage(ANIMATION_STAGE.ACCESS_GRANTED))
-        dispatch(actions.logIn(LOG_IN_STATE.LOGGED_IN))
+        setTimeout(() => {
+          dispatch(actions.logIn(LOG_IN_STATE.LOGGED_IN))
+        }, 3000)
         document.cookie = "loggedin=true;";
       } else {
         // setFormError(true)
@@ -104,9 +117,10 @@ export const LoginForm = styled(({className}) => {
     return false; // prevent reload
   }
   const errorClasses = error ? ' shake error' : ''
+  const accessGrantedClass = accessGranted ? ' fadeOut': ''
   const fadeClass = formFade ? ' fadeIn' : ''
   return(
-    <form className={`${className}${errorClasses}${fadeClass}`} id="login_form" onSubmit={handleLogin} ref={formRef}>
+    <form className={`${className}${errorClasses}${fadeClass}${accessGrantedClass}`} id="login_form" onSubmit={handleLogin} ref={formRef}>
       <div className="spacer spacer-top">
         <h1>Login</h1>
       </div>
@@ -212,6 +226,9 @@ export const LoginForm = styled(({className}) => {
   }
   &.fadeIn {
     animation: ${fadeIn} 3s ease-in-out forwards;
+  }
+  &.fadeOut {
+    animation: ${fadeOut} 0.5s ease-in-out forwards;
   }
   &.shake {
     animation: ${shake} 0.3s ease-in-out forwards !important;

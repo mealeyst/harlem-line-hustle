@@ -1,13 +1,13 @@
 import styled from "styled-components"
-import { Logo } from "../components/Logo"
-import { Dossier } from "../layouts/Dossier"
-import { color } from "../theme/color"
-import { spacing } from "../theme/spacing"
-import { Window } from "../components/Window"
+import { Logo } from "../../components/Logo"
+import { Oracle } from "../../layouts/Dossier"
+import { color } from "../../theme/color"
+import { spacing } from "../../theme/spacing"
+import { Window } from "../../components/Window"
 
-export const Homepage = styled(({className}) => {
+export const Dossier = styled(({className}) => {
   return (
-    <Dossier className={className}>
+    <Oracle className={className}>
       <div className="dossier-img"><img src="https://www.fillmurray.com/g/200/325" /></div>
       <Window className="mission-details" header={<h2>Mission Details:</h2>}> 
         <p>
@@ -55,7 +55,7 @@ export const Homepage = styled(({className}) => {
         <p>Shawn has had years of web development expeirience with a number of clients. </p>
       </Window>
       <div className="logo--wrapper"><Logo /></div>
-    </Dossier>
+    </Oracle>
   )
 })`
  .dossier-img {
@@ -69,7 +69,6 @@ export const Homepage = styled(({className}) => {
   padding: ${spacing(4)};
   img {
     max-width: 100%;
-    height: 100%;
   }
  }
  .file-explore {
@@ -100,6 +99,12 @@ export const Homepage = styled(({className}) => {
  }
  .dossier-target {
     grid-area: target;
+    h2 {
+      font-size: clamp(20px, 2vw, 36px);
+    }
+    h2 {
+      font-size: clamp(16px, 1vw, 24px);
+    }
  }
  .dossier-history {
   grid-area: history;

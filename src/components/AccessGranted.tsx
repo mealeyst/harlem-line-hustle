@@ -18,7 +18,6 @@ const animateAccessGranted = keyframes`
 
 export const AccessGranted = styled(({ className }) => {
   const animationStage = useAppSelector(selectAnimationStage)
-  console.log(animationStage, ANIMATION_STAGE.LOGGING_IN)
   const shouldRender = (animationStage >= ANIMATION_STAGE.ACCESS_GRANTED)
   if (shouldRender) {
     return (

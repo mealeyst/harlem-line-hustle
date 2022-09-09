@@ -1,20 +1,19 @@
 import styled, { keyframes } from "styled-components";
-import { Logo } from "../components/Logo";
-import { ScrollCode } from "../components/ScrollCode";
-import { Trinity } from "../layouts/Trinity";
-import { query } from "../theme/mediaQueries";
-import { spacing } from '../theme/spacing';
+import { Logo } from "../../components/Logo";
+import { Trinity } from "../../layouts/Trinity";
+import { query } from "../../theme/mediaQueries";
+import { spacing } from '../../theme/spacing';
+import { useAppSelector } from '../../hooks/state';
+import { ANIMATION_STAGE } from '../../redux/homepage/slice';
 
-import fakeCode from "../constants/fakeCode";
-import { RandomizedLineChart } from "../components/RanomizedLineChart";
-import { LoginForm } from "../components/LoginForm";
-import FakeCode from "../constants/fakeCode";
-import { Gsap } from "../components/GreenSock";
-import { Stage } from "../components/Stage";
-import { HackingScript } from "../components/HackingScript";
+
+import { RandomizedLineChart } from "../../components/RanomizedLineChart";
+import { LoginForm } from "../../components/LoginForm";
+import { HackingScript } from "../../components/HackingScript";
 import { useEffect, useState } from "react";
 import * as Tone from 'tone'
-import { AccessGranted } from "../components/AccessGranted";
+import { AccessGranted } from "../../components/AccessGranted";
+import { selectAnimationStage } from "../../redux/homepage/selectors";
 
 const animateLogo = keyframes`
   from {
@@ -29,6 +28,8 @@ const animateLogo = keyframes`
 
 export const Login = styled(({className}) => {
   const [playing, setPlaying] = useState<boolean>(false)
+  const animationStage = useAppSelector(selectAnimationStage)
+  const shouldRender = animationStage < ANIMATION_STAGE.ACCESS_GRANTED
   useEffect(() => {
     if(playing) {// create two monophonic synths
       const synth = new Tone.Synth().toMaster()
