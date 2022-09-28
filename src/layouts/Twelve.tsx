@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { spacing } from "../theme/spacing";
-import { fixedScreen } from '../theme/fixedScreen';
+import { fixedWithPadding } from '../theme/fixedScreen';
 
 export const Twelve = styled.main`
   display: grid;
@@ -9,5 +9,5 @@ export const Twelve = styled.main`
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: repeat(6, 1fr);
 
-  ${fixedScreen}
+  ${fixedWithPadding}
 `

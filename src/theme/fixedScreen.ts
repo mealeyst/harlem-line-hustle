@@ -1,10 +1,12 @@
 import { css } from 'styled-components'
+import { spacing } from './spacing'
 
-export const fixedScreen = css`
-position: fixed;
-left: 50%;
-top: 50%;
-transform: translate(-50%, -50%);
-width: 95%;
-height: 95%;
+export const fixedWithPadding = css`
+
+`
+
+export const fixedFullWidth = css`
+position: absolute;
+height: 100%;
+width: 100%;
 `

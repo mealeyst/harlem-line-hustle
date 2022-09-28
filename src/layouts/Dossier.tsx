@@ -1,9 +1,11 @@
 import styled from "styled-components";
 import { spacing } from "../theme/spacing";
-import { fixedScreen } from '../theme/fixedScreen';
+// import { fixedWithPadding } from '../theme/fixedScreen';
 import { query } from '../theme/mediaQueries'
 
 export const Oracle = styled.main`
+  z-index: 2;
+  position: absolute;
   display: grid;
   gap: ${spacing(4)};
   padding: ${spacing(4)};
@@ -25,5 +27,7 @@ export const Oracle = styled.main`
     "mission mission mission mission mission mission skillList skillList history history history history";
   }
   overflow: scroll;
-  ${fixedScreen}
+  width: 100%;
+  min-height: 100%;
+  padding: ${spacing(3)};
 `

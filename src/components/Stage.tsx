@@ -1,7 +1,7 @@
 import debounce from "lodash/debounce";
 import { useContext, useEffect, useRef } from "react";
 import styled, { ThemeContext } from "styled-components";
-import { fixedScreen } from "../theme/fixedScreen";
+import { fixedFullWidth } from "../theme/fixedScreen";
 import { color } from "../theme/color"
 import { useAppSelector } from "../hooks/state";
 import { selectLoginError } from "../redux/homepage/selectors";
@@ -120,7 +120,8 @@ border-right-style: solid;
 border-image: linear-gradient(to bottom, ${color('primary.300')}, rgba(0, 0, 0, 0), ${color('primary.300')}) 1 0.5;
 border-image-slice: 1;
 transition: border 0.3s ease-in-out;
-  ${fixedScreen}
+${fixedFullWidth}
+z-index: 0;
 & + .pattern {
   display: none;
 }

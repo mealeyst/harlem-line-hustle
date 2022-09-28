@@ -140,7 +140,7 @@ export const LoginForm = styled(({className}) => {
           <label>
             <span>Password:</span>
             <Input
-              type="password" 
+              type="text" 
               name="password" 
               id="password"
               error={error}
@@ -169,6 +169,7 @@ export const LoginForm = styled(({className}) => {
   transition: border-color 0.3s ease-in-out;
   max-width: ${spacing(100)};
   margin: auto;
+  opacity: 1;
   &.error{
     border-color: ${color('red.600')};
     color: ${color('red.100')};

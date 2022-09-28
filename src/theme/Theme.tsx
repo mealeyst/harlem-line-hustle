@@ -1,6 +1,7 @@
 import React, { FC, ReactChild } from 'react';
 import { createGlobalStyle, css, ThemeProvider } from 'styled-components';
 import { color } from './color';
+import { query } from './mediaQueries';
 import { spacing } from './spacing';
 import { Join, PathsToStringProps } from './types';
 
@@ -123,12 +124,24 @@ export const GlobalStyles = createGlobalStyle`
   body {
     overscroll-behavior-y: none;
     background-color: #081219;
-    position: relative;
     height: 100%;
     box-sizing: border-box;
     color: ${color('primary.200')};
     font-family: "Inter", sans-serif;
     text-shadow: 0 0 2px ${color('primary.200')};
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #root {
+    width: calc(100% - ${spacing(4)});
+    height: calc(100% - ${spacing(4)});
+    position: relative;
+    ${query('md')}{
+      width: calc(100% - ${spacing(20)});
+      height: calc(100% - ${spacing(12)});
+    }
   }
   body, body label {
     cursor: url("${process.env.PUBLIC_URL}/cursor.svg"), url("${process.env.PUBLIC_URL}/cursor.png"), default;

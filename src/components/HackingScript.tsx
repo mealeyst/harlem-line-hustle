@@ -1,11 +1,11 @@
-import  { useEffect, useRef } from "react";
+import  { useEffect, useRef, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { spacing } from "../theme/spacing";
 import { color } from "../theme/color";
 import { useAppDispatch, useAppSelector } from "../hooks/state";
 import { actions } from "../redux/homepage";
 import { ANIMATION_STAGE } from "../redux/homepage/slice";
-import { selectAnimationStage } from "../redux/homepage/selectors";
+import { selectAnimationStage, selectLoginError } from "../redux/homepage/selectors";
 
 const fadeIn = keyframes`
   from {
@@ -38,14 +38,32 @@ const cursorFade = keyframes`
   }
 `
 
+const shake = keyframes`
+  0%, 100% {
+    transform: translateX(0px);
+  }
+  25%, 75% {
+    transform: translateX(-30px);
+  }
+  50% {
+    transform: translateX(30px);
+  }
+`
+
 export const HackingScript = styled(({className, children}) => {
   const dispatch = useAppDispatch()
   const animationStage = useAppSelector(selectAnimationStage)
+  const error = useAppSelector(selectLoginError)
   const codeRef = useRef<HTMLDivElement>(null);
   const shouldRender = (animationStage >= ANIMATION_STAGE.SCRIPT_RUNNING)
+  const [formFade, setFormFade] = useState<boolean>(true)
   useEffect(() => {
     if(shouldRender) {
       const code = codeRef.current
+
+      setTimeout(() => {
+        setFormFade(false)
+      }, 3000)
 
       const strText = `
       // Initialize login script...
@@ -88,10 +106,12 @@ export const HackingScript = styled(({className, children}) => {
       animation = requestAnimationFrame(createChar)
     }
   }, [dispatch, shouldRender])
+  const fadeClass = formFade ? ' fadeIn' : ''
   const fadeOutClass = animationStage >= ANIMATION_STAGE.ACCESS_GRANTED ? 'fadeOut' : ''
+  const errorClasses = error ? ' shake error' : ''
   if(shouldRender) {
     return (
-      <code aria-hidden className={`${className} ${fadeOutClass}`} ref={codeRef} />
+      <code aria-hidden className={`${className} ${errorClasses} ${fadeClass} ${fadeOutClass}`} ref={codeRef} />
    )
   }
   return null 
@@ -99,7 +119,7 @@ export const HackingScript = styled(({className, children}) => {
   height: 100%;
   width: 100%;
   border: 2px solid ${color('primary.600')};
-  opacity: 0;
+  opacity: 1;
   background-color: ${color('primary.900', .5)};
   border-color: ${color('primary.400', 0.7)};
   border-top-width: 8px;
@@ -112,12 +132,22 @@ export const HackingScript = styled(({className, children}) => {
   overflow-y: hidden;
   word-wrap: break-word;
   white-space:pre-wrap;
-  animation: ${fadeIn} 0.25s ease-in-out forwards;
   backdrop-filter: blur(5px);
   .cursor {
     animation: ${cursorFade} 1s ease-in-out infinite;
   }
   &.fadeOut {
     animation: ${fadeOut} 0.5s ease-in-out forwards;
+  }
+  &.error{
+    border-color: ${color('red.600')};
+    color: ${color('red.100')};
+    background-color: ${color('red.900', 0.4)};
+  }
+  &.fadeIn {
+    animation: ${fadeIn} 0.25s ease-in-out;
+  }
+  &.shake {
+    animation: ${shake} 0.3s ease-in-out forwards !important;
   }
 `
