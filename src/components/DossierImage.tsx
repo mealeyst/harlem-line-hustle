@@ -18,18 +18,21 @@ export const DossierImage = styled(({className}) => {
         if(canvas) {
           canvas.width = canvas.offsetWidth
           canvas.height = canvas.offsetHeight
-          const aspectRatio = image.width/image.height;
-          const imageHeight = (canvas.offsetHeight * aspectRatio)
-          const yPos = (canvas.offsetHeight - imageHeight) / 2
+          const imageWidth = (canvas.offsetWidth > canvas.offsetHeight) ? (canvas.offsetWidth * (image.width/image.height)) : canvas.offsetWidth
+          const imageHeight = (canvas.offsetHeight > canvas.offsetWidth) ? (canvas.offsetHeight * (image.width/image.height)) : canvas.offsetHeight
+          const xPos = Math.ceil((canvas.offsetWidth - imageWidth) / 2)
+          const yPos = Math.ceil((canvas.offsetHeight - imageHeight) / 2)
+
           const ctx = canvas.getContext('2d');
 
           // Calculate the scaled dimensions.
-          var scaledWidth = canvas.width * imageProps.scale;
-          var scaledHeight = canvas.height * imageProps.scale;
+          const scaledWidth = imageWidth * imageProps.scale;
+          const scaledHeight = imageHeight * imageProps.scale;
+
           if(ctx) {
             ctx.imageSmoothingEnabled = false;
-            ctx.drawImage(image, 0, yPos, scaledWidth, scaledHeight);
-            ctx.drawImage(canvas, 0, yPos, scaledWidth, scaledHeight, 0, yPos, canvas.offsetWidth, imageHeight);
+            ctx.drawImage(image, xPos, yPos, scaledWidth, scaledHeight);
+            ctx.drawImage(canvas, xPos, yPos, scaledWidth, scaledHeight, xPos, yPos, imageWidth, imageHeight);
           }
         }
       }
@@ -37,11 +40,11 @@ export const DossierImage = styled(({className}) => {
         tl.to(imageProps, {
           scale: 0.6,
           duration: 2,
-          ease: "power1",
           onUpdate() {
             draw();
           }
         });
+      window.addEventListener('resize', draw)
     };
   })
   return (
