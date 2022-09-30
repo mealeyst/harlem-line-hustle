@@ -1,14 +1,15 @@
 import styled from "styled-components"
 import { Logo } from "../../components/Logo"
-import { Oracle } from "../../layouts/Dossier"
+import { Oracle } from "../../layouts/Oracle"
 import { color } from "../../theme/color"
 import { spacing } from "../../theme/spacing"
 import { Window } from "../../components/Window"
+import { DossierImage } from "../../components/DossierImage"
 
 export const Dossier = styled(({className}) => {
   return (
     <Oracle className={className}>
-      <div className="dossier-img"><img src="https://www.fillmurray.com/g/200/325" /></div>
+      <div className="dossier-img"><DossierImage /></div>
       <Window className="mission-details" header={<h2>Mission Details:</h2>}> 
         <p>
           Our objective is to find developers who have an uncanny ability to 
@@ -59,7 +60,7 @@ export const Dossier = styled(({className}) => {
   )
 })`
  .dossier-img {
-  background-color: ${color('primary.400')};
+  // background-color: ${color('primary.400')};
   display: block;
   grid-area: headshot;
   width: 100%;

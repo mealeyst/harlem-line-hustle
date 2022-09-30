@@ -123,7 +123,7 @@ export const GlobalStyles = createGlobalStyle`
   }
   body {
     overscroll-behavior-y: none;
-    background-color: #081219;
+    background-color: ${color('primary.900')};
     height: 100%;
     box-sizing: border-box;
     color: ${color('primary.200')};
@@ -135,6 +135,7 @@ export const GlobalStyles = createGlobalStyle`
     align-items: center;
   }
   #root {
+    background-color: ${color('primary.900')};
     width: calc(100% - ${spacing(4)});
     height: calc(100% - ${spacing(4)});
     position: relative;

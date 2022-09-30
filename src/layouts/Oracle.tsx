@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { spacing } from "../theme/spacing";
 // import { fixedWithPadding } from '../theme/fixedScreen';
 import { query } from '../theme/mediaQueries'
+import { color } from "../theme/color";
 
 export const Oracle = styled.main`
   z-index: 2;
@@ -11,6 +12,7 @@ export const Oracle = styled.main`
   padding: ${spacing(4)};
   grid-template-columns: repeat(3, 1fr);
   grid-template:
+  background-color: ${color('primary.900')};
     "logo logo logo" 200px
     "status status status" 10vw
     "headshot headshot headshot" 1fr
@@ -22,12 +24,13 @@ export const Oracle = styled.main`
     "headshot headshot headshot fileExplorer fileExplorer fileExplorer status status status logo logo logo"
     "headshot headshot headshot fileExplorer fileExplorer fileExplorer target target target logo logo logo"
     "headshot headshot headshot fileExplorer fileExplorer fileExplorer target target target logo logo logo"
-    "headshot headshot headshot skill1 skill2 skill3 skillList skillList history history history history"
+    "skill1 skill1 skill2 skill2 skill3 skill3 skillList skillList history history history history"
     "mission mission mission mission mission mission skillList skillList history history history history"
     "mission mission mission mission mission mission skillList skillList history history history history";
   }
   overflow: scroll;
   width: 100%;
-  min-height: 100%;
+  height: 100%;
+
   padding: ${spacing(3)};
 `
