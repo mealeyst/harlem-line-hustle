@@ -7,7 +7,7 @@ import { spacing } from "../theme/spacing";
 export const DossierImage = styled(({className}) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const image = new Image();
-  image.src = "./harlem-line-hustle/Shawn_Mealey.jpeg";
+  image.src = `${process.env.PUBLIC_URL}/Shawn_Mealey.jpeg`
   const imageProps = {
     scale: 0.1,
     width: 0,
