@@ -7,43 +7,71 @@ import { spacing } from "../theme/spacing";
 export const DossierImage = styled(({className}) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const image = new Image();
-  image.src = "./Shawn_Mealey.jpeg";
+  image.src = "./harlem-line-hustle/Shawn_Mealey.jpeg";
   const imageProps = {
-    scale: 0.1
+    scale: 0.1,
+    width: 0,
+    height: 0,
+    scaled: {
+      width: 0,
+      height: 0,
+    },
+    xPos: 0,
+    yPos: 0,
   }
   useEffect(() => {
     image.onload = () => {
+      const imageAspectRatio = image.width/image.height
       const draw = () => {
         const canvas = canvasRef.current
         if(canvas) {
           canvas.width = canvas.offsetWidth
           canvas.height = canvas.offsetHeight
-          const imageWidth = (canvas.offsetWidth > canvas.offsetHeight) ? (canvas.offsetWidth * (image.width/image.height)) : canvas.offsetWidth
-          const imageHeight = (canvas.offsetHeight > canvas.offsetWidth) ? (canvas.offsetHeight * (image.width/image.height)) : canvas.offsetHeight
-          const xPos = Math.ceil((canvas.offsetWidth - imageWidth) / 2)
-          const yPos = Math.ceil((canvas.offsetHeight - imageHeight) / 2)
+          const canvasAspectRatio = canvas.width / canvas.height
+          imageProps.width = (imageAspectRatio < canvasAspectRatio) ? (canvas.offsetWidth * (image.width/image.height)) : canvas.offsetWidth
+          imageProps.height = (imageAspectRatio > canvasAspectRatio)  ? (canvas.offsetHeight * (image.width/image.height)) : canvas.offsetHeight
+          imageProps.xPos = Math.ceil((canvas.offsetWidth - imageProps.width) / 2)
+          imageProps.yPos = Math.ceil((canvas.offsetHeight - imageProps.height) / 2)
+          console.log(imageProps, {imageAspectRatio, canvasAspectRatio})
 
           const ctx = canvas.getContext('2d');
 
           // Calculate the scaled dimensions.
-          const scaledWidth = imageWidth * imageProps.scale;
-          const scaledHeight = imageHeight * imageProps.scale;
+          imageProps.scaled.width = imageProps.width * imageProps.scale;
+          imageProps.scaled.height = imageProps.height * imageProps.scale;
 
           if(ctx) {
             ctx.imageSmoothingEnabled = false;
-            ctx.drawImage(image, xPos, yPos, scaledWidth, scaledHeight);
-            ctx.drawImage(canvas, xPos, yPos, scaledWidth, scaledHeight, xPos, yPos, imageWidth, imageHeight);
+            ctx.drawImage(
+              image,
+              imageProps.xPos,
+              imageProps.yPos,
+              imageProps.scaled.width,
+              imageProps.scaled.height
+            );
+            ctx.drawImage(
+              canvas,
+              imageProps.xPos,
+              imageProps.yPos,
+              imageProps.scaled.width,
+              imageProps.scaled.height,
+              imageProps.xPos,
+              imageProps.yPos,
+              imageProps.width,
+              imageProps.height
+            );
           }
         }
       }
       let tl = gsap.timeline();
         tl.to(imageProps, {
-          scale: 0.6,
+          scale: 0.8,
           duration: 2,
           onUpdate() {
             draw();
           }
         });
+      // draw()
       window.addEventListener('resize', draw)
     };
   })
