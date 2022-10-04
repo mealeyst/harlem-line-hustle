@@ -12,7 +12,7 @@ export const Logo = styled(({className}) => {
       <title>Harlem Line Hustle Logo</title>
       <defs>
         <filter id="glow">
-          <feGaussianBlur stdDeviation="8" result="coloredBlur" />
+          <feGaussianBlur stdDeviation="4" result="coloredBlur" />
           <feMerge>
             <feMergeNode in="coloredBlur" />
             <feMergeNode in="SourceGraphic" />

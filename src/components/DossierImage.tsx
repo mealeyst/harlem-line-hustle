@@ -88,7 +88,6 @@ border-right-style: solid;
 border-image: linear-gradient(to bottom, ${color('primary.300')}, rgba(0, 0, 0, 0), ${color('primary.300')}) 1 0.5;
 border-image-slice: 1;
 height: 100%;
-margin: ${spacing(4)};
 width: 100%;
 background-color: ${color('primary.900', 0.2)};
 backdrop-filter: blur(5px);

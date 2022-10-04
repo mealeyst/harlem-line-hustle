@@ -67,7 +67,6 @@ export const Dossier = styled(({className}) => {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: ${spacing(4)};
   img {
     max-width: 100%;
   }
