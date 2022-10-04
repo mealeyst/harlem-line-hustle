@@ -12,11 +12,18 @@ export const Oracle = styled.main`
   padding: ${spacing(4)};
   grid-template-columns: repeat(3, 1fr);
   grid-template:
-  background-color: ${color('primary.900')};
     "logo logo logo" 200px
-    "status status status" 10vw
+    "status status status" 1fr
+    "target target target" 1fr
     "headshot headshot headshot" 1fr
-    "skill1 skill2 skill3" 25vw;
+    "skill1 skill2 skill3" 20vw
+    "mission mission mission" 1fr
+    "history history history" 1fr
+    "skillList skillList skillList" 1fr
+    "fileExplorer fileExplorer fileExplorer" 1fr;
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
   ${query('md')}{
     grid-template-columns: repeat(12, 1fr);
     grid-template-rows: repeat(6, 1fr);
@@ -27,10 +34,8 @@ export const Oracle = styled.main`
     "skill1 skill1 skill2 skill2 skill3 skill3 skillList skillList history history history history"
     "mission mission mission mission mission mission skillList skillList history history history history"
     "mission mission mission mission mission mission skillList skillList history history history history";
+    overflow: hidden;
   }
-  overflow: scroll;
-  width: 100%;
-  height: 100%;
 
   padding: ${spacing(3)};
 `
