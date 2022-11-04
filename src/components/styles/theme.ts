@@ -1,3 +1,5 @@
+import { Join, PathsToStringProps } from './types';
+
 const minWidthQuery = (minWidth: number) => `@media (min-width: ${minWidth}px)`;
 
 export const THEME = {
@@ -44,3 +46,15 @@ export const THEME = {
 };
 
 export type Theme = typeof THEME;
+
+export type ColorSetKey = keyof Theme['colors']
+
+export type ColorSet<T extends ColorSetKey = ColorSetKey> = Theme['colors'][T]
+
+export type ColorKey<T extends ColorSet = ColorSet> = T extends ColorSet
+  ? keyof T
+  : never
+
+export type ColorPath = Join<PathsToStringProps<Theme['colors']>, '.'>
+
+export type BreakpointPath = Join<PathsToStringProps<Theme['breakpoints']>, '.'>

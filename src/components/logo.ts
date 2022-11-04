@@ -1,8 +1,12 @@
+import { THEME } from "./styles/theme";
+
 const css = `
 <style>
   .logo {
-  max-height: 100%;
-  min-width: 100%; }
+    display: flex;
+    margin: auto;
+    height: 100%;
+  }
   .logo .a {
     fill: none;
     stroke-linecap: round;
@@ -10,9 +14,10 @@ const css = `
     stroke-width: 20px;
     transition: stroke 0.3s ease-in-out, fill 0.3s ease-in-out;
     fill: none;
-    stroke: #75c79e; }
+    stroke: ${THEME.colors.primary[400]};
+  }
   .logo .b {
-    fill: #75c79e;
+    fill: ${THEME.colors.primary[400]};
     transition: fill 0.3s ease-in-out, fill 0.3s ease-in-out; }
 </style>
 `;
