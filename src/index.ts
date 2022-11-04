@@ -1,7 +1,6 @@
-import { HLHLogo } from './components/logo'
+import { HLHLogo } from "./components/logo";
 customElements.define("hlh-logo", HLHLogo);
 window.addEventListener("load", () => {
-  console.log('Hello World');
   const stage = document.querySelector<HTMLCanvasElement>("#stage")!;
   const ctx: CanvasRenderingContext2D = stage.getContext("2d")!;
   function reOffset() {
@@ -15,8 +14,13 @@ window.addEventListener("load", () => {
       const contentRegion: HTMLElement = document.querySelector(".content")!;
       let { bottom, height, left, right, top, width } =
         contentRegion.getBoundingClientRect();
-      const { marginBottom, paddingLeft, paddingRight, marginTop, borderWidth } =
-        window.getComputedStyle(contentRegion);
+      const {
+        marginBottom,
+        paddingLeft,
+        paddingRight,
+        marginTop,
+        borderWidth,
+      } = window.getComputedStyle(contentRegion);
       top = top - parseInt(marginTop, 10);
       bottom = bottom + parseInt(marginBottom, 10);
       const triangleLeftWidth = parseInt(paddingLeft, 10) * 0.75;
@@ -142,15 +146,26 @@ window.addEventListener("load", () => {
   }
   draw(stage.width / 2, stage.height / 2, stage.width / 2);
   window.addEventListener("mousemove", mouseMove, false);
-window.addEventListener("resize", (event) => {
-  reOffset();
-  draw(stage.width / 2, stage.height / 2, stage.width / 2);
-});
-document
-  .querySelector<HTMLElement>(".content")
-  ?.addEventListener("resize", () => {
+  window.addEventListener("resize", (event) => {
     reOffset();
     draw(stage.width / 2, stage.height / 2, stage.width / 2);
   });
-});
+  document
+    .querySelector<HTMLElement>(".content")
+    ?.addEventListener("resize", () => {
+      reOffset();
+      draw(stage.width / 2, stage.height / 2, stage.width / 2);
+    });
 
+  document.querySelectorAll(".navLink").forEach((link) => {
+    link.addEventListener("click", (event) => {
+      console.log("Link Clicked");
+      event.preventDefault();
+      const { target } = event;
+      const scrollToElement = document.querySelector(
+        (target as HTMLAnchorElement).getAttribute("href")
+      );
+      scrollToElement.scrollIntoView({ behavior: "smooth" });
+    });
+  });
+});
