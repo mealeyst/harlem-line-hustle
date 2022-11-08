@@ -1,4 +1,4 @@
-import { THEME } from "./styles/theme";
+import { THEME } from "../../styles/theme";
 
 const css = `
 <style>
