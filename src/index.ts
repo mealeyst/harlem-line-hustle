@@ -3,14 +3,13 @@ import * as Stage from "./components/stage";
 customElements.define("hlh-logo", HLHLogo);
 window.addEventListener("load", () => {
   Stage.renderStage();
-  Stage.renderWindow();
+  Stage.contentRegion().open();
   window.addEventListener(
     "mousemove",
     (e) => {
       e.preventDefault();
       e.stopPropagation();
       Stage.renderSpotlight(e.clientX, e.clientY);
-      Stage.renderWindow();
     },
     false
   );
@@ -19,10 +18,11 @@ window.addEventListener("load", () => {
     link.addEventListener("click", (event) => {
       event.preventDefault();
       const { target } = event;
-      const scrollToElement = document.querySelector(
-        (target as HTMLAnchorElement).getAttribute("href")
-      );
-      scrollToElement.scrollIntoView({ behavior: "smooth" });
+      Stage.contentRegion(true).close();
+      // const scrollToElement = document.querySelector(
+      //   (target as HTMLAnchorElement).getAttribute("href")
+      // );
+      // scrollToElement.scrollIntoView({ behavior: "smooth" });
     });
   });
 });

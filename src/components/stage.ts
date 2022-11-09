@@ -1,48 +1,125 @@
-export function renderWindow() {
+import gsap from 'gsap';
+
+type DrawingCoordinates = Record<string, {x: number, y: number}>
+export function contentRegion(isOpen?: boolean) {
   const stage = document.querySelector<HTMLCanvasElement>("#stage")!;
   const ctx: CanvasRenderingContext2D = stage.getContext("2d")!;
-  ctx.globalCompositeOperation = "source-over";
   const contentRegion: HTMLElement = document.querySelector(".content")!;
   let { bottom, height, left, right, top, width } =
-    contentRegion.getBoundingClientRect();
-  const { marginBottom, paddingLeft, paddingRight, marginTop, borderWidth } =
-    window.getComputedStyle(contentRegion);
-  top = top - parseInt(marginTop, 10);
-  bottom = bottom + parseInt(marginBottom, 10);
-  const triangleLeftWidth = parseInt(paddingLeft, 10) * 0.75;
-  const triangleRightWidth = parseInt(paddingRight, 10) * 0.75;
-  const angleTop = parseInt(marginTop, 10) * 0.75;
-  const angleLeft = parseInt(marginBottom, 10) * 0.75;
-  // Draw dope border using our content region's CSS!
-  ctx.beginPath();
-  ctx.moveTo(left + parseInt(paddingLeft, 10), top);
-  ctx.lineTo(right - Math.ceil(width * 0.25) - 10, top);
-  ctx.lineTo(right - Math.ceil(width * 0.25) + 10, top + angleTop);
-  ctx.lineTo(right, top + angleTop);
-  ctx.lineTo(right, bottom - parseInt(paddingRight, 10));
-  ctx.lineTo(right - parseInt(paddingRight, 10), bottom);
-  ctx.lineTo(left + angleLeft, bottom);
-  ctx.lineTo(left + angleLeft, Math.ceil(height * 0.75) + 10);
-  ctx.lineTo(left, Math.ceil(height * 0.75) - 10);
-  ctx.lineTo(left, top + parseInt(paddingLeft, 10));
-  ctx.closePath();
-  ctx.strokeStyle = "hsl(152, 41%, 52%)";
-  ctx.lineWidth = parseInt(borderWidth, 10);
-  ctx.stroke();
-  ctx.fillStyle = "hsla(205, 52%, 6%, 0.8)";
-  ctx.fill();
-  // Draw dope corner triangles calculated off of padding!
-  ctx.beginPath();
-  ctx.moveTo(left, top);
-  ctx.lineTo(left + triangleLeftWidth, top);
-  ctx.lineTo(left, top + triangleLeftWidth);
-  ctx.closePath();
-  ctx.moveTo(right, bottom);
-  ctx.lineTo(right - triangleRightWidth, bottom);
-  ctx.lineTo(right, bottom - triangleRightWidth);
-  ctx.closePath();
-  ctx.fillStyle = "hsla(152, 41%, 52%, 0.75)";
-  ctx.fill();
+      contentRegion.getBoundingClientRect();
+    const { marginBottom, paddingLeft, paddingRight, marginTop, borderWidth } =
+      window.getComputedStyle(contentRegion);
+    top = top - parseInt(marginTop, 10);
+    bottom = bottom + parseInt(marginBottom, 10);
+    const triangleLeftWidth = parseInt(paddingLeft, 10) * 0.75;
+    const triangleRightWidth = parseInt(paddingRight, 10) * 0.75;
+    const angleTop = parseInt(marginTop, 10) * 0.75;
+    const angleLeft = parseInt(marginBottom, 10) * 0.75;
+    const center = {
+      x: (width / 2) + left,
+      y: (height / 2) + top
+    }
+  const startingCoordinates: DrawingCoordinates = {
+    point01: { x: center.x - 15, y: center.y - 50},
+    point02: { x: center.x + 15, y: center.y - 50},
+    point03: { x: center.x + 40, y: center.y - 31},
+    point04: { x: center.x + 50, y: center.y},
+    point05: { x: center.x + 40, y: center.y + 31},
+    point06: { x: center.x + 15, y: center.y + 50},
+    point07: { x: center.x - 15, y: center.y + 50},
+    point08: { x: center.x - 40, y: center.y + 31},
+    point09: { x: center.x - 50, y: center.y},
+    point10: { x: center.x - 40, y: center.y - 31},
+  }
+  const endingCoordinates: DrawingCoordinates = {
+    point01: {x: left + parseInt(paddingLeft, 10), y: top},
+    point02: {x: right - Math.ceil(width * 0.25) - 10, y: top},
+    point03: {x: right - Math.ceil(width * 0.25) + 10, y: top + angleTop},
+    point04: {x: right, y: top + angleTop},
+    point05: {x: right, y: bottom - parseInt(paddingRight, 10)},
+    point06: {x: right - parseInt(paddingRight, 10), y: bottom},
+    point07: {x: left + angleLeft, y: bottom},
+    point08: {x: left + angleLeft, y: Math.ceil(height * 0.75) + 10},
+    point09: {x: left, y: Math.ceil(height * 0.75) - 10},
+    point10: {x: left, y: top + parseInt(paddingLeft, 10)},
+  }
+  const contentCoordinates: DrawingCoordinates = isOpen ? endingCoordinates : startingCoordinates;
+  function open() {
+    Object.keys(contentCoordinates).forEach((key) => {
+      const coordinate = contentCoordinates[key]
+      const { x: toX, y: toY } = endingCoordinates[key]
+      const tl = gsap.timeline();
+      tl.to(
+        coordinate,
+        {
+          x: toX,
+          y: toY,
+          duration: 0.75,
+          onUpdate: () => {
+            renderStage()
+            render()
+          },
+        })
+        tl.to('.page', {opacity: 1, duration: 1})
+    });
+  }
+  function close() {
+    Object.keys(contentCoordinates).forEach((key) => {
+      const coordinate = contentCoordinates[key]
+      const { x: toX, y: toY } = startingCoordinates[key]
+      const tl = gsap.timeline();
+      tl.to('.page', {opacity: 0, duration: 1})
+      tl.to(
+        coordinate,
+        {
+          x: toX,
+          y: toY,
+          duration: 0.75,
+          onUpdate: () => {
+            renderStage()
+            render()
+          },
+        })
+    });
+  }
+  const render = () => {
+    ctx.globalCompositeOperation = "source-over";
+    ctx.beginPath();
+    // Draw dope border using our content region's CSS!
+    Object.keys(contentCoordinates).forEach((key, index) => {
+      const { x, y } = contentCoordinates[key]
+      if(index === 0) {
+        ctx.moveTo(x, y)
+      }
+      else {
+        ctx.lineTo(x, y)
+      }
+    });
+    ctx.closePath();
+    ctx.strokeStyle = "hsl(152, 41%, 52%)";
+    ctx.lineWidth = parseInt(borderWidth, 10);
+    ctx.stroke();
+    ctx.fillStyle = "hsla(205, 52%, 6%, 0.8)";
+    ctx.fill();
+    ctx.beginPath();
+    // Draw dope corner triangles calculated off of padding!
+    ctx.beginPath();
+    ctx.moveTo(left, top);
+    ctx.lineTo(left + triangleLeftWidth, top);
+    ctx.lineTo(left, top + triangleLeftWidth);
+    ctx.closePath();
+    ctx.moveTo(right, bottom);
+    ctx.lineTo(right - triangleRightWidth, bottom);
+    ctx.lineTo(right, bottom - triangleRightWidth);
+    ctx.closePath();
+    ctx.fillStyle = "hsla(152, 41%, 52%, 0.75)";
+    ctx.fill();
+  }
+  return {
+    close,
+    open,
+    render
+  }
 }
 
 export function renderStage() {
@@ -117,9 +194,9 @@ export function renderSpotlight(cx: number, cy: number) {
   });
 
   ctx.beginPath();
-
   ctx.arc(cx, cy, radius, 0, Math.PI * 2, false);
+  ctx.closePath();
   ctx.fillStyle = radialGradient;
   ctx.fill();
-  ctx.stroke;
+  contentRegion(true).render()
 }
