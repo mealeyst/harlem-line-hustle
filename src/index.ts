@@ -14,6 +14,11 @@ window.addEventListener("load", () => {
     false
   );
 
+  window.addEventListener("resize", () => {
+    Stage.renderStage();
+    Stage.contentRegion(true).render();
+  });
+
   document.querySelectorAll(".navLink").forEach((link) => {
     link.addEventListener("click", (event) => {
       event.preventDefault();

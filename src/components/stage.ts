@@ -97,10 +97,7 @@ export function contentRegion(inOpen = false) {
         x: closeX,
         y: closeY,
         duration: 0.75,
-        onStart: () => {
-          console.log(isOpen);
-          isOpen = true;
-        },
+        onStart: () => (isOpen = true),
         onUpdate: () => {
           renderStage();
           render();
