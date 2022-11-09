@@ -1,7 +1,8 @@
 import gsap from 'gsap';
 
 type DrawingCoordinates = Record<string, {x: number, y: number}>
-export function contentRegion(isOpen?: boolean) {
+export function contentRegion(inOpen = false) {
+  let isOpen = inOpen;
   const stage = document.querySelector<HTMLCanvasElement>("#stage")!;
   const ctx: CanvasRenderingContext2D = stage.getContext("2d")!;
   const contentRegion: HTMLElement = document.querySelector(".content")!;
@@ -59,6 +60,7 @@ export function contentRegion(isOpen?: boolean) {
             renderStage()
             render()
           },
+          onComplete: () => isOpen = true
         })
         tl.to('.page', {opacity: 1, duration: 1})
     });
@@ -76,10 +78,47 @@ export function contentRegion(isOpen?: boolean) {
           y: toY,
           duration: 0.75,
           onUpdate: () => {
+            console.log('Updating')
             renderStage()
             render()
           },
         })
+    });
+  }
+  function navigate() {
+    Object.keys(contentCoordinates).forEach((key) => {
+      const coordinate = contentCoordinates[key]
+      const { x: closeX, y: closeY } = startingCoordinates[key];
+      const { x: openX, y: openY } = endingCoordinates[key]
+      const tl = gsap.timeline();
+      tl.to('.page', {opacity: 0, duration: 1})
+      tl.to(
+        coordinate,
+        {
+          x: closeX,
+          y: closeY,
+          duration: 0.75,
+          onUpdate: () => {
+            renderStage()
+            render()
+          },
+          onComplete: () => isOpen = false
+        }
+      )
+      tl.to(
+        coordinate,
+        {
+          x: openX,
+          y: openY,
+          duration: 0.75,
+          onUpdate: () => {
+            renderStage()
+            render()
+          },
+          onComplete: () => isOpen = true
+        }
+      )
+      tl.to('.page', {opacity: 1, duration: 1})
     });
   }
   const render = () => {
@@ -118,6 +157,7 @@ export function contentRegion(isOpen?: boolean) {
   return {
     close,
     open,
+    navigate,
     render
   }
 }

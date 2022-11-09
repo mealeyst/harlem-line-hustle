@@ -18,7 +18,7 @@ window.addEventListener("load", () => {
     link.addEventListener("click", (event) => {
       event.preventDefault();
       const { target } = event;
-      Stage.contentRegion(true).close();
+      Stage.contentRegion().navigate();
       // const scrollToElement = document.querySelector(
       //   (target as HTMLAnchorElement).getAttribute("href")
       // );
