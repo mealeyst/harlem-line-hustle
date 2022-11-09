@@ -190,7 +190,6 @@ body > * {
   min-height: 100%;
   padding: 0 calc(10% + 20px);
   margin: 0 -20px;
-  overflow-y: scroll;
 }
 hlh-logo {
   height: min(25%, 500px);
