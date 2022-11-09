@@ -1,124 +1,129 @@
-import gsap from 'gsap';
+import gsap from "gsap";
 
-type DrawingCoordinates = Record<string, {x: number, y: number}>
+type DrawingCoordinates = Record<string, { x: number; y: number }>;
 export function contentRegion(inOpen = false) {
   let isOpen = inOpen;
   const stage = document.querySelector<HTMLCanvasElement>("#stage")!;
   const ctx: CanvasRenderingContext2D = stage.getContext("2d")!;
   const contentRegion: HTMLElement = document.querySelector(".content")!;
   let { bottom, height, left, right, top, width } =
-      contentRegion.getBoundingClientRect();
-    const { marginBottom, paddingLeft, paddingRight, marginTop, borderWidth } =
-      window.getComputedStyle(contentRegion);
-    top = top - parseInt(marginTop, 10);
-    bottom = bottom + parseInt(marginBottom, 10);
-    const triangleLeftWidth = parseInt(paddingLeft, 10) * 0.75;
-    const triangleRightWidth = parseInt(paddingRight, 10) * 0.75;
-    const angleTop = parseInt(marginTop, 10) * 0.75;
-    const angleLeft = parseInt(marginBottom, 10) * 0.75;
-    const center = {
-      x: (width / 2) + left,
-      y: (height / 2) + top
-    }
+    contentRegion.getBoundingClientRect();
+  const { marginBottom, paddingLeft, paddingRight, marginTop, borderWidth } =
+    window.getComputedStyle(contentRegion);
+  top = top - parseInt(marginTop, 10);
+  bottom = bottom + parseInt(marginBottom, 10);
+  const triangleLeftWidth = parseInt(paddingLeft, 10) * 0.75;
+  const triangleRightWidth = parseInt(paddingRight, 10) * 0.75;
+  const angleTop = parseInt(marginTop, 10) * 0.75;
+  const angleLeft = parseInt(marginBottom, 10) * 0.75;
+  const center = {
+    x: width / 2 + left,
+    y: height / 2 + top,
+  };
   const startingCoordinates: DrawingCoordinates = {
-    point01: { x: center.x - 15, y: center.y - 50},
-    point02: { x: center.x + 15, y: center.y - 50},
-    point03: { x: center.x + 40, y: center.y - 31},
-    point04: { x: center.x + 50, y: center.y},
-    point05: { x: center.x + 40, y: center.y + 31},
-    point06: { x: center.x + 15, y: center.y + 50},
-    point07: { x: center.x - 15, y: center.y + 50},
-    point08: { x: center.x - 40, y: center.y + 31},
-    point09: { x: center.x - 50, y: center.y},
-    point10: { x: center.x - 40, y: center.y - 31},
-  }
+    point01: { x: center.x - 15, y: center.y - 50 },
+    point02: { x: center.x + 15, y: center.y - 50 },
+    point03: { x: center.x + 40, y: center.y - 31 },
+    point04: { x: center.x + 50, y: center.y },
+    point05: { x: center.x + 40, y: center.y + 31 },
+    point06: { x: center.x + 15, y: center.y + 50 },
+    point07: { x: center.x - 15, y: center.y + 50 },
+    point08: { x: center.x - 40, y: center.y + 31 },
+    point09: { x: center.x - 50, y: center.y },
+    point10: { x: center.x - 40, y: center.y - 31 },
+  };
   const endingCoordinates: DrawingCoordinates = {
-    point01: {x: left + parseInt(paddingLeft, 10), y: top},
-    point02: {x: right - Math.ceil(width * 0.25) - 10, y: top},
-    point03: {x: right - Math.ceil(width * 0.25) + 10, y: top + angleTop},
-    point04: {x: right, y: top + angleTop},
-    point05: {x: right, y: bottom - parseInt(paddingRight, 10)},
-    point06: {x: right - parseInt(paddingRight, 10), y: bottom},
-    point07: {x: left + angleLeft, y: bottom},
-    point08: {x: left + angleLeft, y: Math.ceil(height * 0.75) + 10},
-    point09: {x: left, y: Math.ceil(height * 0.75) - 10},
-    point10: {x: left, y: top + parseInt(paddingLeft, 10)},
-  }
-  const contentCoordinates: DrawingCoordinates = isOpen ? endingCoordinates : startingCoordinates;
+    point01: { x: left + parseInt(paddingLeft, 10), y: top },
+    point02: { x: right - Math.ceil(width * 0.25) - 10, y: top },
+    point03: { x: right - Math.ceil(width * 0.25) + 10, y: top + angleTop },
+    point04: { x: right, y: top + angleTop },
+    point05: { x: right, y: bottom - parseInt(paddingRight, 10) },
+    point06: { x: right - parseInt(paddingRight, 10), y: bottom },
+    point07: { x: left + angleLeft, y: bottom },
+    point08: { x: left + angleLeft, y: Math.ceil(height * 0.75) + 10 },
+    point09: { x: left, y: Math.ceil(height * 0.75) - 10 },
+    point10: { x: left, y: top + parseInt(paddingLeft, 10) },
+  };
+  let contentCoordinates: DrawingCoordinates = isOpen
+    ? endingCoordinates
+    : startingCoordinates;
   function open() {
     Object.keys(contentCoordinates).forEach((key) => {
-      const coordinate = contentCoordinates[key]
-      const { x: toX, y: toY } = endingCoordinates[key]
+      const coordinate = contentCoordinates[key];
+      const { x: toX, y: toY } = endingCoordinates[key];
       const tl = gsap.timeline();
-      tl.to(
-        coordinate,
-        {
-          x: toX,
-          y: toY,
-          duration: 0.75,
-          onUpdate: () => {
-            renderStage()
-            render()
-          },
-          onComplete: () => isOpen = true
-        })
-        tl.to('.page', {opacity: 1, duration: 1})
+      tl.to(coordinate, {
+        x: toX,
+        y: toY,
+        duration: 0.75,
+        onUpdate: () => {
+          renderStage();
+          render();
+        },
+        onComplete: () => (isOpen = true),
+      });
+      tl.to(".page", { opacity: 1, duration: 1 });
     });
   }
   function close() {
     Object.keys(contentCoordinates).forEach((key) => {
-      const coordinate = contentCoordinates[key]
-      const { x: toX, y: toY } = startingCoordinates[key]
+      const coordinate = contentCoordinates[key];
+      const { x: toX, y: toY } = startingCoordinates[key];
       const tl = gsap.timeline();
-      tl.to('.page', {opacity: 0, duration: 1})
-      tl.to(
-        coordinate,
-        {
-          x: toX,
-          y: toY,
-          duration: 0.75,
-          onUpdate: () => {
-            console.log('Updating')
-            renderStage()
-            render()
-          },
-        })
+      tl.to(".page", { opacity: 0, duration: 1 });
+      tl.to(coordinate, {
+        x: toX,
+        y: toY,
+        duration: 0.75,
+        onUpdate: () => {
+          console.log("Updating");
+          renderStage();
+          render();
+        },
+      });
     });
   }
-  function navigate() {
+  function navigate(element: Element) {
+    contentCoordinates = endingCoordinates;
     Object.keys(contentCoordinates).forEach((key) => {
-      const coordinate = contentCoordinates[key]
+      const coordinate = contentCoordinates[key];
       const { x: closeX, y: closeY } = startingCoordinates[key];
-      const { x: openX, y: openY } = endingCoordinates[key]
+      const { x: openX, y: openY } = endingCoordinates[key];
+
       const tl = gsap.timeline();
-      tl.to('.page', {opacity: 0, duration: 1})
-      tl.to(
-        coordinate,
-        {
-          x: closeX,
-          y: closeY,
-          duration: 0.75,
-          onUpdate: () => {
-            renderStage()
-            render()
-          },
-          onComplete: () => isOpen = false
-        }
-      )
-      tl.to(
-        coordinate,
-        {
-          x: openX,
-          y: openY,
-          duration: 0.75,
-          onUpdate: () => {
-            renderStage()
-            render()
-          },
-          onComplete: () => isOpen = true
-        }
-      )
-      tl.to('.page', {opacity: 1, duration: 1})
+      isOpen = true;
+      tl.to(".page", { opacity: 0, duration: 1 });
+      tl.to(coordinate, {
+        x: closeX,
+        y: closeY,
+        duration: 0.75,
+        onStart: () => {
+          console.log(isOpen);
+          isOpen = true;
+        },
+        onUpdate: () => {
+          renderStage();
+          render();
+        },
+        onComplete: () => (isOpen = false),
+      });
+      tl.to(coordinate, {
+        x: openX,
+        y: openY,
+        duration: 0.75,
+        onUpdate: () => {
+          renderStage();
+          render();
+        },
+        onComplete: () => (isOpen = true),
+      });
+      tl.to(".page", {
+        opacity: 1,
+        duration: 1,
+        onStart: () => {
+          element.scrollIntoView();
+        },
+      });
     });
   }
   const render = () => {
@@ -126,12 +131,11 @@ export function contentRegion(inOpen = false) {
     ctx.beginPath();
     // Draw dope border using our content region's CSS!
     Object.keys(contentCoordinates).forEach((key, index) => {
-      const { x, y } = contentCoordinates[key]
-      if(index === 0) {
-        ctx.moveTo(x, y)
-      }
-      else {
-        ctx.lineTo(x, y)
+      const { x, y } = contentCoordinates[key];
+      if (index === 0) {
+        ctx.moveTo(x, y);
+      } else {
+        ctx.lineTo(x, y);
       }
     });
     ctx.closePath();
@@ -153,13 +157,13 @@ export function contentRegion(inOpen = false) {
     ctx.closePath();
     ctx.fillStyle = "hsla(152, 41%, 52%, 0.75)";
     ctx.fill();
-  }
+  };
   return {
     close,
     open,
     navigate,
-    render
-  }
+    render,
+  };
 }
 
 export function renderStage() {
@@ -238,5 +242,5 @@ export function renderSpotlight(cx: number, cy: number) {
   ctx.closePath();
   ctx.fillStyle = radialGradient;
   ctx.fill();
-  contentRegion(true).render()
+  contentRegion(true).render();
 }

@@ -18,10 +18,11 @@ window.addEventListener("load", () => {
     link.addEventListener("click", (event) => {
       event.preventDefault();
       const { target } = event;
-      Stage.contentRegion().navigate();
-      // const scrollToElement = document.querySelector(
-      //   (target as HTMLAnchorElement).getAttribute("href")
-      // );
+      const scrollToElement = document.querySelector(
+        (target as HTMLAnchorElement).getAttribute("href")
+      );
+
+      Stage.contentRegion().navigate(scrollToElement);
       // scrollToElement.scrollIntoView({ behavior: "smooth" });
     });
   });
