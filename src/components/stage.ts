@@ -21,16 +21,16 @@ export function contentRegion(inOpen = false) {
     y: height / 2 + top,
   };
   const startingCoordinates: DrawingCoordinates = {
-    point01: { x: center.x - 15, y: center.y - 50 },
-    point02: { x: center.x + 15, y: center.y - 50 },
-    point03: { x: center.x + 40, y: center.y - 31 },
-    point04: { x: center.x + 50, y: center.y },
-    point05: { x: center.x + 40, y: center.y + 31 },
-    point06: { x: center.x + 15, y: center.y + 50 },
-    point07: { x: center.x - 15, y: center.y + 50 },
-    point08: { x: center.x - 40, y: center.y + 31 },
-    point09: { x: center.x - 50, y: center.y },
-    point10: { x: center.x - 40, y: center.y - 31 },
+    point01: { x: center.x - 3.5, y: center.y - 10 },
+    point02: { x: center.x + 3.5, y: center.y - 10 },
+    point03: { x: center.x + 9, y: center.y - 8 },
+    point04: { x: center.x + 10, y: center.y },
+    point05: { x: center.x + 9, y: center.y + 8 },
+    point06: { x: center.x + 3.5, y: center.y + 10 },
+    point07: { x: center.x - 3.5, y: center.y + 10 },
+    point08: { x: center.x - 9, y: center.y + 8 },
+    point09: { x: center.x - 10, y: center.y },
+    point10: { x: center.x - 9, y: center.y - 8 },
   };
   const endingCoordinates: DrawingCoordinates = {
     point01: { x: left + parseInt(paddingLeft, 10), y: top },
