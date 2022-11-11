@@ -178,26 +178,31 @@ body > * {
   min-height: 100%;
   padding: 0 calc(10% + 20px);
   margin: 0 -20px;
+}
+.page-content { 
+  height: 100%;
+  width: 100%;
   overflow-y: scroll;
+  overflow-x: hidden;
 }
 /* width */
-.page::-webkit-scrollbar {
+.page-content::-webkit-scrollbar {
   width: 10px;
 }
 
 /* Track */
-.page::-webkit-scrollbar-track {
+.page-content::-webkit-scrollbar-track {
   background: transparent;
 }
 
 /* Handle */
-.page::-webkit-scrollbar-thumb {
+.page-content::-webkit-scrollbar-thumb {
   background: hsl(153, 40%, 30%);
   transition: all 0.25s ease-in;
 }
 
 /* Handle on hover */
-.page::-webkit-scrollbar-thumb:hover {
+.page-content::-webkit-scrollbar-thumb:hover {
   background: hsl(152, 41%, 52%);
 }
 
@@ -216,7 +221,38 @@ hlh-logo {
   padding: 0 1rem;
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (max-width: 915px) {
+  .mainNav {
+    grid-row: 1 / 4;
+    background-color: hsl(205, 52%, 6%);
+    z-index: 2;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 40px;
+    margin-bottom: 0px;
+    transform: translateX(-100%);
+    transition: transform 0.5s ease-in;
+  }
+  .mainNav.open {
+    transform: translateX(0);
+  }
+  .mainNav ul {
+    grid-template-rows: repeat(4, 60px);
+    grid-template-columns: 1fr;
+    width: 75%;
+    justify-content: start;
+    grid-gap: 20px;
+  }
+
+  .content {
+    grid-row: 2 / 3;
+    grid-column: 1 / 2;
+    z-index: 1;
+    height: 80%;
+  }
+}
+
+@media only screen and (min-width: 900px) {
   .content {
     padding: 20px 60px;
     margin: 20px 10%;

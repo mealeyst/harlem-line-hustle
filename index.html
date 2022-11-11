@@ -1,70 +1,85 @@
 <html>
-
-<head>
-  <meta charset="utf-8" />
-  <title>Harlem Line Hustle</title>
-  <link rel="icon" href="./public/favicon.ico" />
-  <link rel="icon" type="image/png" sizes="32x32" href="./public/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="./public/favicon-16x16.png">
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#000000" />
-  <meta name="description" content="Harlem Line Hustle, we create experiences on the web!" />
-  <link rel="apple-touch-icon" href="./public/apple-touch-icon.png" />
-  <!--
+  <head>
+    <meta charset="utf-8" />
+    <title>Harlem Line Hustle</title>
+    <link rel="icon" href="./public/favicon.ico" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./public/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="./public/favicon-16x16.png"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Harlem Line Hustle, we create experiences on the web!"
+    />
+    <link rel="apple-touch-icon" href="./public/apple-touch-icon.png" />
+    <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-  <link rel="manifest" href="./public/site.webmanifest.json" />
-  <link rel="stylesheet" href="./public/styles.css">
-  <script type="text/javascript" src="./dist/bundle.js"></script>
-</head>
+    <link rel="manifest" href="./public/site.webmanifest.json" />
+    <link rel="stylesheet" href="./public/styles.css" />
+    <script type="text/javascript" src="./dist/bundle.js"></script>
+  </head>
 
-<body>
-  <canvas id="stage"></canvas>
-  <canvas id="pattern"></canvas>
-  <main class="contentRegion">
-    <nav class="mainNav">
-      <ul>
-        <li><a class="navLink" href="#about">About</a></li>
-        <li><a class="navLink" href="#projects">Projects</a></li>
-        <li><a class="navLink" href="#thoughts">Thoughts</a></li>
-        <li><a class="navLink" href="#contact">Contact</a></li>
-      </ul>
-    </nav>
-    <section class="content">
-      <div class="page" id="about">
-        <hlh-logo></hlh-logo>
-        <p>
-          We are a small distributed web design and
-          development firm focused on pushing the boundaries of what is
-          possible on the web. We are focused on building with WebGL
-          technologies and giving individuals truly unique experiences on the
-          web.
-        </p>
-        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Molestiae sapiente nisi iure quis voluptate commodi voluptatibus minima laudantium quidem quod facilis, corporis vitae enim aspernatur fugiat? Dolor dicta aspernatur quisquam.</p>
-        <p>Nemo perspiciatis, suscipit maiores animi non beatae asperiores! Rerum veritatis non consectetur, provident sed sit beatae officiis quam aliquid doloribus, minima pariatur inventore reiciendis amet quas quos odio soluta voluptatibus.</p>
-        <p>Molestias sapiente esse, voluptas, facere obcaecati maxime exercitationem quisquam praesentium libero nesciunt modi recusandae itaque voluptate ullam animi quaerat consequuntur non, tempora similique. Veniam dolore velit iste. Eos, nobis quisquam!</p>
-        <p>Repellendus maiores, facere quidem molestiae sequi harum debitis libero ab nobis sunt magnam praesentium dolore odit aliquam maxime quis nihil beatae nam id modi aperiam saepe veritatis. Voluptates, veritatis perspiciatis!</p>
-        <p>Libero, impedit voluptatum aspernatur dolorum, doloremque porro repellendus reiciendis labore blanditiis eligendi, ratione quisquam id vitae nobis expedita. Vero molestiae magnam suscipit laboriosam aliquam numquam alias, inventore distinctio ex placeat?</p>
-      </div>
-      <div class="page" id="projects">
-        <h1>Projects</h1>
-      </div>
-      <div class="page" id="thoughts">
-        <h1>Thoughts</h1>
-      </div>
-      <div class="page" id="contact">
-        <span>Need to get in touch?</span>
-        <h1>Contact Us</h1>
-        <p>We'd love to hear from you so if you need to get in touch for any reason please choose from the options below
-          or select
-          one of our social channels to drop by and say hello!</p>
-      </div>
-    </section>
-    <footer class="site-footer">
-      <p>©2022 Harlem Line Hustle Studios. All rights reserved.
-    </footer>
-  </main>
-</body>
-
+  <body>
+    <canvas id="stage"></canvas>
+    <canvas id="pattern"></canvas>
+    <main class="contentRegion">
+      <nav class="mainNav">
+        <ul>
+          <li><a class="navLink" href="#about">About</a></li>
+          <li><a class="navLink" href="#projects">Projects</a></li>
+          <li><a class="navLink" href="#thoughts">Thoughts</a></li>
+          <li><a class="navLink" href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <section class="content">
+        <div class="page" id="about">
+          <div class="page-content">
+            <hlh-logo></hlh-logo>
+            <p>
+              We are a small distributed web design and development firm focused
+              on pushing the boundaries of what is possible on the web. We are
+              focused on building with WebGL technologies and giving individuals
+              truly unique experiences on the web.
+            </p>
+          </div>
+        </div>
+        <div class="page" id="projects">
+          <div class="page-content">
+            <h1>Projects</h1>
+          </div>
+        </div>
+        <div class="page" id="thoughts">
+          <div class="page-content">
+            <h1>Thoughts</h1>
+          </div>
+        </div>
+        <div class="page" id="contact">
+          <div class="page-content">
+            <span>Need to get in touch?</span>
+            <h1>Contact Us</h1>
+            <p>
+              We'd love to hear from you so if you need to get in touch for any
+              reason please choose from the options below or select one of our
+              social channels to drop by and say hello!
+            </p>
+          </div>
+        </div>
+      </section>
+      <footer class="site-footer">
+        <p>©2022 Harlem Line Hustle Studios. All rights reserved.</p>
+      </footer>
+    </main>
+  </body>
 </html>
