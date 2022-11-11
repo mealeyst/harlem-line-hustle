@@ -6,6 +6,7 @@ const css = `
     display: flex;
     margin: auto;
     height: 100%;
+    width: 100%;
   }
   .logo .a {
     fill: none;

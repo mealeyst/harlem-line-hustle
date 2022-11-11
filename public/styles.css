@@ -76,7 +76,11 @@ body > * {
     "footer" 40px / 100%;
 }
 
-.mainNav {
+#menuToggle {
+  display: none;
+}
+
+#mainNav {
   width: 100%;
   grid-area: header;
   display: flex;
@@ -84,7 +88,7 @@ body > * {
   margin-bottom: 20px;
 }
 
-.mainNav ul {
+#mainNav ul {
   list-style: none;
   padding-left: 0;
   justify-content: end;
@@ -95,12 +99,12 @@ body > * {
   grid-template-columns: repeat(4, 200px);
 }
 
-.mainNav li {
+#mainNav li {
   display: flex;
   height: 100%;
   width: 100%;
 }
-.mainNav li:last-of-type {
+#mainNav li:last-of-type {
   margin-right: 2rem;
 }
 
@@ -156,7 +160,7 @@ body > * {
 
 .logo {
   max-height: 100%;
-  min-width: 100%;
+  width: 100%;
 }
 .logo .a {
   fill: none;
@@ -179,7 +183,7 @@ body > * {
   padding: 0 calc(10% + 20px);
   margin: 0 -20px;
 }
-.page-content { 
+.page-content {
   height: 100%;
   width: 100%;
   overflow-y: scroll;
@@ -208,6 +212,7 @@ body > * {
 
 hlh-logo {
   height: min(40%, 500px);
+  width: 100%;
   display: block;
 }
 
@@ -222,7 +227,7 @@ hlh-logo {
 }
 
 @media only screen and (max-width: 915px) {
-  .mainNav {
+  #mainNav {
     grid-row: 1 / 4;
     background-color: hsl(205, 52%, 6%);
     z-index: 2;
@@ -233,10 +238,10 @@ hlh-logo {
     transform: translateX(-100%);
     transition: transform 0.5s ease-in;
   }
-  .mainNav.open {
+  #mainNav.open {
     transform: translateX(0);
   }
-  .mainNav ul {
+  #mainNav ul {
     grid-template-rows: repeat(4, 60px);
     grid-template-columns: 1fr;
     width: 75%;
@@ -249,6 +254,14 @@ hlh-logo {
     grid-column: 1 / 2;
     z-index: 1;
     height: 80%;
+  }
+  #menuToggle {
+    display: block;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    color: #b9e4c8;
+    z-index: 3;
   }
 }
 

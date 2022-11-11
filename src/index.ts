@@ -26,9 +26,14 @@ window.addEventListener("load", () => {
       const scrollToElement = document.querySelector(
         (target as HTMLAnchorElement).getAttribute("href")
       );
-
+      document.querySelector("#mainNav").classList.remove("open");
       Stage.contentRegion().navigate(scrollToElement);
       // scrollToElement.scrollIntoView({ behavior: "smooth" });
     });
+  });
+
+  document.querySelector("#menuToggle").addEventListener("click", (e) => {
+    console.log("Hello");
+    document.querySelector("#mainNav").classList.toggle("open");
   });
 });
