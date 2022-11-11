@@ -76,7 +76,7 @@ body > * {
     "footer" 40px / 100%;
 }
 
-#menuToggle {
+#menuOpen {
   display: none;
 }
 
@@ -237,6 +237,7 @@ hlh-logo {
     margin-bottom: 0px;
     transform: translateX(-100%);
     transition: transform 0.5s ease-in;
+    position: relative;
   }
   #mainNav.open {
     transform: translateX(0);
@@ -249,19 +250,36 @@ hlh-logo {
     grid-gap: 20px;
   }
 
+  #menuClose {
+    padding: 10px;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  #menuClose svg {
+    height: 30px;
+    width: 30px;
+  }
   .content {
     grid-row: 2 / 3;
     grid-column: 1 / 2;
     z-index: 1;
     height: 80%;
   }
-  #menuToggle {
+  #menuOpen {
     display: block;
     position: fixed;
     top: 20px;
     left: 20px;
     color: #b9e4c8;
     z-index: 3;
+    padding: 10px;
+    z-index: 1;
+  }
+  #menuOpen svg {
+    height: 30px;
+    width: 30px;
   }
 }
 

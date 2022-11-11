@@ -2,6 +2,7 @@ import { HLHLogo } from "./components/logo";
 import * as Stage from "./components/stage";
 customElements.define("hlh-logo", HLHLogo);
 window.addEventListener("load", () => {
+  let currentElement = document.querySelector("#about");
   Stage.renderStage();
   Stage.contentRegion().open();
   window.addEventListener(
@@ -17,6 +18,7 @@ window.addEventListener("load", () => {
   window.addEventListener("resize", () => {
     Stage.renderStage();
     Stage.contentRegion(true).render();
+    currentElement.scrollIntoView();
   });
 
   document.querySelectorAll(".navLink").forEach((link) => {
@@ -26,14 +28,18 @@ window.addEventListener("load", () => {
       const scrollToElement = document.querySelector(
         (target as HTMLAnchorElement).getAttribute("href")
       );
+      currentElement = scrollToElement;
       document.querySelector("#mainNav").classList.remove("open");
       Stage.contentRegion().navigate(scrollToElement);
       // scrollToElement.scrollIntoView({ behavior: "smooth" });
     });
   });
 
-  document.querySelector("#menuToggle").addEventListener("click", (e) => {
-    console.log("Hello");
-    document.querySelector("#mainNav").classList.toggle("open");
+  document.querySelector("#menuOpen").addEventListener("click", (e) => {
+    console.log("Opening");
+    document.querySelector("#mainNav").classList.add("open");
+  });
+  document.querySelector("#menuClose").addEventListener("click", (e) => {
+    document.querySelector("#mainNav").classList.remove("open");
   });
 });
