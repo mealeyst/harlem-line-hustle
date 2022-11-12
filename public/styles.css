@@ -58,10 +58,15 @@ body > * {
   box-sizing: border-box;
 }
 
+picture {
+  width: 100%;
+}
+
 img {
   -webkit-filter: sepia(80%) hue-rotate(92deg) saturate(300%);
   filter: sepia(80%) hue-rotate(92deg) saturate(300%);
   transition: filter 0.25s ease-in;
+  width: 100%;
 }
 
 img:hover {
@@ -196,6 +201,7 @@ img:hover {
 .page-content {
   height: 100%;
   width: 100%;
+  padding: 0 2rem;
   overflow-y: scroll;
   overflow-x: hidden;
 }
