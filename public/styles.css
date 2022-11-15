@@ -111,7 +111,7 @@ img:hover {
   height: 40px;
   margin: 0;
   display: grid;
-  grid-template-columns: repeat(4, 200px);
+  grid-template-columns: repeat(3, 200px);
 }
 
 #mainNav li {

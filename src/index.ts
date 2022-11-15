@@ -25,13 +25,11 @@ window.addEventListener("load", () => {
     link.addEventListener("click", (event) => {
       event.preventDefault();
       const { target } = event;
-      const id = (target as HTMLAnchorElement).getAttribute("href")
+      const id = (target as HTMLAnchorElement).getAttribute("href");
       const scrollToElement = document.querySelector(id);
       currentElement = scrollToElement;
       document.querySelector("#mainNav").classList.remove("open");
-      Stage.contentRegion().navigate(scrollToElement);
-      window.location.hash = id
-      // scrollToElement.scrollIntoView({ behavior: "smooth" });
+      Stage.contentRegion().navigate(scrollToElement, id);
     });
   });
 

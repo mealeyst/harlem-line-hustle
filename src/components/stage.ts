@@ -83,7 +83,7 @@ export function contentRegion(inOpen = false) {
       });
     });
   }
-  function navigate(element: Element) {
+  function navigate(element: Element, id: string) {
     contentCoordinates = endingCoordinates;
     Object.keys(contentCoordinates).forEach((key) => {
       const coordinate = contentCoordinates[key];
@@ -102,7 +102,10 @@ export function contentRegion(inOpen = false) {
           renderStage();
           render();
         },
-        onComplete: () => (isOpen = false),
+        onComplete: () => {
+          isOpen = false;
+          history.pushState({}, "", id);
+        },
       });
       tl.to(coordinate, {
         x: openX,
