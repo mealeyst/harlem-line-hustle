@@ -28,6 +28,31 @@ content {
 }
 `
 
+const PAGE_GRAPHQL_FIELDS = `
+slug
+title
+author {
+  name
+  picture {
+    url
+  }
+}
+body {
+  json
+  links {
+    assets {
+      block {
+        sys {
+          id
+        }
+        url
+        description
+      }
+    }
+  }
+}
+`
+
 async function fetchGraphQL(query, preview = false) {
   return fetch(
     `https://graphql.contentful.com/content/v1/spaces/${process.env.CONTENTFUL_SPACE_ID}`,
@@ -50,8 +75,16 @@ function extractPost(fetchResponse) {
   return fetchResponse?.data?.postCollection?.items?.[0]
 }
 
+function extractPage(fetchResponse) {
+  return fetchResponse?.data?.pageCollection?.items?.[0]
+}
+
 function extractPostEntries(fetchResponse) {
   return fetchResponse?.data?.postCollection?.items
+}
+
+function extractPageEntries(fetchResponse) {
+  return fetchResponse?.data?.pageCollection?.items
 }
 
 export async function getPreviewPostBySlug(slug) {
@@ -124,4 +157,36 @@ export async function getPostAndMorePosts(slug, preview) {
     post: extractPost(entry),
     morePosts: extractPostEntries(entries),
   }
+}
+
+export async function getPage(slug, preview) {
+  const entry = await fetchGraphQL(
+    `query {
+      pageCollection(where: { slug: "${slug}" }, preview: ${
+      preview ? 'true' : 'false'
+    }, limit: 1) {
+        items {
+          ${PAGE_GRAPHQL_FIELDS}
+        }
+      }
+    }`,
+    preview
+  )
+  return {
+    page: extractPage(entry),
+  }
+}
+
+export async function getAllPages() {
+  const entries = await fetchGraphQL(
+    `query {
+      pageCollection(where: { slug_exists: true } limit: 100){
+        items {
+          slug
+          title
+        }
+      }
+    }`
+  )
+  return extractPageEntries(entries)
 }
