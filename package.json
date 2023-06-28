@@ -11,14 +11,21 @@
     "classnames": "2.3.1",
     "date-fns": "2.28.0",
     "next": "latest",
+    "next-images": "^1.8.5",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "styled-components": "^6.0.0"
   },
   "devDependencies": {
     "@types/node": "20.3.2",
     "@types/react": "18.2.14",
     "autoprefixer": "10.4.2",
     "contentful-import": "^7.8.7",
+    "eslint": "^8.43.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-prettier": "^4.2.1",
     "postcss": "8.4.5",
     "tailwindcss": "^3.0.15",
     "typescript": "5.1.3"

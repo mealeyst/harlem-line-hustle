@@ -1,6 +1,4 @@
 /** @type {import('next').NextConfig} */
-module.exports = {
-  images: {
-    loader: 'custom',
-  },
-}
+const withImages = require('next-images');
+module.exports = withImages();
+
