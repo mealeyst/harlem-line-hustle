@@ -1,18 +1,14 @@
-import { useRouter } from "next/router"
-import Head from "next/head"
-import ErrorPage from "next/error"
-import Container from "../components/container"
-import PostBody from "../components/post-body"
-import MoreStories from "../components/more-stories"
-import Header from "../components/header"
-import PostHeader from "../components/post-header"
-import SectionSeparator from "../components/section-separator"
-import Layout from "../components/layout"
-import { getAllPages, getPage } from "../lib/api"
-import PostTitle from "../components/post-title"
-import { CMS_NAME } from "../lib/constants"
+import { useRouter } from 'next/router'
+import Head from 'next/head'
+import ErrorPage from 'next/error'
+import Container from '../components/container'
+import PostBody from '../components/post-body'
+import SectionSeparator from '../components/section-separator'
+import { Layout } from '../components/layout'
+import { getAllPages, getPage, getSiteNavigation } from '../lib/api'
+import PostTitle from '../components/post-title'
 
-export default function Post({ page, preview }) {
+export default function Post({ page, navigation }) {
   const router = useRouter()
 
   if (!router.isFallback && !page) {
@@ -20,18 +16,15 @@ export default function Post({ page, preview }) {
   }
 
   return (
-    <Layout preview={preview}>
+    <Layout navigation={navigation}>
       <Container>
-        <Header />
         {router.isFallback ? (
           <PostTitle>Loading…</PostTitle>
         ) : (
           <>
             <article>
               <Head>
-                <title>
-                  {`${page.title} | Next.js Blog Example with ${CMS_NAME}`}
-                </title>
+                <title>{`${page.title} | Harlem Line Hustle Studios`}</title>
               </Head>
               <PostBody content={page.body} />
             </article>
@@ -45,10 +38,11 @@ export default function Post({ page, preview }) {
 
 export async function getStaticProps({ params, preview = false }) {
   const { page } = await getPage(params.slug, preview)
+  const navigation = (await getSiteNavigation(preview)) ?? []
   return {
     props: {
-      preview,
       page: page ?? null,
+      navigation,
     },
   }
 }

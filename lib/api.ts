@@ -22,6 +22,8 @@ content {
         }
         url
         description
+        width
+        height
       }
     }
   }
@@ -31,12 +33,6 @@ content {
 const PAGE_GRAPHQL_FIELDS = `
 slug
 title
-author {
-  name
-  picture {
-    url
-  }
-}
 body {
   json
   links {
@@ -47,6 +43,8 @@ body {
         }
         url
         description
+        width
+        height
       }
     }
   }
@@ -67,8 +65,8 @@ async function fetchGraphQL(query, preview = false) {
         }`,
       },
       body: JSON.stringify({ query }),
-    }
-  ).then((response) => response.json())
+    },
+  ).then(response => response.json())
 }
 
 function extractPost(fetchResponse) {
@@ -87,6 +85,15 @@ function extractPageEntries(fetchResponse) {
   return fetchResponse?.data?.pageCollection?.items
 }
 
+function extractNavigationLinks(fetchResponse) {
+  return fetchResponse?.data?.navigationCollection?.items[0].linksCollection.items.reduce(
+    (acc, { title, slug }) => {
+      return [...acc, { children: title, href: `/${slug}` }]
+    },
+    [],
+  )
+}
+
 export async function getPreviewPostBySlug(slug) {
   const entry = await fetchGraphQL(
     `query {
@@ -96,7 +103,7 @@ export async function getPreviewPostBySlug(slug) {
         }
       }
     }`,
-    true
+    true,
   )
   return extractPost(entry)
 }
@@ -109,7 +116,7 @@ export async function getAllPostsWithSlug() {
           ${POST_GRAPHQL_FIELDS}
         }
       }
-    }`
+    }`,
   )
   return extractPostEntries(entries)
 }
@@ -123,7 +130,7 @@ export async function getAllPostsForHome(preview) {
         }
       }
     }`,
-    preview
+    preview,
   )
   return extractPostEntries(entries)
 }
@@ -139,7 +146,7 @@ export async function getPostAndMorePosts(slug, preview) {
         }
       }
     }`,
-    preview
+    preview,
   )
   const entries = await fetchGraphQL(
     `query {
@@ -151,7 +158,7 @@ export async function getPostAndMorePosts(slug, preview) {
         }
       }
     }`,
-    preview
+    preview,
   )
   return {
     post: extractPost(entry),
@@ -170,7 +177,7 @@ export async function getPage(slug, preview) {
         }
       }
     }`,
-    preview
+    preview,
   )
   return {
     page: extractPage(entry),
@@ -186,7 +193,35 @@ export async function getAllPages() {
           title
         }
       }
-    }`
+    }`,
   )
   return extractPageEntries(entries)
+}
+
+export async function getSiteNavigation(preview) {
+  const entries = await fetchGraphQL(
+    `query {
+      navigationCollection(where: {title: "Site Navigation"} preview: ${
+        preview ? 'true' : 'false'
+      }){
+        items{
+          title
+          linksCollection(limit: 100) {
+            items {
+              __typename
+              ... on Page {
+                title
+                slug
+              }
+              ... on Post {
+                title
+                slug
+              }
+            }
+          }
+        }
+      }
+    }`,
+  )
+  return extractNavigationLinks(entries)
 }

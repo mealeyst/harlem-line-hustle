@@ -2,16 +2,16 @@ import Link from 'next/link'
 import { Logo } from './logo'
 import styled from 'styled-components'
 
-export const Header =  styled.header`
-  padding: 10px 20px;
-`
-
-export default () => {
+export const Header = styled(({ className }: { className?: string }) => {
   return (
-    <Header>
-      <Link href="/" className="hover:underline">
+    <header className={className}>
+      <Link href='/' className='hover:underline'>
         <Logo />
       </Link>
-    </Header>
+    </header>
   )
-}
+})`
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: row;
+`

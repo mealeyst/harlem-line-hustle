@@ -1,24 +1,21 @@
 import Container from '../components/container'
 import MoreStories from '../components/more-stories'
 import HeroPost from '../components/hero-post'
-import Intro from '../components/intro'
-import Layout from '../components/layout'
-import { getAllPostsForHome } from '../lib/api'
+import { Layout } from '../components/layout'
+import { getAllPostsForHome, getSiteNavigation } from '../lib/api'
 import Head from 'next/head'
 import { SITE_NAME } from '../lib/constants'
-import Header from '../components/header'
 
-export default function Index({ preview, allPosts }) {
+export default function Index({ preview, allPosts, navigation }) {
   const heroPost = allPosts[0]
   const morePosts = allPosts.slice(1)
   return (
     <>
-      <Layout preview={preview}>
+      <Layout navigation={navigation}>
         <Head>
           <title>{SITE_NAME}</title>
         </Head>
         <Container>
-          <Header />
           {heroPost && (
             <HeroPost
               title={heroPost.title}
@@ -38,7 +35,8 @@ export default function Index({ preview, allPosts }) {
 
 export async function getStaticProps({ preview = false }) {
   const allPosts = (await getAllPostsForHome(preview)) ?? []
+  const navigation = (await getSiteNavigation(preview)) ?? []
   return {
-    props: { preview, allPosts },
+    props: { allPosts, navigation },
   }
 }
