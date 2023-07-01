@@ -13,12 +13,25 @@ type LayoutProps = INavigation & {
 
 export const Layout = styled(
   ({ className, children, navigation }: LayoutProps) => {
+    const [menuOpen, setMenuOpen] = useState(false)
     return (
       <>
         <GlobalStyle />
         <Meta />
         <div className={className}>
           <Header />
+          <a
+            className='menuToggle'
+            onClick={() => {
+              console.log(`menu is ${!menuOpen}`)
+              setMenuOpen(!menuOpen)
+            }}
+          >
+            {menuOpen ? 'Close Menu' : 'Open Menu'}
+            <span />
+            <span />
+            <span />
+          </a>
           <Navigation navigation={navigation} />
           <main>{children}</main>
         </div>

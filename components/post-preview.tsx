@@ -11,7 +11,6 @@ export default function PostPreview({
   author,
   slug,
 }) {
-  console.log(coverImage)
   return (
     <div>
       <div style={{ position: 'relative' }}>
