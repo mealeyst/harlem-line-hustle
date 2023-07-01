@@ -3,6 +3,8 @@ slug
 title
 coverImage {
   url
+  width
+  height
 }
 date
 author {
@@ -88,7 +90,10 @@ function extractPageEntries(fetchResponse) {
 function extractNavigationLinks(fetchResponse) {
   return fetchResponse?.data?.navigationCollection?.items[0].linksCollection.items.reduce(
     (acc, { title, slug }) => {
-      return [...acc, { children: title, href: `/${slug}` }]
+      return [
+        ...acc,
+        { children: title, href: `/${slug !== null ? slug : ''}` },
+      ]
     },
     [],
   )
@@ -214,6 +219,10 @@ export async function getSiteNavigation(preview) {
                 slug
               }
               ... on Post {
+                title
+                slug
+              }
+              ... on StaticRoute {
                 title
                 slug
               }

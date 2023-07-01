@@ -1,30 +1,50 @@
-import ContentfulImage from "./contentful-image"
-import Link from "next/link"
-import cn from "classnames"
+import ContentfulImage from './contentful-image'
+import Link from 'next/link'
+import cn from 'classnames'
 
 type CoverImageProps = {
   title: string
   url: string
   slug?: string
+  width: number
+  height: number
 }
 
-export default function CoverImage({ title, url, slug }: CoverImageProps) {
+export default function CoverImage({
+  title,
+  url,
+  slug,
+  width,
+  height,
+}: CoverImageProps) {
   const image = (
-    <ContentfulImage
-      width={2000}
-      height={1000}
-      alt={`Cover Image for ${title}`}
-      className={cn("shadow-small", {
-        "hover:shadow-medium transition-shadow duration-200": slug,
-      })}
-      src={url}
-    />
+    <div
+      style={{
+        position: 'relative',
+        width: '100%',
+        paddingTop: `${(height / width) * 100}%`,
+      }}
+    >
+      <ContentfulImage
+        layout='fill'
+        objectFit='contain'
+        alt={`Cover Image for ${title}`}
+        className={cn('shadow-small', {
+          'hover:shadow-medium transition-shadow duration-200': slug,
+        })}
+        src={url}
+      />
+    </div>
   )
 
   return (
-    <div className="sm:mx-0">
+    <div style={{ display: 'flex' }}>
       {slug ? (
-        <Link href={`/posts/${slug}`} aria-label={title}>
+        <Link
+          style={{ position: 'relative', width: '100%' }}
+          href={`/posts/${slug}`}
+          aria-label={title}
+        >
           {image}
         </Link>
       ) : (

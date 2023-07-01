@@ -14,4 +14,5 @@ export const Header = styled(({ className }: { className?: string }) => {
   padding: 10px 20px;
   display: flex;
   flex-direction: row;
+  align-items: center;
 `

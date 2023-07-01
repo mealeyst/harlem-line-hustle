@@ -9,6 +9,7 @@ import { SITE_NAME } from '../lib/constants'
 export default function Index({ preview, allPosts, navigation }) {
   const heroPost = allPosts[0]
   const morePosts = allPosts.slice(1)
+  console.log(heroPost.coverImage)
   return (
     <>
       <Layout navigation={navigation}>

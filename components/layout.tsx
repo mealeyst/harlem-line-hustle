@@ -1,11 +1,11 @@
-import Footer from './footer'
+import { Footer } from './footer'
 import Meta from './meta'
 import { GlobalStyle } from '../styles/globalStyles'
 import { Navigation, INavigation } from './navigation'
 import { Header } from './header'
 import styled from 'styled-components'
-import { ReactNode } from 'react'
-
+import { ReactNode, useState } from 'react'
+import { colors } from '../styles/colors'
 type LayoutProps = INavigation & {
   className?: string
   children: ReactNode
@@ -34,6 +34,7 @@ export const Layout = styled(
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: repeat(9, 1fr);
   column-gap: 20px;
+  position: relative;
   ${Header} {
     grid-column-start: 1;
     grid-column-end: 10;
@@ -41,9 +42,9 @@ export const Layout = styled(
   ${Navigation} {
     grid-column-start: 10;
     grid-column-end: 13;
-    grid-row-start: 2;
+    grid-row-start: 1;
     grid-row-end: 10;
-    border: 1px solid red;
+    // border: 1px solid red;
     min-height: 100%;
   }
   main {
@@ -52,5 +53,24 @@ export const Layout = styled(
     grid-row-start: 2;
     grid-row-end: 10;
     overflow-y: scroll;
+    > * {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+    &::-webkit-scrollbar-track {
+      border-radius: 10px;
+      background-color: transparent;
+    }
+
+    &::-webkit-scrollbar {
+      max-width: 6px;
+      max-height: 6px;
+      background-color: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      background-color: ${colors.red[4]};
+    }
   }
 `

@@ -7,7 +7,6 @@ import { H1, P } from './typography'
 const customMarkdownOptions = content => ({
   renderNode: {
     [BLOCKS.EMBEDDED_ASSET]: node => {
-      console.log('Node', node.data.target.sys, content.links.assets.block)
       return (
         <RichTextAsset
           id={node.data.target.sys.id}
