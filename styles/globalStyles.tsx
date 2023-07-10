@@ -28,8 +28,7 @@ export const GlobalStyle = createGlobalStyle<{ $whiteColor?: boolean }>`
       ${colors.background[2]} 0%,
       ${colors.background[1]} 25%,
       ${colors.background[0]} 75%
-    ),
-    url(${grainSVG});
+    );
     background-size: 300%;
 	  animation: ${animateGradient} 30s ease infinite;
     color: ${colors.text};

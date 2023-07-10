@@ -20,19 +20,16 @@ export const Layout = styled(
         <Meta />
         <div className={className}>
           <Header />
-          <a
-            className='menuToggle'
-            onClick={() => {
-              console.log(`menu is ${!menuOpen}`)
-              setMenuOpen(!menuOpen)
-            }}
-          >
+          <a className='menuToggle' onClick={() => setMenuOpen(!menuOpen)}>
             {menuOpen ? 'Close Menu' : 'Open Menu'}
             <span />
             <span />
             <span />
           </a>
-          <Navigation navigation={navigation} />
+          <Navigation
+            className={menuOpen ? 'open' : ''}
+            navigation={navigation}
+          />
           <main>{children}</main>
         </div>
         <Footer />
@@ -48,23 +45,75 @@ export const Layout = styled(
   grid-template-rows: repeat(9, 1fr);
   column-gap: 20px;
   position: relative;
+  overflow: hidden;
+  .menuToggle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+    width: 60px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 0;
+    z-index: 10;
+    span {
+      background-color: ${colors.text};
+      height: 4px;
+      width: 40px;
+      margin-top: 5px;
+    }
+  }
+  @media (min-width: 768px) {
+    .menuToggle {
+      display: none;
+    }
+  }
   ${Header} {
+    grid-row-start: 1;
+    grid-row-end: 2;
     grid-column-start: 1;
-    grid-column-end: 10;
+    grid-column-end: 13;
+    @media (min-width: 768px) {
+      grid-row-start: 1;
+      grid-row-end: 2;
+      grid-column-start: 1;
+      grid-column-end: 10;
+    }
   }
   ${Navigation} {
-    grid-column-start: 10;
+    grid-column-start: 2;
     grid-column-end: 13;
     grid-row-start: 1;
     grid-row-end: 10;
-    // border: 1px solid red;
     min-height: 100%;
+    z-index: 1;
+    transform: translateX(100%);
+    transition: transform 0.55s ease-in;
+    @media (min-width: 768px) {
+      grid-column-start: 10;
+      grid-column-end: 13;
+      grid-row-start: 1;
+      grid-row-end: 10;
+      transition: none;
+      transform: translateX(0%);
+    }
+  }
+  .open {
+    transform: translateX(0%);
   }
   main {
     grid-column-start: 1;
-    grid-column-end: 10;
+    grid-column-end: 13;
     grid-row-start: 2;
     grid-row-end: 10;
+    @media (min-width: 768px) {
+      grid-column-start: 1;
+      grid-column-end: 10;
+      grid-row-start: 2;
+      grid-row-end: 10;
+    }
     overflow-y: scroll;
     > * {
       padding-left: 20px;

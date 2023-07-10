@@ -56,17 +56,6 @@ export const Navigation = styled(
   position: relative;
   width: 100%;
   height: 100%;
-  overflow: hidden;
-  &:after {
-    content: '';
-    height: 100%;
-    width: 1px;
-    background-color: ${colors.grey[5]};
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 1;
-  }
   .menuToggle {
     font-size: 0;
     position: absolute;
@@ -94,15 +83,23 @@ export const Navigation = styled(
     list-style: none;
     align-items: flex-end;
     margin: 0;
+    padding-right: 10px;
+    z-index: 2;
+    &:after {
+      content: '';
+      height: 100%;
+      width: 1px;
+      background-color: ${colors.grey[5]};
+      position: absolute;
+      top: 0;
+      right: 10px;
+      z-index: 1;
+    }
     @media only screen and (max-width: 768px) {
-      background-color: ${colors.grey[10]};
+      background: rgba(13, 16, 19, 0.95);
+      backdrop-filter: blur(5px);
       height: 100%;
       justify-content: center;
-      transform: translateX(100%);
-      transition: transform 0.5s ease-in-out;
-      &.menuOpen {
-        transform: translateX(0%);
-      }
     }
   }
   li {
@@ -116,6 +113,9 @@ export const Navigation = styled(
       align-items: center;
       padding-right: 20px;
       position: relative;
+      @media (max-width: 768px) {
+        font-size: 1.5rem;
+      }
       &.current {
         padding-right: 40px;
         &:before {
