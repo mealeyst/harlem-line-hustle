@@ -99,6 +99,7 @@ export const Navigation = styled(
       position: relative;
       text-decoration: none;
       text-transform: uppercase;
+      font-family: 'Merriweather Sans', sans-serif;
 
       @media (max-width: 768px) {
         font-size: 1.1rem;

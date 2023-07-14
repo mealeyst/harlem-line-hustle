@@ -1,8 +1,8 @@
 import ContentfulImage from './contentful-image'
 import Link from 'next/link'
-import cn from 'classnames'
 
 type CoverImageProps = {
+  className?: string
   title: string
   url: string
   slug?: string
@@ -10,13 +10,14 @@ type CoverImageProps = {
   height: number
 }
 
-export default function CoverImage({
+const CoverImage = ({
+  className,
   title,
   url,
   slug,
   width,
   height,
-}: CoverImageProps) {
+}: CoverImageProps) => {
   const image = (
     <div
       style={{
@@ -35,7 +36,7 @@ export default function CoverImage({
   )
 
   return (
-    <div style={{ display: 'flex' }}>
+    <div className={className} style={{ display: 'flex' }}>
       {slug ? (
         <Link
           style={{ position: 'relative', width: '100%' }}
@@ -50,3 +51,5 @@ export default function CoverImage({
     </div>
   )
 }
+
+export default CoverImage
