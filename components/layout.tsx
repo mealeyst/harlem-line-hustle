@@ -20,7 +20,7 @@ export const Layout = styled(
         <Meta />
         <div className={className}>
           <Header />
-          <a className='menuToggle' onClick={() => setMenuOpen(!menuOpen)}>
+          <a className='menu-toggle' onClick={() => setMenuOpen(!menuOpen)}>
             {menuOpen ? 'Close Menu' : 'Open Menu'}
             <span />
             <span />
@@ -29,110 +29,102 @@ export const Layout = styled(
           <Navigation
             className={menuOpen ? 'open' : ''}
             navigation={navigation}
+            setMenuOpen={setMenuOpen}
           />
           <main>{children}</main>
+          <Footer />
         </div>
-        <Footer />
       </>
     )
   },
 )`
+  column-gap: 20px;
   display: grid;
-  max-width: 1920px;
-  height: 100vh;
-  margin: 0 auto;
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: repeat(9, 1fr);
-  column-gap: 20px;
-  position: relative;
+  height: 100vh;
+  max-height: 100%;
+  margin: 0 auto;
+  max-width: 1920px;
   overflow: hidden;
-  .menuToggle {
+  position: relative;
+
+  .menu-toggle {
+    align-items: center;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 60px;
-    width: 60px;
-    position: absolute;
-    top: 10px;
-    right: 10px;
     font-size: 0;
+    height: 40px;
+    justify-content: center;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    width: 40px;
     z-index: 10;
+
     span {
       background-color: ${colors.text};
-      height: 4px;
-      width: 40px;
+      height: 3px;
       margin-top: 5px;
+      width: 30px;
     }
   }
+
   @media (min-width: 768px) {
-    .menuToggle {
+    .menu-toggle {
       display: none;
     }
   }
   ${Header} {
-    grid-row-start: 1;
-    grid-row-end: 2;
-    grid-column-start: 1;
-    grid-column-end: 13;
-    @media (min-width: 768px) {
-      grid-row-start: 1;
-      grid-row-end: 2;
-      grid-column-start: 1;
-      grid-column-end: 10;
-    }
   }
   ${Navigation} {
-    grid-column-start: 2;
-    grid-column-end: 13;
-    grid-row-start: 1;
-    grid-row-end: 10;
-    min-height: 100%;
-    z-index: 1;
+    grid-column: 2 / 13;
+    grid-row: 2 / 9;
     transform: translateX(100%);
     transition: transform 0.55s ease-in;
+    z-index: 1;
+
     @media (min-width: 768px) {
-      grid-column-start: 10;
-      grid-column-end: 13;
-      grid-row-start: 1;
-      grid-row-end: 10;
-      transition: none;
+      grid-column: 10 / 13;
       transform: translateX(0%);
+      transition: none;
     }
   }
+
   .open {
-    transform: translateX(0%);
+    transform: translateX(1px);
   }
+
   main {
-    grid-column-start: 1;
-    grid-column-end: 13;
-    grid-row-start: 2;
-    grid-row-end: 10;
-    @media (min-width: 768px) {
-      grid-column-start: 1;
-      grid-column-end: 10;
-      grid-row-start: 2;
-      grid-row-end: 10;
-    }
+    grid-column: 1 / 13;
+    grid-row: 2 / 9;
     overflow-y: scroll;
+    padding-top: 1.35rem;
+    padding-bottom: 1.35rem;
+
+    @media (min-width: 768px) {
+      grid-column: 1 / 10;
+    }
+
     > * {
       padding-left: 20px;
       padding-right: 20px;
     }
+
     &::-webkit-scrollbar-track {
-      border-radius: 10px;
       background-color: transparent;
+      border-radius: 10px;
     }
 
     &::-webkit-scrollbar {
-      max-width: 6px;
-      max-height: 6px;
       background-color: transparent;
+      max-height: 6px;
+      max-width: 6px;
     }
 
     &::-webkit-scrollbar-thumb {
-      border-radius: 10px;
       background-color: ${colors.red[4]};
+      border-radius: 10px;
     }
   }
 `

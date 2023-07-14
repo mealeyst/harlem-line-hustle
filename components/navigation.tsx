@@ -13,6 +13,7 @@ export type INavigation = { navigation: Link[] }
 
 type NavigationProps = INavigation & {
   className?: string
+  setMenuOpen: (open: boolean) => void
 }
 
 const pulse = keyframes`
@@ -28,7 +29,7 @@ const pulse = keyframes`
 `
 
 export const Navigation = styled(
-  ({ className, navigation }: NavigationProps) => {
+  ({ className, navigation, setMenuOpen }: NavigationProps) => {
     const router = useRouter()
     return (
       <nav className={className}>
@@ -38,6 +39,7 @@ export const Navigation = styled(
               <li>
                 <Link
                   className={router.asPath === href ? 'current' : undefined}
+                  onClick={() => setMenuOpen(false)}
                   href={href}
                 >
                   {children}
@@ -52,100 +54,89 @@ export const Navigation = styled(
 )`
   display: flex;
   flex-direction: column;
+  height: 100%;
   justify-content: center;
   position: relative;
   width: 100%;
-  height: 100%;
-  .menuToggle {
-    font-size: 0;
-    position: absolute;
-    height: 60px;
-    width: 60px;
-    display: flex;
-    z-index: 10;
-    top: 10px;
-    left: 10px;
-    flex-direction: column;
-    align-items: center;
-    @media only screen and (min-width: 769px) {
-      display: none;
-    }
-    span {
-      height: 4px;
-      background-color: ${colors.text};
-      width: 40px;
-      margin-bottom: 8px;
-    }
-  }
+
   ul {
+    align-items: flex-end;
     display: flex;
     flex-direction: column;
     list-style: none;
-    align-items: flex-end;
     margin: 0;
     padding-right: 10px;
     z-index: 2;
-    &:after {
+
+    &::after {
+      background-color: ${colors.grey[5]};
       content: '';
       height: 100%;
-      width: 1px;
-      background-color: ${colors.grey[5]};
       position: absolute;
-      top: 0;
       right: 10px;
+      top: 0;
+      width: 1px;
       z-index: 1;
     }
+
     @media only screen and (max-width: 768px) {
-      background: rgba(13, 16, 19, 0.95);
       backdrop-filter: blur(5px);
+      background: rgb(13 16 19 / 95%);
       height: 100%;
       justify-content: center;
     }
   }
+
   li {
-    height: 60px;
     align-items: center;
+    height: 60px;
+
     a {
-      color: ${colors.text};
-      text-decoration: none;
-      text-transform: uppercase;
-      display: flex;
       align-items: center;
+      color: ${colors.text};
+      display: flex;
       padding-right: 20px;
       position: relative;
+      text-decoration: none;
+      text-transform: uppercase;
+
       @media (max-width: 768px) {
-        font-size: 1.5rem;
+        font-size: 1.1rem;
       }
+
       &.current {
         padding-right: 40px;
-        &:before {
+
+        &::before {
+          animation: ${pulse} 3s ease infinite;
+          border: 1px solid ${colors.grey[0]};
+          border-radius: 100%;
+          content: '';
+          display: block;
+          height: 7px;
           position: absolute;
           right: -3px;
           top: 50%;
           transform: translateY(-50%);
-          content: '';
-          display: block;
-          border-radius: 100%;
-          border: 1px solid ${colors.grey[0]};
-          height: 7px;
           width: 7px;
           z-index: 2;
-          animation: ${pulse} 3s ease infinite;
         }
-        &:after {
+
+        &::after {
           background-color: ${colors.grey[0]};
         }
       }
-      &:after {
+
+      &::after {
+        background-color: ${colors.grey[3]};
+        border-radius: 100%;
+        content: '';
+        display: block;
+        height: 7px;
         position: absolute;
         right: -3px;
         top: 50%;
         transform: translateY(-50%);
-        content: '';
-        display: block;
-        border-radius: 100%;
-        background-color: ${colors.grey[3]};
-        height: 7px;
         width: 7px;
         z-index: 2;
       }

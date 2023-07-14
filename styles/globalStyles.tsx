@@ -22,6 +22,7 @@ const animateGradient = keyframes`
 
 export const GlobalStyle = createGlobalStyle<{ $whiteColor?: boolean }>`
   html, body {
+	  animation: ${animateGradient} 30s ease infinite;
     background: ${colors.background[0]};
     background: radial-gradient(
       circle at top center,
@@ -30,13 +31,15 @@ export const GlobalStyle = createGlobalStyle<{ $whiteColor?: boolean }>`
       ${colors.background[0]} 75%
     );
     background-size: 300%;
-	  animation: ${animateGradient} 30s ease infinite;
     color: ${colors.text};
-    font-family: 'Work Sans', sans-serif;
+    font-family: Merriweather, serif;
+    margin: 0;
   }
+
   * {
     box-sizing: border-box;
   }
+
   a {
     color: ${colors.text};
   }

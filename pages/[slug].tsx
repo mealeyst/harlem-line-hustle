@@ -28,7 +28,6 @@ export default function Post({ page, navigation }) {
               </Head>
               <PostBody content={page.body} />
             </article>
-            <SectionSeparator />
           </>
         )}
       </Container>
