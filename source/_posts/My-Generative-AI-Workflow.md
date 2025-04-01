@@ -1,7 +1,14 @@
 ---
 title: My Generative AI Workflow
+description: A solo game developer is leveraging generative AI to create an MMORPG, "Dungeon Delvers." They're using tools like GitHub Copilot for coding assistance, including unit test generation, and AI image-to-3D mesh tools like Gemini and Trellis for asset creation. While AI speeds up development, challenges like unit test failures and inefficient 3D model topology require manual adjustments. The developer finds AI significantly accelerates asset creation, but emphasizes the need for programming and 3D modeling knowledge to refine AI-generated outputs.
 date: 2025-03-14 21:37:21
 tags:
+  - AI
+  - Blender
+  - Javascript
+  - Jest
+  - MMO
+  - 3D
 ---
 
 Imagine being able to build a huge world inhabited by hundreds if not thousands of players who were exploring worlds and monsters of your own creation, collecting rewards from quests that you've designed. Picture the amount of work that is needed to be done, all the departments, all the artists, the programmers, the writers, the producers. Now instead of a team of 50 or more people, having to do all of this work by yourself. The task itself is extremely daunting, but that is what I am seeing it to do with my game Dungeon Delvers, and the task is becoming a little less daunting with help from all of the new AI tools that are now available at our fingertips.

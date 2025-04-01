@@ -1,6 +1,7 @@
 ---
-title: 'Welcome To The Hustle: Dungeon Delvers'
+title: "Welcome To The Hustle: Dungeon Delvers"
 date: 2025-03-14 15:37:58
+description: A solo developer is embarking on the ambitious project of creating a 3D MMORPG, "Dungeon Delvers," inspired by classic MMOs and Dungeons & Dragons. The project aims to build a community-driven game, focusing on rich lore and engaging combat, rather than profit. The developer plans to leverage AI for asset creation, including enemy models and procedural world generation, to overcome the limitations of being a one-person team. The tech stack is JavaScript-centric, featuring Node.js/Express for server-side logic, Postgres for data storage, Socket.io for real-time communication, and BabylonJS for the 3D game client, all written in TypeScript and tested with Jest. The game will include unique races, character archetypes, and zones, with a focus on creating a dynamic and replayable world.
 tags:
   - MMO
   - Javascript
