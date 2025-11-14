@@ -1,28 +1,24 @@
 {
-  "name": "hexo-site",
-  "version": "0.0.0",
+  "name": "harlem-line-hustle",
   "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "build": "hexo generate",
-    "clean": "hexo clean",
-    "deploy": "hexo deploy",
-    "start": "hexo server"
+    "start": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
   },
-  "hexo": {
-    "version": "7.3.0"
+  "devDependencies": {
+    "typescript": "~5.9.3",
+    "vite": "npm:rolldown-vite@7.1.14"
+  },
+  "overrides": {
+    "vite": "npm:rolldown-vite@7.1.14"
   },
   "dependencies": {
-    "hexo": "^7.3.0",
-    "hexo-generator-archive": "^2.0.0",
-    "hexo-generator-category": "^2.0.0",
-    "hexo-generator-feed": "^3.0.0",
-    "hexo-generator-index": "^4.0.0",
-    "hexo-generator-tag": "^2.0.0",
-    "hexo-renderer-ejs": "^2.0.0",
-    "hexo-renderer-marked": "^7.0.0",
-    "hexo-renderer-stylus": "^3.0.1",
-    "hexo-server": "^3.0.0",
-    "hexo-tag-embed": "^1.0.0",
-    "hexo-theme-landscape": "^1.1.0"
+    "@babylonjs/core": "^8.30.3",
+    "@babylonjs/gui": "^8.30.3",
+    "@babylonjs/inspector": "^8.30.3",
+    "@babylonjs/loaders": "^8.30.3"
   }
 }

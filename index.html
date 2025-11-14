@@ -1,122 +1,33 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <title>Harlem Line Hustle</title>
-    <link rel="icon" href="./public/favicon.ico" />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="./public/favicon-32x32.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="./public/favicon-16x16.png"
-    />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Harlem Line Hustle, we create experiences on the web!"
-    />
-    <link rel="apple-touch-icon" href="./public/apple-touch-icon.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="./public/site.webmanifest.json" />
-    <link rel="stylesheet" href="./public/styles.css" />
-    <script type="text/javascript" src="./dist/bundle.js"></script>
-  </head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>harlem-line-hustle</title>
 
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" sizes="192x192" href="/logo192.png" />
+    <link rel="apple-touch-icon" sizes="512x512" href="/logo512.png" />
+
+    <!-- Android Chrome Icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="/logo192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/logo512.png" />
+  </head>
   <body>
-    <canvas id="stage"></canvas>
-    <canvas id="pattern"></canvas>
-    <main class="contentRegion">
-      <a id="menuOpen" aria-label="open menu"
-        ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-          <!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. -->
-          <style type="text/css">
-            path {
-              fill: #95d5b2;
-            }
-          </style>
-          <path
-            d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"
-          /></svg
-      ></a>
-      <nav id="mainNav">
-        <a id="menuClose" aria-label="close menu">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-            <!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. -->
-            <style type="text/css">
-              path {
-                fill: #95d5b2;
-              }
-            </style>
-            <path
-              d="M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0S0 114.6 0 256S114.6 512 256 512zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z"
-            />
-          </svg>
-        </a>
-        <ul>
-          <li><a class="navLink" href="#about">About</a></li>
-          <li><a class="navLink" href="#projects">Projects</a></li>
-          <li><a class="navLink" href="#thoughts">Thoughts</a></li>
-        </ul>
-      </nav>
-      <section class="content">
-        <div class="page" id="about">
-          <div class="page-content">
-            <hlh-logo></hlh-logo>
-            <p>
-              We are a micro game development studio focused on pushing the
-              boundaries of what is possible on the web. We are focused on
-              building with WebGL technologies and giving individuals truly
-              unique experiences on the web and natively.
-            </p>
-            <p>
-              The studio is led by Shawn Mealey, a veteran web developer based
-              out of Pawling New York. Over a ten year career, Shawn has worked
-              for a number of clients from large corporations and small
-              startups. He is a passionate indie game fan, and is looking to
-              make some entries of his own into the mix.
-            </p>
-            <p>
-              Our current project is Star-Soul, a rouge-like spaceship adventure
-              game. We will be updating the “Thoughts” section of the site with
-              blog posts soon going into more detail about the project.
-            </p>
-          </div>
-        </div>
-        <div class="page" id="projects">
-          <div class="page-content">
-            <h1>Projects</h1>
-            <picture>
-              <source
-                media="(min-width: 425px)"
-                srcset="./public/star_soul.png"
-              />
-              <img src="./public/star_soul_mobile.png" alt="Star Soul" />
-            </picture>
-            <p>
-              <strong>Currently in development</strong>, a spaceship simulation
-              rouge-like adventure!
-            </p>
-          </div>
-        </div>
-        <div class="page" id="thoughts">
-          <div class="page-content">
-            <h1>Thoughts</h1>
-            <p>More to come soon!</p>
-          </div>
-        </div>
-      </section>
-      <footer class="site-footer">
-        <p>©2022 Harlem Line Hustle Studios. All rights reserved.</p>
-      </footer>
-    </main>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+    <style>
+      body,
+      main {
+        margin: 0;
+        padding: 0;
+      }
+    </style>
   </body>
 </html>
