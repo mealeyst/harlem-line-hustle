@@ -9,10 +9,19 @@ import {
   CreateAudioEngineAsync,
   CreateSoundAsync,
   StaticSound,
+  Color3,
+  Mesh,
 } from "@babylonjs/core";
+import { ThinHighlightLayer } from "@babylonjs/core/Layers/thinHighlightLayer";
 import { AppendSceneAsync } from "@babylonjs/core/Loading";
 import { FreeCameraVirtualJoystickInput } from "@babylonjs/core/Cameras/Inputs/freeCameraVirtualJoystickInput";
-import { AdvancedDynamicTexture, TextBlock, Rectangle } from "@babylonjs/gui";
+import { VirtualJoystick } from "@babylonjs/core/Misc/virtualJoystick";
+import {
+  AdvancedDynamicTexture,
+  TextBlock,
+  Rectangle,
+  Button,
+} from "@babylonjs/gui";
 import "@babylonjs/loaders";
 import "@babylonjs/inspector";
 import "@babylonjs/core/Cameras/Inputs/freeCameraVirtualJoystickInput";
@@ -199,20 +208,23 @@ AppendSceneAsync("/train_scene.glb", scene)
           const leftJoystick = virtualJoystickInput.getLeftJoystick();
           if (leftJoystick) {
             leftJoystick.setJoystickSensibility(0.075); // Reduced by half (was 0.15)
-            leftJoystick.alwaysVisible = true;
             leftJoystick.limitToContainer = true;
             // Make joystick more visible with larger size and distinct color
             leftJoystick.containerSize = 150;
             leftJoystick.puckSize = 60;
             leftJoystick.setJoystickColor("#4CAF50"); // Green for movement
 
-            // Set joystick position to bottom-left
+            // CRITICAL: Set position FIRST, then alwaysVisible
+            // The alwaysVisible setter only works if _joystickPosition is already set!
+            leftJoystick.setPosition(100, window.innerHeight - 100);
+
+            // Now set alwaysVisible - this will properly increment _AlwaysVisibleSticks
+            leftJoystick.alwaysVisible = true;
+
+            // Update joystick position on window resize
             const updateLeftJoystickPosition = () => {
               leftJoystick.setPosition(100, window.innerHeight - 100);
             };
-            updateLeftJoystickPosition();
-
-            // Update joystick position on window resize
             window.addEventListener("resize", updateLeftJoystickPosition);
           }
 
@@ -220,25 +232,200 @@ AppendSceneAsync("/train_scene.glb", scene)
           const rightJoystick = virtualJoystickInput.getRightJoystick();
           if (rightJoystick) {
             rightJoystick.setJoystickSensibility(0.01875); // Reduced by 25% more (was 0.025, originally 0.05)
-            rightJoystick.alwaysVisible = true;
             rightJoystick.limitToContainer = true;
             // Make joystick more visible with larger size and distinct color
             rightJoystick.containerSize = 150;
             rightJoystick.puckSize = 60;
             rightJoystick.setJoystickColor("#FF9800"); // Orange for camera rotation
 
-            // Set joystick position to bottom-right
+            // CRITICAL: Set position FIRST, then alwaysVisible
+            // The alwaysVisible setter only works if _joystickPosition is already set!
+            rightJoystick.setPosition(
+              window.innerWidth - 100,
+              window.innerHeight - 100
+            );
+
+            // Now set alwaysVisible - this will properly increment _AlwaysVisibleSticks
+            rightJoystick.alwaysVisible = true;
+
+            // Update joystick position on window resize
             const updateRightJoystickPosition = () => {
               rightJoystick.setPosition(
                 window.innerWidth - 100,
                 window.innerHeight - 100
               );
             };
-            updateRightJoystickPosition();
-
-            // Update joystick position on window resize
             window.addEventListener("resize", updateRightJoystickPosition);
           }
+
+          // Force joysticks to be visible by ensuring the canvas is set up correctly
+          // The VirtualJoystick canvas is created with position: absolute and zIndex: 5
+          // We need to ensure it's visible and properly layered
+          const ensureJoysticksVisible = () => {
+            if (VirtualJoystick.Canvas) {
+              // Ensure canvas is visible and properly positioned
+              VirtualJoystick.Canvas.style.zIndex = "1"; // Lower than GUI (1000)
+              VirtualJoystick.Canvas.style.position = "fixed"; // Ensure it's fixed to viewport
+              VirtualJoystick.Canvas.style.top = "0px";
+              VirtualJoystick.Canvas.style.left = "0px";
+              VirtualJoystick.Canvas.style.width = "100%";
+              VirtualJoystick.Canvas.style.height = "100%";
+              VirtualJoystick.Canvas.style.backgroundColor = "transparent";
+              VirtualJoystick.Canvas.style.touchAction = "none";
+
+              // CRITICAL: Make canvas not intercept pointer events by default
+              // We'll handle pointer events manually to only capture in joystick areas
+              VirtualJoystick.Canvas.style.pointerEvents = "none";
+
+              // Ensure canvas is in the DOM and visible
+              if (!document.body.contains(VirtualJoystick.Canvas)) {
+                document.body.appendChild(VirtualJoystick.Canvas);
+              }
+
+              // Force canvas to be visible
+              VirtualJoystick.Canvas.style.display = "block";
+              VirtualJoystick.Canvas.style.visibility = "visible";
+              VirtualJoystick.Canvas.style.opacity = "1";
+
+              // Create overlay divs for joystick areas that will capture touches
+              // Left joystick area
+              let leftJoystickArea =
+                document.getElementById("left-joystick-area");
+              if (!leftJoystickArea) {
+                leftJoystickArea = document.createElement("div");
+                leftJoystickArea.id = "left-joystick-area";
+                leftJoystickArea.style.position = "fixed";
+                leftJoystickArea.style.width = "300px";
+                leftJoystickArea.style.height = "300px";
+                leftJoystickArea.style.bottom = "0px";
+                leftJoystickArea.style.left = "0px";
+                leftJoystickArea.style.zIndex = "2"; // Above joystick canvas, below GUI
+                leftJoystickArea.style.pointerEvents = "auto";
+                leftJoystickArea.style.touchAction = "none";
+                document.body.appendChild(leftJoystickArea);
+              }
+
+              // Right joystick area
+              let rightJoystickArea = document.getElementById(
+                "right-joystick-area"
+              );
+              if (!rightJoystickArea) {
+                rightJoystickArea = document.createElement("div");
+                rightJoystickArea.id = "right-joystick-area";
+                rightJoystickArea.style.position = "fixed";
+                rightJoystickArea.style.width = "300px";
+                rightJoystickArea.style.height = "300px";
+                rightJoystickArea.style.bottom = "0px";
+                rightJoystickArea.style.right = "0px";
+                rightJoystickArea.style.zIndex = "2"; // Above joystick canvas, below GUI
+                rightJoystickArea.style.pointerEvents = "auto";
+                rightJoystickArea.style.touchAction = "none";
+                document.body.appendChild(rightJoystickArea);
+              }
+
+              // Forward pointer events from overlay areas to the VirtualJoystick canvas
+              const forwardPointerEvent = (e: PointerEvent) => {
+                // Temporarily enable pointer events on canvas
+                VirtualJoystick.Canvas!.style.pointerEvents = "auto";
+                // Create a new event and dispatch it on the canvas
+                const newEvent = new PointerEvent(e.type, {
+                  pointerId: e.pointerId,
+                  bubbles: true,
+                  cancelable: true,
+                  clientX: e.clientX,
+                  clientY: e.clientY,
+                  button: e.button,
+                  buttons: e.buttons,
+                  pressure: e.pressure,
+                  width: e.width,
+                  height: e.height,
+                  tiltX: e.tiltX,
+                  tiltY: e.tiltY,
+                  pointerType: e.pointerType,
+                  isPrimary: e.isPrimary,
+                });
+                VirtualJoystick.Canvas!.dispatchEvent(newEvent);
+                // Disable pointer events again after a short delay
+                setTimeout(() => {
+                  if (VirtualJoystick.Canvas) {
+                    VirtualJoystick.Canvas.style.pointerEvents = "none";
+                  }
+                }, 0);
+              };
+
+              // Set up event forwarding for left joystick area
+              if (leftJoystickArea) {
+                leftJoystickArea.addEventListener("pointerdown", (e) => {
+                  forwardPointerEvent(e);
+                });
+                leftJoystickArea.addEventListener("pointermove", (e) => {
+                  forwardPointerEvent(e);
+                });
+                leftJoystickArea.addEventListener("pointerup", (e) => {
+                  forwardPointerEvent(e);
+                });
+                leftJoystickArea.addEventListener("pointercancel", (e) => {
+                  forwardPointerEvent(e);
+                });
+              }
+
+              // Set up event forwarding for right joystick area
+              if (rightJoystickArea) {
+                rightJoystickArea.addEventListener("pointerdown", (e) => {
+                  forwardPointerEvent(e);
+                });
+                rightJoystickArea.addEventListener("pointermove", (e) => {
+                  forwardPointerEvent(e);
+                });
+                rightJoystickArea.addEventListener("pointerup", (e) => {
+                  forwardPointerEvent(e);
+                });
+                rightJoystickArea.addEventListener("pointercancel", (e) => {
+                  forwardPointerEvent(e);
+                });
+              }
+
+              // Update joystick area positions on resize
+              const updateJoystickAreas = () => {
+                if (leftJoystickArea) {
+                  leftJoystickArea.style.width = "300px";
+                  leftJoystickArea.style.height = "300px";
+                  leftJoystickArea.style.bottom = "0px";
+                  leftJoystickArea.style.left = "0px";
+                }
+                if (rightJoystickArea) {
+                  rightJoystickArea.style.width = "300px";
+                  rightJoystickArea.style.height = "300px";
+                  rightJoystickArea.style.bottom = "0px";
+                  rightJoystickArea.style.right = "0px";
+                }
+              };
+              window.addEventListener("resize", updateJoystickAreas);
+            }
+
+            // Force joysticks to render by setting their positions
+            // This should trigger the _drawVirtualJoystick loop
+            if (leftJoystick && leftJoystick.alwaysVisible) {
+              // Set position to trigger initial render
+              leftJoystick.setPosition(100, window.innerHeight - 100);
+            }
+            if (rightJoystick && rightJoystick.alwaysVisible) {
+              // Set position to trigger initial render
+              rightJoystick.setPosition(
+                window.innerWidth - 100,
+                window.innerHeight - 100
+              );
+            }
+          };
+
+          // Try multiple times to ensure it works (canvas creation is async)
+          ensureJoysticksVisible();
+          setTimeout(ensureJoysticksVisible, 100);
+          setTimeout(ensureJoysticksVisible, 300);
+          setTimeout(ensureJoysticksVisible, 500);
+
+          // Also check on window resize
+          window.addEventListener("resize", ensureJoysticksVisible);
         }
 
         console.log("Mobile joystick initialized");
@@ -311,21 +498,42 @@ AppendSceneAsync("/train_scene.glb", scene)
       console.warn("Animation '001.sitting' not found in scene");
     }
 
-    // Set up click detection for Shawn mesh
-    const shawnMesh = scene.meshes.find((mesh) => mesh.name === "Shawn");
+    // Set up generic interactable mesh system
+    const shawnMesh = scene.meshes.find((mesh) => mesh.name === "Shawn") as
+      | Mesh
+      | undefined;
+
+    // Define interactable meshes and their interaction handlers
+    interface InteractableMesh {
+      mesh: Mesh;
+      interactionHandler: () => Promise<void>;
+      buttonText: string;
+    }
+
+    const interactableMeshes: InteractableMesh[] = [];
 
     if (shawnMesh) {
-      console.log("Found Shawn mesh, setting up click detection");
+      console.log("Found Shawn mesh, setting up interaction system");
 
       // Create GUI for text popup
       const guiTexture = AdvancedDynamicTexture.CreateFullscreenUI("UI");
       guiTexture.idealWidth = 1920;
       guiTexture.idealHeight = 1080;
+      // Ensure GUI is above joysticks - access the canvas element after creation
+      setTimeout(() => {
+        const guiCanvas = document.querySelector(
+          'canvas[data-engine="Babylon.js"]'
+        )?.nextElementSibling as HTMLElement;
+        if (guiCanvas && guiCanvas.tagName === "CANVAS") {
+          guiCanvas.style.zIndex = "1000";
+          guiCanvas.style.pointerEvents = "auto";
+        }
+      }, 100);
 
       // Create background rectangle for text
       const backgroundRect = new Rectangle("shawnTextBackground");
-      backgroundRect.width = "400px";
-      backgroundRect.height = "200px";
+      backgroundRect.width = "500px";
+      backgroundRect.height = "300px";
       backgroundRect.cornerRadius = 10;
       backgroundRect.color = "white";
       backgroundRect.thickness = 2;
@@ -341,7 +549,7 @@ AppendSceneAsync("/train_scene.glb", scene)
       textBlock.text = `Hello! I'm Shawn, and you're riding
         with me on the Harlem Line Hustle!`;
       textBlock.color = "white";
-      textBlock.fontSize = 20;
+      textBlock.fontSize = 30;
       textBlock.textHorizontalAlignment = TextBlock.HORIZONTAL_ALIGNMENT_CENTER;
       textBlock.textVerticalAlignment = TextBlock.VERTICAL_ALIGNMENT_CENTER;
       textBlock.isVisible = false;
@@ -383,47 +591,72 @@ AppendSceneAsync("/train_scene.glb", scene)
         }
       };
 
-      // Set up click/pick detection
+      // Track if text is currently showing
       let isShowingText = false;
 
-      const handlePick = async (pickInfo: PickingInfo) => {
-        if (pickInfo.hit && pickInfo.pickedMesh === shawnMesh) {
-          if (!isShowingText) {
-            isShowingText = true;
+      // Function to handle Shawn interaction
+      const triggerShawnInteraction = async () => {
+        if (!isShowingText) {
+          isShowingText = true;
 
-            // Show text and background
-            textBlock.isVisible = true;
-            backgroundRect.isVisible = true;
+          // Show text and background
+          textBlock.isVisible = true;
+          backgroundRect.isVisible = true;
 
-            // Initialize audio on first click (user gesture required)
-            if (!audioInitialized && !audioInitializing) {
-              await initializeAudio();
-            }
-
-            // Play sound if available (wait for initialization if needed)
-            if (audioInitializing) {
-              // Wait for audio to finish initializing
-              while (audioInitializing) {
-                await new Promise((resolve) => setTimeout(resolve, 100));
-              }
-            }
-
-            if (shawnSound) {
-              try {
-                shawnSound.play();
-                console.log("Playing Shawn sound");
-              } catch (error) {
-                console.warn("Could not play sound:", error);
-              }
-            }
-
-            // Hide text after 3 seconds
-            setTimeout(() => {
-              textBlock.isVisible = false;
-              backgroundRect.isVisible = false;
-              isShowingText = false;
-            }, 3000);
+          // Initialize audio on first click (user gesture required)
+          if (!audioInitialized && !audioInitializing) {
+            await initializeAudio();
           }
+
+          // Play sound if available (wait for initialization if needed)
+          if (audioInitializing) {
+            // Wait for audio to finish initializing
+            while (audioInitializing) {
+              await new Promise((resolve) => setTimeout(resolve, 100));
+            }
+          }
+
+          if (shawnSound) {
+            try {
+              shawnSound.play();
+              console.log("Playing Shawn sound");
+            } catch (error) {
+              console.warn("Could not play sound:", error);
+            }
+          }
+
+          // Hide text after 3 seconds
+          setTimeout(() => {
+            textBlock.isVisible = false;
+            backgroundRect.isVisible = false;
+            isShowingText = false;
+          }, 3000);
+        }
+      };
+
+      // Add Shawn to interactable meshes
+      interactableMeshes.push({
+        mesh: shawnMesh,
+        interactionHandler: triggerShawnInteraction,
+        buttonText: "Interact",
+      });
+
+      // Set up highlight layer for interactable meshes
+      const highlightLayer = new ThinHighlightLayer("highlightLayer", scene, {
+        mainTextureRatio: 0.5,
+        blurTextureSizeRatio: 0.3,
+      });
+
+      let currentlyHighlightedMesh: Mesh | null = null;
+      let currentInteractionHandler: (() => Promise<void>) | null = null;
+
+      // Set up click/pick detection
+      const handlePick = async (pickInfo: PickingInfo) => {
+        const interactable = interactableMeshes.find(
+          (item) => item.mesh === pickInfo.pickedMesh
+        );
+        if (interactable) {
+          await interactable.interactionHandler();
         }
       };
 
@@ -437,7 +670,108 @@ AppendSceneAsync("/train_scene.glb", scene)
         }
       });
 
-      console.log("Shawn mesh click detection set up");
+      // Check what the camera is looking at (center of screen) continuously
+      const checkCenterOfScreen = () => {
+        if (!scene.activeCamera) return;
+
+        // Pick at the center of the screen
+        const centerX = engine.getRenderWidth() / 2;
+        const centerY = engine.getRenderHeight() / 2;
+        const pickResult = scene.pick(centerX, centerY);
+
+        // Find if we're looking at an interactable mesh
+        const interactable = pickResult?.pickedMesh
+          ? interactableMeshes.find(
+              (item) => item.mesh === pickResult.pickedMesh
+            )
+          : null;
+
+        if (interactable) {
+          // We're looking at an interactable mesh
+          if (currentlyHighlightedMesh !== interactable.mesh) {
+            // Remove previous highlight
+            if (currentlyHighlightedMesh) {
+              highlightLayer.removeMesh(currentlyHighlightedMesh);
+            }
+            // Add new highlight
+            highlightLayer.addMesh(interactable.mesh, Color3.Yellow());
+            currentlyHighlightedMesh = interactable.mesh;
+            currentInteractionHandler = interactable.interactionHandler;
+          }
+        } else {
+          // Not looking at an interactable mesh
+          if (currentlyHighlightedMesh) {
+            highlightLayer.removeMesh(currentlyHighlightedMesh);
+            currentlyHighlightedMesh = null;
+            currentInteractionHandler = null;
+          }
+        }
+      };
+
+      // Check center of screen every frame
+      scene.onBeforeRenderObservable.add(checkCenterOfScreen);
+
+      // Add mobile button for interaction (only on touch devices)
+      const isTouchDevice =
+        "ontouchstart" in window || navigator.maxTouchPoints > 0;
+
+      if (isTouchDevice) {
+        // Create generic interaction button
+        const interactButton = Button.CreateSimpleButton(
+          "interactionButton",
+          "Interact"
+        );
+        interactButton.width = "200px";
+        interactButton.height = "50px";
+        interactButton.color = "white";
+        interactButton.background = "rgba(76, 175, 80, 0.8)"; // Green background
+        interactButton.cornerRadius = 10;
+        interactButton.fontSize = 18;
+        interactButton.thickness = 2;
+        interactButton.horizontalAlignment = Button.HORIZONTAL_ALIGNMENT_CENTER;
+        interactButton.verticalAlignment = Button.VERTICAL_ALIGNMENT_TOP;
+        interactButton.top = "20px";
+        interactButton.isVisible = false; // Initially hidden
+
+        // Update button text and visibility based on what we're looking at
+        const updateButton = () => {
+          if (currentlyHighlightedMesh && currentInteractionHandler) {
+            const interactable = interactableMeshes.find(
+              (item) => item.mesh === currentlyHighlightedMesh
+            );
+            if (interactable) {
+              interactButton.textBlock!.text = interactable.buttonText;
+              interactButton.isVisible = true;
+            }
+          } else {
+            interactButton.isVisible = false;
+          }
+        };
+
+        // Add hover effect
+        interactButton.onPointerEnterObservable.add(() => {
+          interactButton.background = "rgba(76, 175, 80, 1)";
+        });
+        interactButton.onPointerOutObservable.add(() => {
+          interactButton.background = "rgba(76, 175, 80, 0.8)";
+        });
+
+        // Trigger interaction on button click
+        interactButton.onPointerClickObservable.add(async () => {
+          if (currentInteractionHandler) {
+            await currentInteractionHandler();
+          }
+        });
+
+        guiTexture.addControl(interactButton);
+
+        // Update button visibility every frame
+        scene.onBeforeRenderObservable.add(updateButton);
+
+        console.log("Mobile interaction button added");
+      }
+
+      console.log("Interactable mesh system set up");
     } else {
       console.warn("Shawn mesh not found in scene");
     }
