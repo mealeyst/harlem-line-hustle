@@ -4,9 +4,15 @@ import {
   HemisphericLight,
   Scene,
   Vector3,
+  PickingInfo,
+  PointerEventTypes,
+  CreateAudioEngineAsync,
+  CreateSoundAsync,
+  StaticSound,
 } from "@babylonjs/core";
 import { AppendSceneAsync } from "@babylonjs/core/Loading";
 import { FreeCameraVirtualJoystickInput } from "@babylonjs/core/Cameras/Inputs/freeCameraVirtualJoystickInput";
+import { AdvancedDynamicTexture, TextBlock, Rectangle } from "@babylonjs/gui";
 import "@babylonjs/loaders";
 import "@babylonjs/inspector";
 import "@babylonjs/core/Cameras/Inputs/freeCameraVirtualJoystickInput";
@@ -189,21 +195,49 @@ AppendSceneAsync("/train_scene.glb", scene)
         const virtualJoystickInput = camera.inputs.attached
           .virtualJoystick as FreeCameraVirtualJoystickInput;
         if (virtualJoystickInput) {
-          // Get the left joystick and customize it
+          // Get the left joystick (movement) and customize it
           const leftJoystick = virtualJoystickInput.getLeftJoystick();
           if (leftJoystick) {
-            leftJoystick.setJoystickSensibility(0.15);
+            leftJoystick.setJoystickSensibility(0.075); // Reduced by half (was 0.15)
             leftJoystick.alwaysVisible = true;
             leftJoystick.limitToContainer = true;
+            // Make joystick more visible with larger size and distinct color
+            leftJoystick.containerSize = 150;
+            leftJoystick.puckSize = 60;
+            leftJoystick.setJoystickColor("#4CAF50"); // Green for movement
 
             // Set joystick position to bottom-left
-            const updateJoystickPosition = () => {
+            const updateLeftJoystickPosition = () => {
               leftJoystick.setPosition(100, window.innerHeight - 100);
             };
-            updateJoystickPosition();
+            updateLeftJoystickPosition();
 
             // Update joystick position on window resize
-            window.addEventListener("resize", updateJoystickPosition);
+            window.addEventListener("resize", updateLeftJoystickPosition);
+          }
+
+          // Get the right joystick (camera rotation) and customize it
+          const rightJoystick = virtualJoystickInput.getRightJoystick();
+          if (rightJoystick) {
+            rightJoystick.setJoystickSensibility(0.01875); // Reduced by 25% more (was 0.025, originally 0.05)
+            rightJoystick.alwaysVisible = true;
+            rightJoystick.limitToContainer = true;
+            // Make joystick more visible with larger size and distinct color
+            rightJoystick.containerSize = 150;
+            rightJoystick.puckSize = 60;
+            rightJoystick.setJoystickColor("#FF9800"); // Orange for camera rotation
+
+            // Set joystick position to bottom-right
+            const updateRightJoystickPosition = () => {
+              rightJoystick.setPosition(
+                window.innerWidth - 100,
+                window.innerHeight - 100
+              );
+            };
+            updateRightJoystickPosition();
+
+            // Update joystick position on window resize
+            window.addEventListener("resize", updateRightJoystickPosition);
           }
         }
 
@@ -275,6 +309,137 @@ AppendSceneAsync("/train_scene.glb", scene)
       }
     } else {
       console.warn("Animation '001.sitting' not found in scene");
+    }
+
+    // Set up click detection for Shawn mesh
+    const shawnMesh = scene.meshes.find((mesh) => mesh.name === "Shawn");
+
+    if (shawnMesh) {
+      console.log("Found Shawn mesh, setting up click detection");
+
+      // Create GUI for text popup
+      const guiTexture = AdvancedDynamicTexture.CreateFullscreenUI("UI");
+      guiTexture.idealWidth = 1920;
+      guiTexture.idealHeight = 1080;
+
+      // Create background rectangle for text
+      const backgroundRect = new Rectangle("shawnTextBackground");
+      backgroundRect.width = "400px";
+      backgroundRect.height = "200px";
+      backgroundRect.cornerRadius = 10;
+      backgroundRect.color = "white";
+      backgroundRect.thickness = 2;
+      backgroundRect.background = "rgba(0, 0, 0, 0.7)";
+      backgroundRect.horizontalAlignment =
+        Rectangle.HORIZONTAL_ALIGNMENT_CENTER;
+      backgroundRect.verticalAlignment = Rectangle.VERTICAL_ALIGNMENT_CENTER;
+      backgroundRect.isVisible = false;
+      guiTexture.addControl(backgroundRect);
+
+      // Create text block (initially hidden)
+      const textBlock = new TextBlock("shawnText");
+      textBlock.text = `Hello! I'm Shawn, and you're riding
+        with me on the Harlem Line Hustle!`;
+      textBlock.color = "white";
+      textBlock.fontSize = 20;
+      textBlock.textHorizontalAlignment = TextBlock.HORIZONTAL_ALIGNMENT_CENTER;
+      textBlock.textVerticalAlignment = TextBlock.VERTICAL_ALIGNMENT_CENTER;
+      textBlock.isVisible = false;
+      backgroundRect.addControl(textBlock);
+
+      // Set up audio engine and sound (will be initialized on first user interaction)
+      let shawnSound: StaticSound | null = null;
+      let audioInitialized = false;
+      let audioInitializing = false;
+
+      // Function to initialize audio (called on first user interaction)
+      const initializeAudio = async () => {
+        if (audioInitialized || audioInitializing) {
+          return;
+        }
+        audioInitializing = true;
+
+        try {
+          const audioEngine = await CreateAudioEngineAsync();
+          console.log("Audio engine created");
+
+          // Wait for the audio engine to unlock (required for browser autoplay policies)
+          await audioEngine.unlockAsync();
+          console.log("Audio engine unlocked");
+
+          // Create sound
+          shawnSound = await CreateSoundAsync(
+            "shawnClickSound",
+            "/shawn.mp3",
+            {},
+            audioEngine
+          );
+          console.log("Shawn sound loaded successfully");
+          audioInitialized = true;
+        } catch (error) {
+          console.error("Failed to set up audio:", error);
+        } finally {
+          audioInitializing = false;
+        }
+      };
+
+      // Set up click/pick detection
+      let isShowingText = false;
+
+      const handlePick = async (pickInfo: PickingInfo) => {
+        if (pickInfo.hit && pickInfo.pickedMesh === shawnMesh) {
+          if (!isShowingText) {
+            isShowingText = true;
+
+            // Show text and background
+            textBlock.isVisible = true;
+            backgroundRect.isVisible = true;
+
+            // Initialize audio on first click (user gesture required)
+            if (!audioInitialized && !audioInitializing) {
+              await initializeAudio();
+            }
+
+            // Play sound if available (wait for initialization if needed)
+            if (audioInitializing) {
+              // Wait for audio to finish initializing
+              while (audioInitializing) {
+                await new Promise((resolve) => setTimeout(resolve, 100));
+              }
+            }
+
+            if (shawnSound) {
+              try {
+                shawnSound.play();
+                console.log("Playing Shawn sound");
+              } catch (error) {
+                console.warn("Could not play sound:", error);
+              }
+            }
+
+            // Hide text after 3 seconds
+            setTimeout(() => {
+              textBlock.isVisible = false;
+              backgroundRect.isVisible = false;
+              isShowingText = false;
+            }, 3000);
+          }
+        }
+      };
+
+      // Add click/pick event listener
+      scene.onPointerObservable.add(async (pointerInfo) => {
+        if (pointerInfo.type === PointerEventTypes.POINTERDOWN) {
+          const pickResult = scene.pick(scene.pointerX, scene.pointerY);
+          if (pickResult) {
+            await handlePick(pickResult);
+          }
+        }
+      });
+
+      console.log("Shawn mesh click detection set up");
+    } else {
+      console.warn("Shawn mesh not found in scene");
     }
   })
   .catch((error) => {
