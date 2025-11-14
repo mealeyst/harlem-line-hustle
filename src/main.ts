@@ -154,6 +154,7 @@ AppendSceneAsync("/train_scene.glb", scene)
     const collisionMeshNames = [
       "Collision_Detection",
       "Train_Car_Body",
+      "Train_Windows",
       "Train_Car_Wall",
       "Train_Car_Doors",
     ];
