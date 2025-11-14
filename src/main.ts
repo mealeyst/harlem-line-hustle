@@ -6,8 +6,10 @@ import {
   Vector3,
 } from "@babylonjs/core";
 import { AppendSceneAsync } from "@babylonjs/core/Loading";
+import { FreeCameraVirtualJoystickInput } from "@babylonjs/core/Cameras/Inputs/freeCameraVirtualJoystickInput";
 import "@babylonjs/loaders";
 import "@babylonjs/inspector";
+import "@babylonjs/core/Cameras/Inputs/freeCameraVirtualJoystickInput";
 
 const canvas = document.createElement("canvas");
 document.body.appendChild(canvas);
@@ -172,6 +174,41 @@ AppendSceneAsync("/train_scene.glb", scene)
           camera.position.y = lockedHeight;
         }
       });
+
+      // Set up mobile joystick for touchscreen devices
+      const isTouchDevice =
+        "ontouchstart" in window || navigator.maxTouchPoints > 0;
+
+      if (isTouchDevice) {
+        console.log("Touchscreen detected, setting up mobile joystick");
+
+        // Use the camera's built-in virtual joystick input system
+        camera.inputs.addVirtualJoystick();
+
+        // Find the virtual joystick input in the camera's inputs
+        const virtualJoystickInput = camera.inputs.attached
+          .virtualJoystick as FreeCameraVirtualJoystickInput;
+        if (virtualJoystickInput) {
+          // Get the left joystick and customize it
+          const leftJoystick = virtualJoystickInput.getLeftJoystick();
+          if (leftJoystick) {
+            leftJoystick.setJoystickSensibility(0.15);
+            leftJoystick.alwaysVisible = true;
+            leftJoystick.limitToContainer = true;
+
+            // Set joystick position to bottom-left
+            const updateJoystickPosition = () => {
+              leftJoystick.setPosition(100, window.innerHeight - 100);
+            };
+            updateJoystickPosition();
+
+            // Update joystick position on window resize
+            window.addEventListener("resize", updateJoystickPosition);
+          }
+        }
+
+        console.log("Mobile joystick initialized");
+      }
 
       console.log(
         "Enabled camera collision detection and locked height at",
