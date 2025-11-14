@@ -204,28 +204,42 @@ AppendSceneAsync("/train_scene.glb", scene)
         const virtualJoystickInput = camera.inputs.attached
           .virtualJoystick as FreeCameraVirtualJoystickInput;
         if (virtualJoystickInput) {
+          // Calculate joystick size as 20% of viewport width
+          const calculateJoystickSize = () => {
+            const containerSize = Math.floor(window.innerWidth * 0.2);
+            const puckSize = Math.floor(containerSize * 0.4); // Puck is 40% of container
+            return { containerSize, puckSize };
+          };
+
           // Get the left joystick (movement) and customize it
           const leftJoystick = virtualJoystickInput.getLeftJoystick();
           if (leftJoystick) {
             leftJoystick.setJoystickSensibility(0.075); // Reduced by half (was 0.15)
             leftJoystick.limitToContainer = true;
-            // Make joystick more visible with larger size and distinct color
-            leftJoystick.containerSize = 150;
-            leftJoystick.puckSize = 60;
             leftJoystick.setJoystickColor("#4CAF50"); // Green for movement
 
-            // CRITICAL: Set position FIRST, then alwaysVisible
-            // The alwaysVisible setter only works if _joystickPosition is already set!
-            leftJoystick.setPosition(100, window.innerHeight - 100);
+            // Function to update left joystick size and position
+            const updateLeftJoystick = () => {
+              const { containerSize, puckSize } = calculateJoystickSize();
+              leftJoystick.containerSize = containerSize;
+              leftJoystick.puckSize = puckSize;
+              // Position at center of left joystick area (10% from left edge, 10% from bottom)
+              const x = containerSize / 2 + window.innerWidth * 0.1;
+              const y =
+                window.innerHeight -
+                (containerSize / 2 + window.innerHeight * 0.1);
+              leftJoystick.setPosition(x, y);
+            };
 
-            // Now set alwaysVisible - this will properly increment _AlwaysVisibleSticks
+            // Initial setup
+            updateLeftJoystick();
+
+            // CRITICAL: Set alwaysVisible AFTER position is set
+            // The alwaysVisible setter only works if _joystickPosition is already set!
             leftJoystick.alwaysVisible = true;
 
-            // Update joystick position on window resize
-            const updateLeftJoystickPosition = () => {
-              leftJoystick.setPosition(100, window.innerHeight - 100);
-            };
-            window.addEventListener("resize", updateLeftJoystickPosition);
+            // Update joystick on window resize
+            window.addEventListener("resize", updateLeftJoystick);
           }
 
           // Get the right joystick (camera rotation) and customize it
@@ -233,29 +247,32 @@ AppendSceneAsync("/train_scene.glb", scene)
           if (rightJoystick) {
             rightJoystick.setJoystickSensibility(0.01875); // Reduced by 25% more (was 0.025, originally 0.05)
             rightJoystick.limitToContainer = true;
-            // Make joystick more visible with larger size and distinct color
-            rightJoystick.containerSize = 150;
-            rightJoystick.puckSize = 60;
             rightJoystick.setJoystickColor("#FF9800"); // Orange for camera rotation
 
-            // CRITICAL: Set position FIRST, then alwaysVisible
-            // The alwaysVisible setter only works if _joystickPosition is already set!
-            rightJoystick.setPosition(
-              window.innerWidth - 100,
-              window.innerHeight - 100
-            );
+            // Function to update right joystick size and position
+            const updateRightJoystick = () => {
+              const { containerSize, puckSize } = calculateJoystickSize();
+              rightJoystick.containerSize = containerSize;
+              rightJoystick.puckSize = puckSize;
+              // Position at center of right joystick area (10% from right edge, 10% from bottom)
+              const x =
+                window.innerWidth -
+                (containerSize / 2 + window.innerWidth * 0.1);
+              const y =
+                window.innerHeight -
+                (containerSize / 2 + window.innerHeight * 0.1);
+              rightJoystick.setPosition(x, y);
+            };
 
-            // Now set alwaysVisible - this will properly increment _AlwaysVisibleSticks
+            // Initial setup
+            updateRightJoystick();
+
+            // CRITICAL: Set alwaysVisible AFTER position is set
+            // The alwaysVisible setter only works if _joystickPosition is already set!
             rightJoystick.alwaysVisible = true;
 
-            // Update joystick position on window resize
-            const updateRightJoystickPosition = () => {
-              rightJoystick.setPosition(
-                window.innerWidth - 100,
-                window.innerHeight - 100
-              );
-            };
-            window.addEventListener("resize", updateRightJoystickPosition);
+            // Update joystick on window resize
+            window.addEventListener("resize", updateRightJoystick);
           }
 
           // Force joysticks to be visible by ensuring the canvas is set up correctly
@@ -287,6 +304,13 @@ AppendSceneAsync("/train_scene.glb", scene)
               VirtualJoystick.Canvas.style.visibility = "visible";
               VirtualJoystick.Canvas.style.opacity = "1";
 
+              // Calculate joystick area size (slightly larger than joystick for easier touch)
+              const calculateJoystickAreaSize = () => {
+                const joystickSize = Math.floor(window.innerWidth * 0.2);
+                // Make touch area 1.5x the joystick size for easier interaction
+                return Math.floor(joystickSize * 1.5);
+              };
+
               // Create overlay divs for joystick areas that will capture touches
               // Left joystick area
               let leftJoystickArea =
@@ -295,10 +319,6 @@ AppendSceneAsync("/train_scene.glb", scene)
                 leftJoystickArea = document.createElement("div");
                 leftJoystickArea.id = "left-joystick-area";
                 leftJoystickArea.style.position = "fixed";
-                leftJoystickArea.style.width = "300px";
-                leftJoystickArea.style.height = "300px";
-                leftJoystickArea.style.bottom = "0px";
-                leftJoystickArea.style.left = "0px";
                 leftJoystickArea.style.zIndex = "2"; // Above joystick canvas, below GUI
                 leftJoystickArea.style.pointerEvents = "auto";
                 leftJoystickArea.style.touchAction = "none";
@@ -313,10 +333,6 @@ AppendSceneAsync("/train_scene.glb", scene)
                 rightJoystickArea = document.createElement("div");
                 rightJoystickArea.id = "right-joystick-area";
                 rightJoystickArea.style.position = "fixed";
-                rightJoystickArea.style.width = "300px";
-                rightJoystickArea.style.height = "300px";
-                rightJoystickArea.style.bottom = "0px";
-                rightJoystickArea.style.right = "0px";
                 rightJoystickArea.style.zIndex = "2"; // Above joystick canvas, below GUI
                 rightJoystickArea.style.pointerEvents = "auto";
                 rightJoystickArea.style.touchAction = "none";
@@ -385,36 +401,64 @@ AppendSceneAsync("/train_scene.glb", scene)
                 });
               }
 
-              // Update joystick area positions on resize
+              // Update joystick area positions and sizes on resize
               const updateJoystickAreas = () => {
+                const areaSize = calculateJoystickAreaSize();
+                const joystickSize = Math.floor(window.innerWidth * 0.2);
+                const margin = window.innerWidth * 0.1; // 10% margin from edges
+
                 if (leftJoystickArea) {
-                  leftJoystickArea.style.width = "300px";
-                  leftJoystickArea.style.height = "300px";
-                  leftJoystickArea.style.bottom = "0px";
-                  leftJoystickArea.style.left = "0px";
+                  leftJoystickArea.style.width = `${areaSize}px`;
+                  leftJoystickArea.style.height = `${areaSize}px`;
+                  // Center the area around the joystick position
+                  leftJoystickArea.style.left = `${
+                    margin - (areaSize - joystickSize) / 2
+                  }px`;
+                  leftJoystickArea.style.bottom = `${
+                    margin - (areaSize - joystickSize) / 2
+                  }px`;
                 }
                 if (rightJoystickArea) {
-                  rightJoystickArea.style.width = "300px";
-                  rightJoystickArea.style.height = "300px";
-                  rightJoystickArea.style.bottom = "0px";
-                  rightJoystickArea.style.right = "0px";
+                  rightJoystickArea.style.width = `${areaSize}px`;
+                  rightJoystickArea.style.height = `${areaSize}px`;
+                  // Center the area around the joystick position
+                  rightJoystickArea.style.right = `${
+                    margin - (areaSize - joystickSize) / 2
+                  }px`;
+                  rightJoystickArea.style.bottom = `${
+                    margin - (areaSize - joystickSize) / 2
+                  }px`;
                 }
               };
+
+              // Initial setup
+              updateJoystickAreas();
               window.addEventListener("resize", updateJoystickAreas);
             }
 
-            // Force joysticks to render by setting their positions
+            // Force joysticks to render by updating their sizes and positions
             // This should trigger the _drawVirtualJoystick loop
             if (leftJoystick && leftJoystick.alwaysVisible) {
-              // Set position to trigger initial render
-              leftJoystick.setPosition(100, window.innerHeight - 100);
+              const { containerSize, puckSize } = calculateJoystickSize();
+              leftJoystick.containerSize = containerSize;
+              leftJoystick.puckSize = puckSize;
+              const x = containerSize / 2 + window.innerWidth * 0.1;
+              const y =
+                window.innerHeight -
+                (containerSize / 2 + window.innerHeight * 0.1);
+              leftJoystick.setPosition(x, y);
             }
             if (rightJoystick && rightJoystick.alwaysVisible) {
-              // Set position to trigger initial render
-              rightJoystick.setPosition(
-                window.innerWidth - 100,
-                window.innerHeight - 100
-              );
+              const { containerSize, puckSize } = calculateJoystickSize();
+              rightJoystick.containerSize = containerSize;
+              rightJoystick.puckSize = puckSize;
+              const x =
+                window.innerWidth -
+                (containerSize / 2 + window.innerWidth * 0.1);
+              const y =
+                window.innerHeight -
+                (containerSize / 2 + window.innerHeight * 0.1);
+              rightJoystick.setPosition(x, y);
             }
           };
 
@@ -531,9 +575,11 @@ AppendSceneAsync("/train_scene.glb", scene)
       }, 100);
 
       // Create background rectangle for text
+      // Use static pixel values in the GUI coordinate system (idealWidth = 1920)
+      // Larger values ensure the popup is readable on mobile devices
       const backgroundRect = new Rectangle("shawnTextBackground");
-      backgroundRect.width = "500px";
-      backgroundRect.height = "300px";
+      backgroundRect.width = "1200px"; // Static width (appears ~234px on 375px mobile screen)
+      backgroundRect.height = "600px"; // Static height (appears ~117px on 375px mobile screen)
       backgroundRect.cornerRadius = 10;
       backgroundRect.color = "white";
       backgroundRect.thickness = 2;
@@ -549,7 +595,7 @@ AppendSceneAsync("/train_scene.glb", scene)
       textBlock.text = `Hello! I'm Shawn, and you're riding
         with me on the Harlem Line Hustle!`;
       textBlock.color = "white";
-      textBlock.fontSize = 30;
+      textBlock.fontSize = 72; // Static font size (scales proportionally, appears ~14px on 375px mobile)
       textBlock.textHorizontalAlignment = TextBlock.HORIZONTAL_ALIGNMENT_CENTER;
       textBlock.textVerticalAlignment = TextBlock.VERTICAL_ALIGNMENT_CENTER;
       textBlock.isVisible = false;
@@ -717,16 +763,22 @@ AppendSceneAsync("/train_scene.glb", scene)
 
       if (isTouchDevice) {
         // Create generic interaction button
+        // Use static pixel values in the GUI coordinate system (idealWidth = 1920)
+        // To ensure the button appears at a good size on mobile, we need larger values
+        // since the GUI scales everything down. A 400px button in 1920px ideal space
+        // will appear as ~78px on a 375px mobile screen, which is a good touch target.
         const interactButton = Button.CreateSimpleButton(
           "interactionButton",
           "Interact"
         );
-        interactButton.width = "200px";
-        interactButton.height = "50px";
+        // Static pixel values - these are in the GUI's ideal coordinate system (1920px wide)
+        // These values ensure the button is always a good size for touch interaction
+        interactButton.width = "400px"; // Static width (appears ~78px on 375px mobile screen)
+        interactButton.height = "100px"; // Static height (appears ~20px on 375px mobile screen)
         interactButton.color = "white";
         interactButton.background = "rgba(76, 175, 80, 0.8)"; // Green background
         interactButton.cornerRadius = 10;
-        interactButton.fontSize = 18;
+        interactButton.fontSize = 36; // Static font size (scales proportionally)
         interactButton.thickness = 2;
         interactButton.horizontalAlignment = Button.HORIZONTAL_ALIGNMENT_CENTER;
         interactButton.verticalAlignment = Button.VERTICAL_ALIGNMENT_TOP;
