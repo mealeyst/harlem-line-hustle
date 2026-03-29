@@ -1,0 +1,45 @@
+.scanlines {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%);
+  background-size: 100% 4px;
+  z-index: 10;
+  pointer-events: none;
+  animation: scanline-flicker 0.2s infinite;
+}
+
+.scanlines::after {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: rgba(150, 42, 62, 0.05);
+  opacity: 0.3;
+  animation: scanline-roll 8s linear infinite;
+}
+
+@keyframes scanline-flicker {
+  0% {
+    opacity: 0.97;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.98;
+  }
+}
+
+@keyframes scanline-roll {
+  0% {
+    top: -20%;
+  }
+  100% {
+    top: 120%;
+  }
+}

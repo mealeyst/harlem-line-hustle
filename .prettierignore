@@ -1,0 +1,7 @@
+node_modules
+dist
+dist-ssr
+.astro
+storybook-static
+apps/game/public
+themes

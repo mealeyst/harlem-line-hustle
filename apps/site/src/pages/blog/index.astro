@@ -1,0 +1,197 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { Card, CardBody, Button } from '@harlem-line-hustle/ui';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('posts', ({ data }) => !data.draft);
+const posts = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+---
+
+<BaseLayout
+  title="Blog"
+  description="Development logs, design decisions, and studio updates from Harlem Hustle Studios."
+  currentPath="/blog"
+>
+  <!-- ── Page header ────────────────────────────────────────── -->
+  <section class="page-header">
+    <div class="container">
+      <p class="eyebrow">// DEVLOG</p>
+      <h1 class="page-title">From the Studio</h1>
+      <p class="page-subtitle">
+        Development logs, architecture deep-dives, and updates from the build.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── Post list ─────────────────────────────────────────── -->
+  <section class="post-list-section">
+    <div class="container">
+      {
+        posts.length === 0 ? (
+          <p class="empty-state">No posts yet. Check back soon.</p>
+        ) : (
+          <ul class="post-list">
+            {posts.map((post) => (
+              <li>
+                <a href={`/blog/${post.slug}`} class="post-link">
+                  <Card variant="outlined">
+                    <CardBody>
+                      <div class="post-meta">
+                        <time class="post-date" datetime={post.data.date.toISOString()}>
+                          {formatDate(post.data.date)}
+                        </time>
+                        <div class="post-tags">
+                          {post.data.tags.map((tag: string) => (
+                            <span class="tag">{tag}</span>
+                          ))}
+                        </div>
+                      </div>
+                      <h2 class="post-title">{post.data.title}</h2>
+                      <p class="post-description">{post.data.description}</p>
+                      <span class="post-read-more">Read post →</span>
+                    </CardBody>
+                  </Card>
+                </a>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+  </section>
+
+  <style>
+    /* ── Page header ──────────────────────────────────────────── */
+
+    .page-header {
+      padding: var(--space-20) 0 var(--space-12);
+      border-bottom: var(--border);
+    }
+
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: var(--tracking-widest);
+      color: var(--color-accent);
+      text-shadow: var(--glow-accent);
+      margin: 0 0 var(--space-4);
+    }
+
+    .page-title {
+      font-family: var(--font-sans);
+      font-size: clamp(var(--text-4xl), 8vw, var(--text-6xl));
+      font-weight: 200;
+      line-height: var(--leading-tight);
+      letter-spacing: var(--tracking-tight);
+      color: var(--color-text);
+      text-shadow: var(--glow-text);
+      margin: 0 0 var(--space-4);
+    }
+
+    .page-subtitle {
+      font-family: var(--font-sans);
+      font-size: var(--text-lg);
+      font-weight: 300;
+      color: var(--color-text-muted);
+      margin: 0;
+    }
+
+    /* ── Post list ────────────────────────────────────────────── */
+
+    .post-list-section {
+      padding: var(--space-16) 0;
+    }
+
+    .post-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-6);
+    }
+
+    .post-link {
+      display: block;
+      text-decoration: none;
+      transition: opacity 150ms ease;
+    }
+
+    .post-link:hover {
+      opacity: 0.85;
+    }
+
+    .post-link:hover .post-title {
+      color: var(--color-primary-100);
+      text-shadow: var(--glow-text-strong);
+    }
+
+    .post-link:hover .post-read-more {
+      color: var(--color-primary-200);
+    }
+
+    .post-meta {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+      margin-bottom: var(--space-3);
+    }
+
+    .post-date {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: var(--tracking-wide);
+      color: var(--color-text-dim);
+    }
+
+    .post-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+
+    .post-title {
+      font-family: var(--font-sans);
+      font-size: var(--text-xl);
+      font-weight: 300;
+      letter-spacing: var(--tracking-tight);
+      color: var(--color-text);
+      text-shadow: var(--glow-text);
+      margin: 0 0 var(--space-3);
+      line-height: var(--leading-snug);
+      transition:
+        color 150ms ease,
+        text-shadow 150ms ease;
+    }
+
+    .post-description {
+      font-family: var(--font-sans);
+      font-size: var(--text-sm);
+      font-weight: 300;
+      line-height: var(--leading-relaxed);
+      color: var(--color-text-muted);
+      margin: 0 0 var(--space-4);
+      max-width: 640px;
+    }
+
+    .post-read-more {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: var(--tracking-wide);
+      color: var(--color-text-dim);
+      transition: color 150ms ease;
+    }
+
+    .empty-state {
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      color: var(--color-text-dim);
+      letter-spacing: var(--tracking-wide);
+    }
+  </style>
+</BaseLayout>

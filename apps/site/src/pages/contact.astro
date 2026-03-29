@@ -1,0 +1,236 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { ContactForm } from '@harlem-line-hustle/ui';
+
+/**
+ * SETUP REQUIRED (one-time, takes ~1 minute):
+ * 1. Go to https://web3forms.com
+ * 2. Enter contact@harlemlinehustle.com and hit "Create Access Key"
+ * 3. Check your email and copy the access key they send you
+ * 4. Replace YOUR_ACCESS_KEY below with that key
+ *
+ * That's it — free, unlimited submissions, no account needed.
+ */
+const WEB3FORMS_ACCESS_KEY = 'YOUR_ACCESS_KEY';
+---
+
+<BaseLayout
+  title="Contact"
+  description="Get in touch with Harlem Hustle Studios."
+  currentPath="/contact"
+>
+  <!-- ── Page header ────────────────────────────────────────── -->
+  <section class="page-header">
+    <div class="container">
+      <p class="eyebrow">Contact</p>
+      <h1 class="page-title">Get In Touch</h1>
+      <p class="page-subtitle">Questions, collaborations, press inquiries — we read everything.</p>
+    </div>
+  </section>
+
+  <!-- ── Contact layout ────────────────────────────────────── -->
+  <section class="contact-section">
+    <div class="container">
+      <div class="contact-grid">
+        <!-- Form -->
+        <div class="form-col">
+          <ContactForm client:load accessKey={WEB3FORMS_ACCESS_KEY} />
+        </div>
+
+        <!-- Sidebar info -->
+        <aside class="info-col">
+          <div class="info-block">
+            <p class="info-label">// Direct Line</p>
+            <a href="mailto:contact@harlemlinehustle.com" class="info-email">
+              contact@harlemlinehustle.com
+            </a>
+          </div>
+
+          <div class="info-block">
+            <p class="info-label">// Response Time</p>
+            <p class="info-text">We aim to respond within 48 hours.</p>
+          </div>
+
+          <div class="info-block">
+            <p class="info-label">// Good For</p>
+            <ul class="info-list">
+              <li>Game feedback & bug reports</li>
+              <li>Press & media inquiries</li>
+              <li>Collaboration proposals</li>
+              <li>Just saying hello</li>
+            </ul>
+          </div>
+
+          <div class="info-note">
+            <p class="note-mono">// NOTE</p>
+            <p class="note-text">
+              All messages go directly to contact@harlemlinehustle.com. We don't do auto-replies or
+              support tickets — just real people reading real emails.
+            </p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* ── Page header ──────────────────────────────────────────── */
+
+  .page-header {
+    padding: var(--space-20) 0 var(--space-12);
+    border-bottom: var(--border);
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--color-text-dim);
+    margin: 0 0 var(--space-4);
+  }
+
+  .page-title {
+    font-family: var(--font-sans);
+    font-size: clamp(var(--text-4xl), 8vw, var(--text-6xl));
+    font-weight: 200;
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-text);
+    text-shadow: var(--glow-text);
+    margin: 0 0 var(--space-6);
+  }
+
+  .page-subtitle {
+    font-family: var(--font-sans);
+    font-size: var(--text-lg);
+    font-weight: 300;
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  /* ── Contact layout ───────────────────────────────────────── */
+
+  .contact-section {
+    padding: var(--space-16) 0 var(--space-24);
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: var(--space-16);
+    align-items: start;
+  }
+
+  @media (max-width: 900px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* ── Info sidebar ─────────────────────────────────────────── */
+
+  .info-col {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    padding: var(--space-8);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    background-color: var(--color-bg-elevated);
+  }
+
+  .info-block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .info-label {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-widest);
+    color: var(--color-accent);
+    text-shadow: var(--glow-accent);
+    margin: 0;
+  }
+
+  .info-email {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--color-text);
+    text-shadow: var(--glow-text);
+    text-decoration: none;
+    letter-spacing: var(--tracking-wide);
+    transition:
+      color var(--transition-fast),
+      text-shadow var(--transition-fast);
+    word-break: break-all;
+  }
+
+  .info-email:hover {
+    color: var(--color-primary-100);
+    text-shadow: var(--glow-text-strong);
+  }
+
+  .info-text {
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: 300;
+    color: var(--color-text-muted);
+    margin: 0;
+    line-height: var(--leading-relaxed);
+  }
+
+  .info-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .info-list li {
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: 300;
+    color: var(--color-text-muted);
+    padding-left: var(--space-4);
+    position: relative;
+  }
+
+  .info-list li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--color-primary-500);
+    text-shadow: var(--glow-text);
+  }
+
+  .info-note {
+    border-top: var(--border);
+    padding-top: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .note-mono {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-widest);
+    color: var(--color-text-dim);
+    margin: 0;
+  }
+
+  .note-text {
+    font-family: var(--font-sans);
+    font-size: var(--text-xs);
+    font-weight: 300;
+    color: var(--color-text-dim);
+    line-height: var(--leading-relaxed);
+    margin: 0;
+  }
+</style>

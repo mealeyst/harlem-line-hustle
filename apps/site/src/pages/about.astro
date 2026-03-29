@@ -1,0 +1,497 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { Card, CardHeader, CardBody, Button, Logo, Typography } from '@harlem-line-hustle/ui';
+import { getEntry } from 'astro:content';
+
+const dungeonDevils = await getEntry('projects', 'dungeon-delvers');
+const hlh = await getEntry('projects', 'harlem-line-hustle');
+---
+
+<BaseLayout
+  title="About"
+  description="Learn about Harlem Hustle Studios and the games we're making."
+  currentPath="/about"
+>
+  <!-- ── Page header ────────────────────────────────────────── -->
+  <section class="page-header">
+    <div class="container">
+      <p class="eyebrow">About</p>
+      <Logo size="lg" glitch />
+      <p class="page-subtitle">Independent game studio. Built for the web.</p>
+    </div>
+  </section>
+
+  <!-- ── Studio section ────────────────────────────────────── -->
+  <section class="studio-section">
+    <div class="container">
+      <div class="two-col">
+        <div class="col-text">
+          <p class="section-mono">// THE STUDIO</p>
+          <h2 class="section-title">Built for the browser.<br />Built in the city.</h2>
+          <div class="body-stack">
+            <p class="body-text">
+              Harlem Hustle Studios is an independent game development studio based out of Pawling
+              New York. We specialize in 3D browser-based experiences — games and interactive worlds
+              that live entirely on the web, requiring nothing more than a URL to play.
+            </p>
+            <p class="body-text">
+              We believe the browser is the most powerful, accessible, and underutilized gaming
+              platform on the planet. Our mission is to prove that point, one release at a time.
+            </p>
+          </div>
+        </div>
+        <div class="col-stat">
+          <div class="stat-block">
+            <span class="stat-number">2</span>
+            <span class="stat-label">Games in<br />Development</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-block">
+            <span class="stat-number">0</span>
+            <span class="stat-label">Downloads<br />Required</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-block">
+            <span class="stat-number">∞</span>
+            <span class="stat-label">Ambition</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container"><hr class="divider" /></div>
+
+  <!-- ── Dungeon Devils feature ─────────────────────────────── -->
+  <section class="featured-game">
+    <div class="container">
+      <p class="section-mono">// FEATURED PROJECT</p>
+
+      <div class="game-hero">
+        <div class="game-hero-text">
+          <div class="game-status-row">
+            <span class="status-badge">{dungeonDevils?.data.status}</span>
+          </div>
+          <h2 class="game-title">{dungeonDevils?.data.title}</h2>
+          <p class="game-tagline">{dungeonDevils?.data.tagline}</p>
+          <p class="game-description">{dungeonDevils?.data.description}</p>
+
+          <div class="game-tags">
+            {dungeonDevils?.data.tags.map((tag: string) => <span class="tag">{tag}</span>)}
+          </div>
+
+          <div class="game-actions">
+            <Button as="a" href="/contact" variant="primary" size="md"> Follow Development </Button>
+          </div>
+        </div>
+
+        <div class="game-hero-aside">
+          <div class="feature-list">
+            <p class="feature-list-label">// PLANNED FEATURES</p>
+            <ul class="feature-items">
+              <li class="feature-item">
+                <span class="feature-bullet">▸</span>
+                Real-time multiplayer via WebSockets
+              </li>
+              <li class="feature-item">
+                <span class="feature-bullet">▸</span>
+                Procedurally generated dungeons
+              </li>
+              <li class="feature-item">
+                <span class="feature-bullet">▸</span>
+                Full 3D rendered in your browser
+              </li>
+              <li class="feature-item">
+                <span class="feature-bullet">▸</span>
+                Party-based co-op combat
+              </li>
+              <li class="feature-item">
+                <span class="feature-bullet">▸</span>
+                Character progression & crafting
+              </li>
+              <li class="feature-item">
+                <span class="feature-bullet">▸</span>
+                Persistent world state
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container"><hr class="divider" /></div>
+
+  <!-- ── Harlem Line Hustle ─────────────────────────────────── -->
+  <section class="second-game">
+    <div class="container">
+      <p class="section-mono">// ALSO IN THE WORLD</p>
+      <div class="hlh-row">
+        <div class="hlh-text">
+          <h2 class="section-title-sm">{hlh?.data.title}</h2>
+          <p class="body-text">{hlh?.data.description}</p>
+        </div>
+        <div class="hlh-actions">
+          <Button as="a" href="/play" variant="secondary" size="md"> Play Now </Button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container"><hr class="divider" /></div>
+
+  <!-- ── Tech stack ─────────────────────────────────────────── -->
+  <section class="tech-section">
+    <div class="container">
+      <p class="section-mono">// TECH STACK</p>
+      <h2 class="section-title-sm">How We Build</h2>
+      <div class="tech-grid">
+        {
+          [
+            { name: 'BabylonJS', desc: '3D rendering engine' },
+            { name: 'WebGL', desc: 'GPU-accelerated graphics' },
+            { name: 'TypeScript', desc: 'Typed everywhere' },
+            { name: 'WebSockets', desc: 'Real-time multiplayer' },
+            { name: 'Astro', desc: 'Static site generation' },
+            { name: 'React', desc: 'Interactive UI islands' },
+          ].map(({ name, desc }) => (
+            <Card variant="outlined">
+              <CardBody>
+                <p class="tech-name">{name}</p>
+                <p class="tech-desc">{desc}</p>
+              </CardBody>
+            </Card>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <style>
+    /* ── Page header ──────────────────────────────────────────── */
+
+    .page-header {
+      padding: var(--space-20) 0 var(--space-12);
+      border-bottom: var(--border);
+    }
+
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: var(--tracking-widest);
+      text-transform: uppercase;
+      color: var(--color-text-dim);
+      margin: 0 0 var(--space-4);
+    }
+
+    .page-title {
+      font-family: var(--font-sans);
+      font-size: clamp(var(--text-4xl), 8vw, var(--text-6xl));
+      font-weight: 200;
+      line-height: var(--leading-tight);
+      letter-spacing: var(--tracking-tight);
+      color: var(--color-text);
+      text-shadow: var(--glow-text);
+      margin: 0 0 var(--space-6);
+    }
+
+    .page-subtitle {
+      font-family: var(--font-sans);
+      font-size: var(--text-lg);
+      font-weight: 300;
+      color: var(--color-text-muted);
+      margin: 0;
+    }
+
+    /* ── Studio section ───────────────────────────────────────── */
+
+    .studio-section {
+      padding: var(--space-20) 0;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-16);
+      align-items: start;
+    }
+
+    @media (max-width: 768px) {
+      .two-col {
+        grid-template-columns: 1fr;
+        gap: var(--space-12);
+      }
+    }
+
+    .col-text {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-6);
+    }
+
+    .body-stack {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    .body-text {
+      font-family: var(--font-sans);
+      font-size: var(--text-base);
+      font-weight: 300;
+      line-height: var(--leading-relaxed);
+      color: var(--color-text-muted);
+      margin: 0;
+    }
+
+    .col-stat {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-6);
+      padding: var(--space-8);
+      border: var(--border);
+      border-radius: var(--radius-md);
+    }
+
+    .stat-block {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .stat-number {
+      font-family: var(--font-sans);
+      font-size: var(--text-5xl);
+      font-weight: 200;
+      line-height: 1;
+      color: var(--color-primary-200);
+      text-shadow: var(--glow-text-strong);
+    }
+
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: var(--tracking-wider);
+      text-transform: uppercase;
+      color: var(--color-text-dim);
+      line-height: var(--leading-normal);
+    }
+
+    .stat-divider {
+      height: 1px;
+      background-color: var(--color-border);
+    }
+
+    /* ── Shared section elements ──────────────────────────────── */
+
+    .section-mono {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: var(--tracking-widest);
+      color: var(--color-accent);
+      text-shadow: var(--glow-accent);
+      margin: 0 0 var(--space-6);
+    }
+
+    .section-title {
+      font-family: var(--font-sans);
+      font-size: var(--text-3xl);
+      font-weight: 300;
+      letter-spacing: var(--tracking-tight);
+      color: var(--color-text);
+      text-shadow: var(--glow-text);
+      margin: 0 0 var(--space-6);
+      line-height: var(--leading-snug);
+    }
+
+    .section-title-sm {
+      font-family: var(--font-sans);
+      font-size: var(--text-2xl);
+      font-weight: 300;
+      letter-spacing: var(--tracking-tight);
+      color: var(--color-text);
+      text-shadow: var(--glow-text);
+      margin: 0 0 var(--space-4);
+    }
+
+    /* ── Dungeon Devils ───────────────────────────────────────── */
+
+    .featured-game {
+      padding: var(--space-20) 0;
+    }
+
+    .game-hero {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: var(--space-16);
+      align-items: start;
+    }
+
+    @media (max-width: 960px) {
+      .game-hero {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .game-hero-text {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-6);
+    }
+
+    .game-status-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .status-badge {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: var(--tracking-wider);
+      text-transform: uppercase;
+      color: var(--color-accent);
+      text-shadow: var(--glow-accent);
+      border: 1px solid var(--color-secondary-600);
+      border-radius: var(--radius-sm);
+      padding: 2px var(--space-2);
+    }
+
+    .game-title {
+      font-family: var(--font-sans);
+      font-size: clamp(var(--text-4xl), 6vw, var(--text-6xl));
+      font-weight: 200;
+      line-height: var(--leading-tight);
+      letter-spacing: var(--tracking-tight);
+      color: var(--color-text);
+      text-shadow: var(--glow-text-strong);
+      margin: 0;
+    }
+
+    .game-tagline {
+      font-family: var(--font-sans);
+      font-size: var(--text-xl);
+      font-weight: 300;
+      color: var(--color-text-muted);
+      font-style: italic;
+      margin: 0;
+    }
+
+    .game-description {
+      font-family: var(--font-sans);
+      font-size: var(--text-base);
+      font-weight: 300;
+      line-height: var(--leading-relaxed);
+      color: var(--color-text-muted);
+      margin: 0;
+      max-width: 560px;
+    }
+
+    .game-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+
+    .game-actions {
+      padding-top: var(--space-2);
+    }
+
+    /* ── Feature list ─────────────────────────────────────────── */
+
+    .feature-list {
+      border: 1px solid var(--color-primary-600);
+      border-radius: var(--radius-md);
+      padding: var(--space-6);
+      background-color: var(--color-bg-elevated);
+    }
+
+    .feature-list-label {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: var(--tracking-widest);
+      color: var(--color-text-dim);
+      margin: 0 0 var(--space-5);
+    }
+
+    .feature-items {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-3);
+      font-family: var(--font-sans);
+      font-size: var(--text-sm);
+      font-weight: 300;
+      color: var(--color-text-muted);
+      line-height: var(--leading-normal);
+    }
+
+    .feature-bullet {
+      color: var(--color-primary-400);
+      text-shadow: var(--glow-text);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ── HLH section ──────────────────────────────────────────── */
+
+    .second-game {
+      padding: var(--space-20) 0;
+    }
+
+    .hlh-row {
+      display: flex;
+      align-items: flex-end;
+      gap: var(--space-12);
+      flex-wrap: wrap;
+    }
+
+    .hlh-text {
+      flex: 1;
+      min-width: 280px;
+    }
+
+    .hlh-actions {
+      flex-shrink: 0;
+      padding-bottom: var(--space-1);
+    }
+
+    /* ── Tech section ─────────────────────────────────────────── */
+
+    .tech-section {
+      padding: var(--space-20) 0;
+    }
+
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: var(--space-4);
+    }
+
+    .tech-name {
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--color-primary-200);
+      text-shadow: var(--glow-text);
+      margin: 0 0 var(--space-1);
+      letter-spacing: var(--tracking-wide);
+    }
+
+    .tech-desc {
+      font-family: var(--font-sans);
+      font-size: var(--text-xs);
+      color: var(--color-text-dim);
+      margin: 0;
+      letter-spacing: var(--tracking-wide);
+    }
+  </style>
+</BaseLayout>

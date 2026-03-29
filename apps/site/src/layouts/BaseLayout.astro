@@ -1,0 +1,105 @@
+---
+import '../styles/global.css';
+import { Nav, Scanlines } from '@harlem-line-hustle/ui';
+
+interface Props {
+  title: string;
+  description?: string;
+  currentPath?: string;
+}
+
+const {
+  title,
+  description = 'Harlem Hustle Studios — Indie games built for the browser.',
+  currentPath = Astro.url.pathname,
+} = Astro.props;
+
+const navLinks = [
+  { label: 'Home', href: '/' },
+  { label: 'About', href: '/about' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'Contact', href: '/contact' },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#050f0a" />
+    <title>{title} | Harlem Hustle Studios</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  </head>
+  <body>
+    <Scanlines />
+    <Nav client:load links={navLinks} currentPath={currentPath} />
+    <div class="page-content">
+      <slot />
+    </div>
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-inner">
+          <span class="footer-copy">
+            &copy; {new Date().getFullYear()} Harlem Hustle Studios. All rights reserved.
+          </span>
+          <a href="mailto:contact@harlemlinehustle.com" class="footer-email">
+            contact@harlemlinehustle.com
+          </a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--color-border);
+    margin-top: var(--space-20);
+    padding: var(--space-8) 0;
+  }
+
+  .footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+  }
+
+  .footer-copy {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-wide);
+    color: var(--color-text-dim);
+  }
+
+  .footer-email {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-wide);
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition:
+      color 150ms ease,
+      text-shadow 150ms ease;
+  }
+
+  .footer-email:hover {
+    color: var(--color-text);
+    text-shadow: var(--glow-text);
+  }
+</style>
