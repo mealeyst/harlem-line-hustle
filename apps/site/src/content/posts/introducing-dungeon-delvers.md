@@ -58,10 +58,6 @@ The multiplayer layer is built on WebSockets rather than WebRTC. WebRTC's peer-t
 
 The server architecture is event-driven: the game loop runs at a fixed tick rate, collects input events from all connected clients for the current tick, resolves them against the authoritative world state, and broadcasts state diffs back out. Clients interpolate between received states to smooth over network jitter.
 
-### The Studio Site — Astro + React
-
-The site you're reading this on is built with Astro, with React islands where interactivity is needed (the contact form, the navigation). Astro's content collections drive the blog and project pages, meaning adding a new post or updating project details never requires touching component code. The component library (`@harlem-line-hustle/ui`) is a separate NPM workspace package — built with CSS Modules and Storybook — so the design system can be shared across the studio site and any future game UIs.
-
 ---
 
 ## What's Been Built So Far
