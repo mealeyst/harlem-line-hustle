@@ -78,6 +78,7 @@ jobs:
   production:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    environment: vercel_environment
 
     steps:
       - name: Checkout
