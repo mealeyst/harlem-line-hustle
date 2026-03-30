@@ -1,0 +1,9 @@
+{
+  "title": "Harlem Line Hustle",
+  "tagline": "Ride the line. Feel the city.",
+  "description": "An immersive 3D browser experience set aboard the NYC Metro North Harlem Line. Navigate the train car, interact with fellow commuters, and soak in the rhythm of the city — no download required. Built with BabylonJS and WebGL.",
+  "status": "Active",
+  "tags": ["3D", "BabylonJS", "WebGL", "Browser", "Interactive"],
+  "url": "/play",
+  "featured": true
+}

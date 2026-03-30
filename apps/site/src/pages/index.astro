@@ -1,0 +1,276 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { Card, CardHeader, CardBody, CardFooter, Button, Typography } from '@harlem-line-hustle/ui';
+import { getCollection } from 'astro:content';
+
+const projects = await getCollection('projects');
+const featured = projects.filter((p) => p.data.featured);
+---
+
+<BaseLayout title="Home" currentPath="/">
+  <!-- ── Hero ──────────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-inner">
+        <p class="hero-eyebrow">EST. 2024 // HARLEM, NYC</p>
+        <h1 class="hero-title">
+          Harlem<br />Hustle<br /><span class="hero-title-accent">Studios</span>
+        </h1>
+        <p class="hero-tagline">
+          We build immersive 3D games for the browser.<br />
+          No downloads. No installs. Just play.
+        </p>
+        <div class="hero-actions">
+          <Button as="a" href="/about" variant="primary" size="lg">Our Work</Button>
+          <Button as="a" href="/contact" variant="ghost" size="lg">Get in Touch</Button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Decorative grid lines -->
+    <div class="hero-grid" aria-hidden="true">
+      <div class="grid-line grid-line-h" style="top: 30%"></div>
+      <div class="grid-line grid-line-h" style="top: 65%"></div>
+      <div class="grid-line grid-line-v" style="left: 20%"></div>
+      <div class="grid-line grid-line-v" style="left: 80%"></div>
+    </div>
+  </section>
+
+  <!-- ── Projects ──────────────────────────────────────────── -->
+  <section class="projects-section">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-label">Projects</p>
+        <h2 class="section-title">What We're Building</h2>
+      </div>
+
+      <div class="projects-grid">
+        {
+          featured.map((project) => (
+            <Card glow={project.slug === 'dungeon-delvers'} variant="default">
+              <CardHeader label={`STATUS // ${project.data.status.toUpperCase()}`}>
+                <Typography variant="h3">{project.data.title}</Typography>
+                <Typography variant="body-sm" muted>
+                  {project.data.tagline}
+                </Typography>
+              </CardHeader>
+              <CardBody>
+                <Typography variant="body-sm">{project.data.description}</Typography>
+                <div class="tag-row">
+                  {project.data.tags.map((tag: string) => (
+                    <span class="tag">{tag}</span>
+                  ))}
+                </div>
+              </CardBody>
+              {project.data.url && (
+                <CardFooter>
+                  <Button as="a" href={project.data.url} variant="secondary" size="sm">
+                    Play Now
+                  </Button>
+                </CardFooter>
+              )}
+              {!project.data.url && (
+                <CardFooter>
+                  <Button as="a" href="/about" variant="ghost" size="sm">
+                    Learn More
+                  </Button>
+                </CardFooter>
+              )}
+            </Card>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA ───────────────────────────────────────────────── -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-inner">
+        <p class="cta-mono">TRANSMISSION OPEN</p>
+        <h2 class="cta-title">Have a project in mind?</h2>
+        <p class="cta-body">
+          We're always open to collaborations, feedback, and conversations about what's possible in
+          the browser.
+        </p>
+        <Button as="a" href="/contact" variant="primary" size="lg"> Contact Us </Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* ── Hero ──────────────────────────────────────────────────── */
+
+  .hero {
+    position: relative;
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+    padding: var(--space-20) 0 var(--space-32);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    max-width: 700px;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-widest);
+    color: var(--color-text-dim);
+    margin: 0;
+  }
+
+  .hero-title {
+    font-family: var(--font-sans);
+    font-size: clamp(var(--text-5xl), 12vw, var(--text-7xl));
+    font-weight: 200;
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-text);
+    text-shadow: var(--glow-text);
+    margin: 0;
+  }
+
+  .hero-title-accent {
+    color: var(--color-primary-300);
+    text-shadow: var(--glow-text-strong);
+  }
+
+  .hero-tagline {
+    font-family: var(--font-sans);
+    font-size: var(--text-lg);
+    font-weight: 300;
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    padding-top: var(--space-4);
+  }
+
+  /* ── Decorative grid ───────────────────────────────────────── */
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .grid-line {
+    position: absolute;
+    background-color: var(--color-border);
+    opacity: 0.4;
+  }
+
+  .grid-line-h {
+    left: 0;
+    right: 0;
+    height: 1px;
+  }
+
+  .grid-line-v {
+    top: 0;
+    bottom: 0;
+    width: 1px;
+  }
+
+  /* ── Projects section ──────────────────────────────────────── */
+
+  .projects-section {
+    padding: var(--space-20) 0;
+    border-top: var(--border);
+  }
+
+  .section-header {
+    margin-bottom: var(--space-12);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--color-text-dim);
+    margin: 0;
+  }
+
+  .section-title {
+    font-family: var(--font-sans);
+    font-size: var(--text-3xl);
+    font-weight: 300;
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-text);
+    text-shadow: var(--glow-text);
+    margin: 0;
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: var(--space-6);
+  }
+
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-5);
+  }
+
+  /* ── CTA section ───────────────────────────────────────────── */
+
+  .cta-section {
+    padding: var(--space-20) 0;
+    border-top: var(--border);
+  }
+
+  .cta-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-6);
+    max-width: 600px;
+  }
+
+  .cta-mono {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-widest);
+    color: var(--color-accent);
+    text-shadow: var(--glow-accent);
+    margin: 0;
+  }
+
+  .cta-title {
+    font-family: var(--font-sans);
+    font-size: var(--text-3xl);
+    font-weight: 300;
+    color: var(--color-text);
+    text-shadow: var(--glow-text);
+    margin: 0;
+  }
+
+  .cta-body {
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    font-weight: 300;
+    color: var(--color-text-muted);
+    line-height: var(--leading-relaxed);
+    margin: 0;
+  }
+</style>

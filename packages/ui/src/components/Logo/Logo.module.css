@@ -1,0 +1,168 @@
+.logo {
+  height: auto;
+  overflow: visible;
+  display: block;
+}
+
+.xs {
+  width: 40px;
+}
+
+.sm {
+  width: 80px;
+}
+
+.md {
+  width: 200px;
+}
+
+.lg {
+  width: 400px;
+}
+
+/* ── Wordmark text ─────────────────────────────────────────── */
+
+.text,
+.train {
+  fill: var(--color-primary-200);
+  filter: drop-shadow(0 0 2px var(--color-primary-300));
+}
+
+/* ── Concentric rings ──────────────────────────────────────── */
+
+.ring {
+  fill: none;
+  stroke-width: 20;
+  stroke-linecap: round;
+}
+
+.ring.inner {
+  stroke: var(--color-primary-300);
+  filter: drop-shadow(0 0 4px var(--color-primary-300));
+}
+
+.ring.middle {
+  stroke: var(--color-primary-400);
+  opacity: 0.7;
+  filter: drop-shadow(0 0 3px var(--color-primary-400));
+}
+
+.ring.outer {
+  stroke: var(--color-primary-600);
+  opacity: 0.5;
+}
+
+.solidRings .ring.inner,
+.solidRings .ring.middle,
+.solidRings .ring.outer {
+  stroke: var(--color-primary-300);
+  opacity: 1;
+  filter: none;
+}
+/* ── Glitch effect ─────────────────────────────────────────── */
+/*
+ * Two simultaneous animations running on different cycles so the
+ * bursts feel irregular rather than perfectly periodic:
+ *   glitch-jitter  — translate + skewX + chromatic aberration
+ *   glitch-clip    — clip-path slice that tears through the logo
+ */
+
+.glitch {
+  animation:
+    glitch-jitter 5s steps(1) infinite,
+    glitch-clip 7s steps(1) infinite;
+}
+
+@keyframes glitch-jitter {
+  /* Quiet the vast majority of the time */
+  0%,
+  88%,
+  100% {
+    transform: none;
+    filter: none;
+  }
+
+  /* Burst 1 — red fringe left, cyan right */
+  89% {
+    transform: translate(-4px, 1px) skewX(-3deg);
+    filter: drop-shadow(4px 0 0 rgba(220, 50, 80, 0.75)) drop-shadow(-4px 0 0 hsl(201, 50%, 58%));
+  }
+
+  /* Snap back */
+  90% {
+    transform: translate(3px, -1px);
+    filter: none;
+  }
+
+  /* Burst 2 — cyan fringe, stronger skew */
+  91% {
+    transform: translate(-2px, 2px) skewX(4deg);
+    filter: drop-shadow(-5px 0 0 rgba(220, 50, 80, 0.6)) drop-shadow(5px 0 0 hsl(201, 50%, 58%));
+  }
+
+  92%,
+  94% {
+    transform: none;
+    filter: none;
+  }
+
+  /* Burst 3 — subtle single-channel drift */
+  93% {
+    transform: translate(3px, 0) skewX(-1deg);
+    filter: drop-shadow(-3px 0 0 hsl(201, 50%, 58%));
+  }
+
+  /* Burst 4 — fast flicker */
+  95% {
+    transform: translate(-2px, -2px);
+    filter: drop-shadow(2px 0 0 rgba(220, 50, 80, 0.5));
+  }
+
+  96%,
+  99% {
+    transform: none;
+    filter: none;
+  }
+
+  /* Final twitch */
+  97% {
+    transform: translate(4px, 1px) skewX(-2deg);
+    filter: drop-shadow(-4px 0 0 hsl(201, 50%, 58%)) drop-shadow(4px 0 0 rgba(220, 50, 80, 0.5));
+  }
+
+  98% {
+    transform: translate(-1px, 0);
+    filter: none;
+  }
+}
+
+@keyframes glitch-clip {
+  /* Quiet most of the time */
+  0%,
+  84%,
+  100% {
+    clip-path: none;
+  }
+
+  /* Slice 1 — upper band tears away */
+  85% {
+    clip-path: polygon(0 15%, 100% 15%, 100% 35%, 0 35%);
+    transform: translate(6px, 0);
+  }
+
+  86% {
+    clip-path: none;
+    transform: none;
+  }
+
+  /* Slice 2 — lower band tears */
+  87% {
+    clip-path: polygon(0 65%, 100% 65%, 100% 82%, 0 82%);
+    transform: translate(-6px, 0);
+  }
+
+  88% {
+    clip-path: none;
+    transform: none;
+  }
+}

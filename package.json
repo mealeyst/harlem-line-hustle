@@ -2,23 +2,21 @@
   "name": "harlem-line-hustle",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "start": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
-  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "devDependencies": {
-    "typescript": "~5.9.3",
-    "vite": "npm:rolldown-vite@7.1.14"
+    "@storybook/react-vite": "8.6.18",
+    "prettier": "^3.8.1",
+    "prettier-plugin-astro": "^0.14.1"
   },
-  "overrides": {
-    "vite": "npm:rolldown-vite@7.1.14"
-  },
-  "dependencies": {
-    "@babylonjs/core": "^8.30.3",
-    "@babylonjs/gui": "^8.30.3",
-    "@babylonjs/inspector": "^8.30.3",
-    "@babylonjs/loaders": "^8.30.3"
+  "scripts": {
+    "dev:game": "npm run dev --workspace=apps/game",
+    "dev:site": "npm run dev --workspace=apps/site",
+    "build:site": "npm run build --workspace=apps/site",
+    "storybook": "npm run storybook --workspace=packages/ui",
+    "format": "prettier --write \"**/*.{ts,tsx,astro,css,json}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,astro,css,json}\""
   }
 }

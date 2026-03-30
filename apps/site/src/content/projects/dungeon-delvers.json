@@ -1,0 +1,8 @@
+{
+  "title": "Dungeon Delvers",
+  "tagline": "Descend together. Die together.",
+  "description": "A fully 3D browser-based MMORPG where players form parties to tackle procedurally generated dungeons teeming with demons and ancient evil. Battle in real-time, level up your character, craft gear, and forge alliances — all without leaving your browser. Powered by WebGL and a custom real-time multiplayer architecture.",
+  "status": "In Development",
+  "tags": ["MMORPG", "3D", "Multiplayer", "Browser", "WebGL", "Real-time"],
+  "featured": true
+}
