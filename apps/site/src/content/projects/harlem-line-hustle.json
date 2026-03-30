@@ -5,5 +5,5 @@
   "status": "Active",
   "tags": ["3D", "BabylonJS", "WebGL", "Browser", "Interactive"],
   "url": "/play",
-  "featured": true
+  "featured": false
 }

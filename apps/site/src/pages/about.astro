@@ -4,7 +4,6 @@ import { Card, CardHeader, CardBody, Button, Logo, Typography } from '@harlem-li
 import { getEntry } from 'astro:content';
 
 const dungeonDevils = await getEntry('projects', 'dungeon-delvers');
-const hlh = await getEntry('projects', 'harlem-line-hustle');
 ---
 
 <BaseLayout
@@ -42,8 +41,8 @@ const hlh = await getEntry('projects', 'harlem-line-hustle');
         </div>
         <div class="col-stat">
           <div class="stat-block">
-            <span class="stat-number">2</span>
-            <span class="stat-label">Games in<br />Development</span>
+            <span class="stat-number">1</span>
+            <span class="stat-label">Game in<br />Development</span>
           </div>
           <div class="stat-divider"></div>
           <div class="stat-block">
@@ -115,24 +114,6 @@ const hlh = await getEntry('projects', 'harlem-line-hustle');
               </li>
             </ul>
           </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="container"><hr class="divider" /></div>
-
-  <!-- ── Harlem Line Hustle ─────────────────────────────────── -->
-  <section class="second-game">
-    <div class="container">
-      <p class="section-mono">// ALSO IN THE WORLD</p>
-      <div class="hlh-row">
-        <div class="hlh-text">
-          <h2 class="section-title-sm">{hlh?.data.title}</h2>
-          <p class="body-text">{hlh?.data.description}</p>
-        </div>
-        <div class="hlh-actions">
-          <Button as="a" href="/play" variant="secondary" size="md"> Play Now </Button>
         </div>
       </div>
     </div>
@@ -439,29 +420,6 @@ const hlh = await getEntry('projects', 'harlem-line-hustle');
       text-shadow: var(--glow-text);
       flex-shrink: 0;
       margin-top: 1px;
-    }
-
-    /* ── HLH section ──────────────────────────────────────────── */
-
-    .second-game {
-      padding: var(--space-20) 0;
-    }
-
-    .hlh-row {
-      display: flex;
-      align-items: flex-end;
-      gap: var(--space-12);
-      flex-wrap: wrap;
-    }
-
-    .hlh-text {
-      flex: 1;
-      min-width: 280px;
-    }
-
-    .hlh-actions {
-      flex-shrink: 0;
-      padding-bottom: var(--space-1);
     }
 
     /* ── Tech section ─────────────────────────────────────────── */
