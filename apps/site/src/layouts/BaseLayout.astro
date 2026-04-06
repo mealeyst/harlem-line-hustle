@@ -40,13 +40,17 @@ const navLinks = [
     />
 
     <!-- Google Analytics -->
-    <script type="text/partytown" async src="https://www.googletagmanager.com/gtag/js?id=G-M8XB733JDN"></script>
-    <script type="text/partytown">
-      window.dataLayer = window.dataLayer || [];
-      function gtag() { dataLayer.push(arguments); }
-      gtag('js', new Date());
-      gtag('config', 'G-M8XB733JDN');
-    </script>
+    {import.meta.env.PUBLIC_GA_ID && (
+      <>
+        <script type="text/partytown" async src={`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.PUBLIC_GA_ID}`}></script>
+        <script type="text/partytown" define:vars={{ gaId: import.meta.env.PUBLIC_GA_ID }}>
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { dataLayer.push(arguments); }
+          gtag('js', new Date());
+          gtag('config', gaId);
+        </script>
+      </>
+    )}
 
     <!-- Favicons -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
