@@ -1,0 +1,61 @@
+---
+interface Props {
+  identifier: string;
+  title: string;
+  url?: string;
+}
+
+const { identifier, title, url } = Astro.props;
+const shortname = import.meta.env.PUBLIC_DISQUS_SHORTNAME;
+const pageUrl = url ?? Astro.url.href;
+---
+
+{shortname && (
+  <section class="disqus-section">
+    <div class="container">
+      <hr class="divider" />
+      <h2 class="comments-heading">Comments</h2>
+      <div id="disqus_thread"></div>
+      <noscript>
+        Please enable JavaScript to view the
+        <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+      </noscript>
+
+      <script is:inline define:vars={{ shortname, identifier, title, pageUrl }}>
+        window.disqus_config = function () {
+          this.page.url = pageUrl;
+          this.page.identifier = identifier;
+          this.page.title = title;
+        };
+        (function () {
+          var d = document, s = d.createElement('script');
+          s.src = 'https://' + shortname + '.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    </div>
+  </section>
+)}
+
+<style>
+  .disqus-section {
+    padding: var(--space-8) 0;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--color-border);
+    margin: 0 0 var(--space-8);
+  }
+
+  .comments-heading {
+    font-family: var(--font-sans);
+    font-size: var(--text-2xl);
+    font-weight: 300;
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-text);
+    text-shadow: var(--glow-text);
+    margin: 0 0 var(--space-6);
+  }
+</style>

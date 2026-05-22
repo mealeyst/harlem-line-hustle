@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import DisqusComments from '../../components/DisqusComments.astro';
 import { Button } from '@harlem-line-hustle/ui';
 import { getCollection } from 'astro:content';
 
@@ -46,6 +47,12 @@ function formatDate(date: Date) {
       </div>
     </div>
   </article>
+
+  <!-- ── Comments ──────────────────────────────────────────── -->
+  <DisqusComments
+    identifier={post.slug}
+    title={post.data.title}
+  />
 
   <!-- ── Footer nav ────────────────────────────────────────── -->
   <section class="post-footer">
