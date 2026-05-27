@@ -3,7 +3,7 @@ title: 'Building the Character Class'
 date: 2026-05-11
 description: >
   A technical walkthrough of the character class and its sub-classes PlayerCharacter and NonPlayerCharacter. I go through the way that I set up character atrributes and stats and why I chose to leverage Javascrpt's class structure over a more functional approach.
-tags: ['Dungeon Delvers', 'TypeScript', 'Game Development', 'Architecture', 'AI Tools', 'Devlog']
+tags: ['Dungeon Delvers', 'TypeScript', 'Game Development', 'Architecture', 'Devlog']
 ---
 
 ## Delving Into the Heart of a Game Engine
