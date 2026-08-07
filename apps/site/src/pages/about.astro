@@ -16,7 +16,7 @@ const dungeonDevils = await getEntry('projects', 'dungeon-delvers');
     <div class="container">
       <p class="eyebrow">About</p>
       <Logo size="lg" glitch />
-      <p class="page-subtitle">Independent game studio. Built for the web.</p>
+      <p class="page-subtitle">The small but mighty independent game studio.</p>
     </div>
   </section>
 
@@ -29,13 +29,14 @@ const dungeonDevils = await getEntry('projects', 'dungeon-delvers');
           <h2 class="section-title">Built for the browser.<br />Built in the city.</h2>
           <div class="body-stack">
             <p class="body-text">
-              Harlem Hustle Studios is an independent game development studio based out of Pawling
-              New York. We specialize in 3D browser-based experiences — games and interactive worlds
-              that live entirely on the web, requiring nothing more than a URL to play.
+              Harlem Line Hustle Studios is an independent solo development studio based out of Pawling
+              New York. We are working on creating 3D games and interactive worlds that players can
+              get lost inside.
             </p>
             <p class="body-text">
-              We believe the browser is the most powerful, accessible, and underutilized gaming
-              platform on the planet. Our mission is to prove that point, one release at a time.
+              The studio lead is a seasoned web development veteran who is now leveraging the
+              programming language Zig to bring his home brewed fantasy realm to life natively on
+              all major operating systems.
             </p>
           </div>
         </div>
@@ -46,8 +47,8 @@ const dungeonDevils = await getEntry('projects', 'dungeon-delvers');
           </div>
           <div class="stat-divider"></div>
           <div class="stat-block">
-            <span class="stat-number">0</span>
-            <span class="stat-label">Downloads<br />Required</span>
+            <span class="stat-number">1</span>
+            <span class="stat-label">Caffinated<br />Required</span>
           </div>
           <div class="stat-divider"></div>
           <div class="stat-block">
@@ -97,7 +98,7 @@ const dungeonDevils = await getEntry('projects', 'dungeon-delvers');
             <ul class="feature-items">
               <li class="feature-item">
                 <span class="feature-bullet">▸</span>
-                Real-time multiplayer via WebSockets
+                Real-time single player combat
               </li>
               <li class="feature-item">
                 <span class="feature-bullet">▸</span>
@@ -105,11 +106,11 @@ const dungeonDevils = await getEntry('projects', 'dungeon-delvers');
               </li>
               <li class="feature-item">
                 <span class="feature-bullet">▸</span>
-                Full 3D rendered in your browser
+                Full 3D rendered natively on OSX, Windows, and Linux
               </li>
               <li class="feature-item">
                 <span class="feature-bullet">▸</span>
-                Party-based co-op combat
+                Party-based combat
               </li>
               <li class="feature-item">
                 <span class="feature-bullet">▸</span>
@@ -119,8 +120,66 @@ const dungeonDevils = await getEntry('projects', 'dungeon-delvers');
                 <span class="feature-bullet">▸</span>
                 Persistent world state
               </li>
+              <li class="feature-item">
+                <span class="feature-bullet">▸</span>
+                4 Archetypes: Healer, Scout, Mage, and Fighter playable to level 10
+              </li>
+              <li class="feature-item">
+                <span class="feature-bullet">▸</span>
+                4 Playable Races: Human, Dwarf, Orc, and Goblin
+              </li>
+              <li class="feature-item">
+                <span class="feature-bullet">▸</span>
+                1 Quest Hub: Queen's Port
+              </li>
+              <li class="feature-item">
+                <span class="feature-bullet">▸</span>
+                1 Overland Zone: Saltspray Bluffs
+              </li>
+              <li class="feature-item">
+                <span class="feature-bullet">▸</span>
+                1 Dungeon: The Forsaken Cairn
+              </li>
+              <li class="feature-item">
+                <span class="feature-bullet">▸</span>
+                10 Unique Monsters
+              </li>
+              <li class="feature-item">
+                <span class="feature-bullet">▸</span>
+                10 Weapon Types
+              </li>
             </ul>
           </div>
+        </div>
+      </div>
+
+      <div class="gallery">
+        <p class="gallery-label">// GALLERY</p>
+        <div class="gallery-grid">
+          <figure class="gallery-item">
+            <video
+              class="gallery-video"
+              src="/blog/moving-to-zig/skeleton.mp4"
+              autoplay
+              muted
+              loop
+              playsinline
+              controls
+            />
+            <figcaption class="gallery-caption">Skeleton</figcaption>
+          </figure>
+          <figure class="gallery-item">
+            <video
+              class="gallery-video"
+              src="/blog/moving-to-zig/goblin_idle.mp4"
+              autoplay
+              muted
+              loop
+              playsinline
+              controls
+            />
+            <figcaption class="gallery-caption">Goblin</figcaption>
+          </figure>
         </div>
       </div>
     </div>
@@ -136,10 +195,9 @@ const dungeonDevils = await getEntry('projects', 'dungeon-delvers');
       <div class="tech-grid">
         {
           [
-            { name: 'BabylonJS', desc: '3D rendering engine' },
-            { name: 'WebGL', desc: 'GPU-accelerated graphics' },
+            { name: 'Zig', desc: 'Systems programming language' },
+            { name: 'Mach', desc: 'Native game engine' },
             { name: 'TypeScript', desc: 'Typed everywhere' },
-            { name: 'WebSockets', desc: 'Real-time multiplayer' },
             { name: 'Astro', desc: 'Static site generation' },
             { name: 'React', desc: 'Interactive UI islands' },
           ].map(({ name, desc }) => (
@@ -427,6 +485,52 @@ const dungeonDevils = await getEntry('projects', 'dungeon-delvers');
       text-shadow: var(--glow-text);
       flex-shrink: 0;
       margin-top: 1px;
+    }
+
+    /* ── Gallery ───────────────────────────────────────────────── */
+
+    .gallery {
+      margin-top: var(--space-16);
+    }
+
+    .gallery-label {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: var(--tracking-widest);
+      color: var(--color-accent);
+      text-shadow: var(--glow-accent);
+      margin: 0 0 var(--space-6);
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: var(--space-4);
+    }
+
+    .gallery-item {
+      margin: 0;
+      border: 1px solid var(--color-primary-600);
+      border-radius: var(--radius-md);
+      background-color: var(--color-bg-elevated);
+      overflow: hidden;
+    }
+
+    .gallery-video {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      background-color: var(--color-bg);
+    }
+
+    .gallery-caption {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: var(--tracking-wide);
+      color: var(--color-text-dim);
+      padding: var(--space-2) var(--space-3);
+      margin: 0;
     }
 
     /* ── Tech section ─────────────────────────────────────────── */

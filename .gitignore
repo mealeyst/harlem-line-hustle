@@ -33,3 +33,5 @@ storybook-static/
 *.njsproj
 *.sln
 *.sw?
+.vercel
+.env*
